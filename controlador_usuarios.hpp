@@ -1,23 +1,46 @@
 #include <iostream>
 #include <vector>
+#include <set>
 using namespace std;
 
-class DTIdioma;
+class DTIdioma{
+    private:
+        string nombre;
+    public:
+        getNombre(){
+            return this->nombre;
+        };
+};
+class DTFecha;
 class DTEstEstudiante;
 class DTEstProfesor;
 class DTCurso;
 class DTNotificacion;
+class Usuario;
+enum TipoUsuario {Profesor ,Estudiante };
 
 class ControladorUsuarios {
     private: 
-        static ControladorUsuarios * instancia;
+        ~ControladorUsuarios();
+        static ControladorUsuarios* instancia;
         ControladorUsuarios();
+        vector <Usuario*> Usuarios;
+        string nickname_recordado;
+        string contrasena_recordado;
+        string nombre_recordado;
+        string descripcion_recordado;
+        TipoUsuario tipo_Usuario_recordado;
+        string nomre_Pais_recordado;
+        DTFecha fecha_Nacimiento_recordado;
+        string nombre_Instituto_recordado;
+        set <string> lista_idiomas_recordado;
     public:
-    static ControladorUsuarios * getInstance();
+    void liberarMemoriaRecordada();
+    static ControladorUsuarios* getInstance();
     void iniciarAltaUsuario (string nickname ,string contraseña,string nombre,string descripción);
     void datosAdicionalesEstudiante(string nom_Pais,DTFecha fecha_Nacimiento);
     void datosAdicionalesProfesor(string nom_Instituto);
-    vector <DTIdioma*> listaIdiomas();
+    set <string> listarIdiomas();
     void seleccionarIdioma(string nom_Idioma);
     bool altaUsuario();
     vector <string> listarEstudiantes();
