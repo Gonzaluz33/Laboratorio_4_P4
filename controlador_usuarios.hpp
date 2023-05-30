@@ -7,9 +7,11 @@ class DTIdioma{
     private:
         string nombre;
     public:
+        DTIdioma();
         getNombre(){
             return this->nombre;
         };
+        ~DTIdioma();
 };
 class DTFecha;
 class DTEstEstudiante;
@@ -30,7 +32,7 @@ class ControladorUsuarios {
         string nombre_recordado;
         string descripcion_recordado;
         TipoUsuario tipo_Usuario_recordado;
-        string nomre_Pais_recordado;
+        string nombre_Pais_recordado;
         DTFecha fecha_Nacimiento_recordado;
         string nombre_Instituto_recordado;
         set <string> lista_idiomas_recordado;
@@ -43,12 +45,16 @@ class ControladorUsuarios {
     set <string> listarIdiomas();
     void seleccionarIdioma(string nom_Idioma);
     bool altaUsuario();
+
+    Usuario* buscarUsuario(string nickname);//auxiliar
+
     vector <string> listarEstudiantes();
-    vector <DTEstEstudiante*> listarEstEstudiante(string nickname); //
+    vector <DTEstEstudiante*> listarEstEstudiante(string nickname); 
     vector <string> listarProfesores(); 
     vector <DTEstProfesor*> listarEstProfesor(string nickname);
     vector <DTIdioma*> listaIdiomasProfesor(string nickname);
     vector <DTCurso*> listarCursosNoAprobados(string nickname);
+    vector <DTNotificacion*> listarNotificaciones(string nickname);
     vector <DTIdioma*>listarIdiomasSuscritos(string nickname);
     vector <DTIdioma*> listarIdiomasNoSuscritos(string nickname);
     void suscribir(vector <Idioma*> idiomasASuscribir);
