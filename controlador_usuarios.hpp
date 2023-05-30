@@ -8,11 +8,16 @@ class DTIdioma{
         string nombre;
     public:
         DTIdioma();
+        DTIdioma(const DTIdioma& other) : nombre(other.nombre) {}
         getNombre(){
             return this->nombre;
         };
         ~DTIdioma();
+        bool operator==(const DTIdioma& other) const {
+        return nombre == other.nombre;
+    }
 };
+
 class DTFecha;
 class DTEstEstudiante;
 class DTEstProfesor;
@@ -35,19 +40,18 @@ class ControladorUsuarios {
         string nombre_Pais_recordado;
         DTFecha fecha_Nacimiento_recordado;
         string nombre_Instituto_recordado;
-        set <string> lista_idiomas_recordado;
+        vector <DTIdioma*> lista_idiomas_recordado;
+        string nickname_listarIdiomasNoSuscritos_recordado;
     public:
     void liberarMemoriaRecordada();
     static ControladorUsuarios* getInstance();
     void iniciarAltaUsuario (string nickname ,string contraseña,string nombre,string descripción);
     void datosAdicionalesEstudiante(string nom_Pais,DTFecha fecha_Nacimiento);
     void datosAdicionalesProfesor(string nom_Instituto);
-    set <string> listarIdiomas();
-    void seleccionarIdioma(string nom_Idioma);
+    vector <DTIdioma*> listarIdiomas();
+    void seleccionarIdioma(DTIdioma* Idioma);
     bool altaUsuario();
-
     Usuario* buscarUsuario(string nickname);//auxiliar
-
     vector <string> listarEstudiantes();
     vector <DTEstEstudiante*> listarEstEstudiante(string nickname); 
     vector <string> listarProfesores(); 

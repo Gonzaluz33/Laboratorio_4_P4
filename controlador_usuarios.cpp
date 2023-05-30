@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <set>
+#include <algorithm>
 using namespace std;
 
 ControladorUsuarios * ControladorUsuarios::instancia = nullptr;
@@ -27,27 +28,49 @@ void ControladorUsuarios::datosAdicionalesProfesor(string nom_Instituto){
     ControladorUsuarios* cu ControladorUsuarios::getInstance();
     cu->nombre_Instituto_recordado = nom_Instituto;
 };
-set <string> ControladorUsuarios::listarIdiomas(){
+
+bool estaElIdioma(vector <DTIdioma*> idiomas, DTIdioma* idioma){//auxiliar
+    bool esta_idioma = false;
+    int i = 0;
+    while(i < idiomas.size() && !esta_idioma){
+        if(idiomas[i] == idioma)
+        esta_idioma = true;
+        i++;
+    }
+    return esta_idioma;
+};
+
+vector <DTIdioma*> ControladorUsuarios::listarIdiomas(){
     ControladorUsuarios* cu ControladorUsuarios::getInstance();
-    set <string> idiomas_a_listar;
+    vector <DTIdioma*> idiomas_a_listar;
     vector <DTIdioma*>  idiomas_profesor;
     for(int i = 0; i < cu->Usuarios.size(); i++){
         if(cu->Usuarios[i]->tipo == Profesor){
-         idiomas_profesor = cu->Usuarios[i]->getDTIdiomas();
+
+         idiomas_profesor = cu->Usuarios[i]->getDTIdiomas();//devuelve un vector con punteros de DTIdioma
+
          for(int j = 0; j < idiomas_profesor.size();j++){
-            DTIdioma data_idioma = idiomas_profesor[j]->getDataIdioma();
-            idiomas_a_listar.insert(data_idioma->getNombre());
+
+            if(!estaElIdioma(idiomas_a_listar,idiomas_profesor[j])){
+            DTIdioma* agregar = new DTIdioma(idiomas_profesor[j]);
+            idiomas_a_listar.push_back(agregar);
+            }
+
          }
+
         }
     }
     return idiomas_a_listar;
 };
-void ControladorUsuarios::seleccionarIdioma(string nom_Idioma){
+void ControladorUsuarios::seleccionarIdioma(DTIdioma* Idioma){
     ControladorUsuarios* cu ControladorUsuarios::getInstance();
-    cu->lista_idiomas_recordado.insert(nom_Idioma);
+    if(!estaElIdioma(cu->lista_idiomas_recordado,idioma)){
+            DTIdioma* agregar = new DTIdioma(idioma);
+            cu->lista_idiomas_recordado.push_back(agregar);
+    }
 };
 
- bool ControladorUsuarios::altaUsuario(){
+bool ControladorUsuarios::altaUsuario(){
     ControladorUsuarios* cu ControladorUsuarios::getInstance();
     bool ya_esta = false;
     for(int i = 0; i < cu->Usuarios.size();i++){
@@ -68,7 +91,8 @@ void ControladorUsuarios::seleccionarIdioma(string nom_Idioma){
     cu->liberarMemoriaRecordada();
     return (!(ya_esta)); // retorna true si se agrego el usuario
  };
- void liberarMemoriaRecordada(){}; // por hacer
+
+ void ControladorUsuarios::liberarMemoriaRecordada(){}; // por hacer
 
 vector <string> ControladorUsuarios::listarEstudiantes(){
     vector <string> nicknames_a_listar;
@@ -195,7 +219,7 @@ vector <DTIdioma*> ControladorUsuarios::listarIdiomasSuscritos(string nickname){
         i++;
     }
     if(usr_seleccionado != nullptr){
-        return usr_seleccionado->listarIdiomasSuscritos();
+        return usr_seleccionado->listarDTIdiomasSuscritos();
     }
     else 
         return vector <DTIdioma*> vacio;
@@ -214,12 +238,35 @@ Usuario* ControladorUsuarios::buscarUsuario(string nickname){
     return usr_seleccionado;
 }
 
-//busco todos los idiomas a los que esta suscrito el usuario,
-//luego obtengo todos los idiomas que hay y elimino los que esta 
-//suscrito el usuario
+static void quitarIdioma(vector <DTIdioma*> idiomas, DTIdioma* idioma){
+    for(it = idiomas.begin(); it != idiomas.end(); ++it){
+        if(*it == idioma){
+            DTIdioma* borrar = *it;
+            delete borrar;
+            idiomas.erase(it);
+        }
+    }   
+}
+
 vector <DTIdioma*> ControladorUsuarios::listarIdiomasNoSuscritos(string nickname){
     ControladorUsuarios* cu ControladorUsuarios::getInstance();
     vector<DTIdioma*> idiomas_suscritos = cu->listarIdiomasSuscritos(nickname);
-    Usuario* usr_seleccionado = cu->buscarUsuario(nickname);
+    vector<DTIdioma*> idiomas_todos = cu->listarIdiomas();
+    vector<DTIdioma*>::iterator it;
+    for(it = idiomas_suscritos.begin(); it != idiomas_suscritos.end(); ++it){
+        quitarIdioma(idiomas_todos,*it);
+    }
+    cu->nickname_listarIdiomasNoSuscritos_recordado = nickname;
+    return idiomas_todos;
+};
 
+void suscribir(vector <Idioma*> idiomasASuscribir){
+    ControladorUsuarios* cu ControladorUsuarios::getInstance();
+    Usuario* user = cu->buscarUsuario(cu->nickname_listarIdiomasNoSuscritos_recordado);
+    vector<Idioma*>::iterator it;
+    for(it = idiomasASuscribir.begin(); it != idiomasASuscribir.end(); ++it){
+       user->agregarIdioma(*it);
+       Idioma* asignar = *it;
+       asignar->agregarObservador(user);
+    }
 };
