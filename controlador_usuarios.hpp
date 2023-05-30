@@ -44,8 +44,8 @@ class ControladorUsuarios {
     void seleccionarIdioma(string nom_Idioma);
     bool altaUsuario();
     vector <string> listarEstudiantes();
-    vector <DTEstEstudiante*> listarEstEstudiante(string nickname);
-    vector <string> listarProfesores();
+    vector <DTEstEstudiante*> listarEstEstudiante(string nickname); //
+    vector <string> listarProfesores(); 
     vector <DTEstProfesor*> listarEstProfesor(string nickname);
     vector <DTIdioma*> listaIdiomasProfesor(string nickname);
     vector <DTCurso*> listarCursosNoAprobados(string nickname);

@@ -80,3 +80,32 @@ vector <string> listarEstudiantes(){
     }
     return nicknames_a_listar;
  };
+
+ vector <string> listarProfesores(){
+     vector <string> nicknames_a_listar;
+    ControladorUsuarios* cu ControladorUsuarios::getInstance();
+    for(int i = 0; i < cu->Usuarios.size(); i++){
+        if(cu->Usuarios[i]->tipo == Profesor){
+           nicknames_a_listar.push_back(cu->Usuarios[i]->getNickname());
+        }
+    }
+    return nicknames_a_listar;
+ };
+
+ vector <DTEstEstudiante*> listarEstEstudiante(string nickname){
+    ControladorUsuarios* cu ControladorUsuarios::getInstance();
+    Usuario* est_seleccionado = nullptr;
+    int i = 0;
+    while(i < cu->Usuarios.size() && est_seleccionado == nullptr){
+        if(cu->Usuarios[i]->getNickname() == nickname)
+        est_seleccionado = cu->Usuarios[i];
+        i++;
+    }
+    Estudiante* objetoDerivado = dynamic_cast<Estudiante*>(est_seleccionado);
+
+    if(est_seleccionado != nullptr && objetoDerivado){
+        return est_seleccionado->listarEstEstudiante();
+    }else{
+        return vector <DTEstEstudiante*> vacio;
+    }
+ };
