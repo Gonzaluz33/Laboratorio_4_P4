@@ -1,3 +1,5 @@
+#ifndef completarPalabras
+#define completarPalabras
 #include "ejercicio.hpp"
 
 class completarPalabras : public ejercicio{
