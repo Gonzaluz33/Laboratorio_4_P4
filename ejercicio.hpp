@@ -1,9 +1,8 @@
 #include <string>
-//#include "dt_ejercicio"
+#include "dt_ejercicio"
+#include "tipo_ejercicio.hpp"
 
 using namespace std;
-
-enum tipoEjercicio{Completar_palabras,Traduccion};
 
 class ejercicio{
     private:
