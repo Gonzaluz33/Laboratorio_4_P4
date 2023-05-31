@@ -8,6 +8,7 @@ class DTEstEstudiante{
         int avance;
     public:
         DTEstEstudiante(DTCurso,int);
+        ~DTEstEstudiante();
         DTCurso getDTCurso();
         int getAvance();
 };
