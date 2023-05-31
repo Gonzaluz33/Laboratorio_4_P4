@@ -1,0 +1,21 @@
+#include <string>
+//#include "dt_ejercicio"
+
+using namespace std;
+
+enum tipoEjercicio{Completar_palabras,Traduccion};
+
+class ejercicio{
+    private:
+        string descripcion;
+        tipoEjercicio tipo;
+    public:
+        ejercicio(string,tipoEjercicio);
+        virtual ~ejercicio();
+        string getDescripcion();
+        void setDescripcion(string);
+        tipoEjercicio getTipo();
+        void setTipo(tipoEjercicio);
+        bool estaPendiente();
+        DTEjercicio getDataEjercicio();
+};
