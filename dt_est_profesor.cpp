@@ -6,6 +6,8 @@ DTEstProfesor::DTEstProfesor(DTCurso c,int promedio){
     this->promedio_avance = promedio;
 }
 
+DTEstProfesor::~DTEstProfesor(){}
+
 int DTEstProfesor::getPromedioAvance(){
     return this->promedio_avance;
 }
