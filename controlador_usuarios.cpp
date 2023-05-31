@@ -261,7 +261,7 @@ vector <DTIdioma*> ControladorUsuarios::listarIdiomasNoSuscritos(string nickname
     return idiomas_todos;
 };
 
-void suscribir(vector <Idioma*> idiomasASuscribir){
+void ControladorUsuarios::suscribir(vector <Idioma*> idiomasASuscribir){
     ControladorUsuarios* cu ControladorUsuarios::getInstance();
     Usuario* user = cu->buscarUsuario(cu->nickname_listarIdiomasNoSuscritos_recordado);
     vector<Idioma*>::iterator it;
