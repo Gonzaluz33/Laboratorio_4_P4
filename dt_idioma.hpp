@@ -7,10 +7,18 @@ using namespace std;
 
 class DTIdioma {
 public:
+    DTIdioma();
     DTIdioma(string nombre);
     ~DTIdioma();
-    string getNombre();
+    DTIdioma(const DTIdioma& other) : nombre(other.nombre) {};
+    string getNombre(){
+            return this->nombre;
+        };
+    bool operator==(const DTIdioma& other) const {
+        return nombre == other.nombre;
+    }
 private:
+
     string nombre;
 };
 

@@ -2,22 +2,7 @@
 #include <vector>
 #include <set>
 using namespace std;
-
-class DTIdioma{
-    private:
-        string nombre;
-    public:
-        DTIdioma();
-        DTIdioma(const DTIdioma& other) : nombre(other.nombre) {}
-        getNombre(){
-            return this->nombre;
-        };
-        ~DTIdioma();
-        bool operator==(const DTIdioma& other) const {
-        return nombre == other.nombre;
-    }
-};
-
+class DTIdioma;
 class DTFecha;
 class DTEstEstudiante;
 class DTEstProfesor;

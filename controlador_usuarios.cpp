@@ -1,4 +1,5 @@
 #include "controlador_usuarios.hpp"
+#include "dt_idioma.hpp"
 #include <iostream>
 #include <vector>
 #include <set>
