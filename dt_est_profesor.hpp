@@ -7,6 +7,8 @@ class DTEstProfesor {
         DTCurso curso;
         int promedio_avance;
     public:
+        DTEstProfesor(DTCurso,int);
+        ~DTEstProfesor();
         DTCurso getCurso();
         int getPromedioAvance();
         DTEstProfesor(DTCurso,int);
