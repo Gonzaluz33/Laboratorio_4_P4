@@ -6,6 +6,8 @@ DTEstEstudiante::DTEstEstudiante(DTCurso c,int a){
     this->avance=a;
 }
 
+DTEstEstudiante::~DTEstEstudiante(){}
+
 DTCurso DTEstEstudiante::getDTCurso(){
     return this->curso_;
 }
