@@ -13,7 +13,7 @@
 #include "ejercicio.hpp"
 #include "profesor.hpp"
 #include "dt_estudiante.hpp"
-
+using namespace std;
 
 class Curso{
 private:
