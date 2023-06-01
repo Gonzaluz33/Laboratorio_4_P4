@@ -82,27 +82,157 @@ vector<DTCurso> ControladorCursos::listarCursosNoHabilitados() {
 }
 
 void ControladorCursos::seleccionarCurso(string nombreCurso) {
-    curso_recordado = cursosNoHabilitados.find(nombreCurso);
-    if(curso_recordado == cursosNoHabilitados.end()) {
-        curso_recordado = cursosHabilitados.find(nombreCurso);
+    pair<string, Curso *> curso_recordado_par = cursosNoHabilitados.find(nombreCurso);
+    if(curso_recordado_par == cursosNoHabilitados.end()) {
+        curso_recordado_par = cursosHabilitados.find(nombreCurso);
     }
+
+    curso_recordado = curso_recordado_par->second;
 }
 
-void ControladorCursos::crearLeccion(string nombreTema, string objetivo);
-void ControladorCursos::altaLeccion();
-vector<DTLeccion> ControladorCursos::listarLeccionesOrdenado();
-void ControladorCursos::seleccionarLeccion(string nombreTema);
-void ControladorCursos::crearEjercicio(TipoEjercicio tipo, string descripcion);
-void ControladorCursos::agregarDatosCP(string fraseACompletar, string solucion);
-void ControladorCursos::agregarDatosTR(string fraseATraducir, string traduccion);
-void ControladorCursos::altaEjercicio();
-vector<DTCurso> ControladorCursos::listarCursos();
-void ControladorCursos::eliminarCurso(string curso);
-vector<DTCurso> ControladorCursos::listarCursosNoAprobados(string nickname);
-vector<DTEjercicio> ControladorCursos::listarEjerciciosPendientes(string nombreCurso);
-void ControladorCursos::seleccionarEjercicio(DTEjercicio ejercicio);
-void ControladorCursos::ingresarSolucionCP(string sol);
-void ControladorCursos::ingresarSolucionT(string sol);
-bool ejercicioAprobado();
-DTEstCurso listarEstCurso(string nombreCurso);
+void ControladorCursos::crearLeccion(string nombreTema, string objetivo) {
+    leccion_recordada = curso_recordado->crearLeccion(nombreTema, objetivo);
+}
+
+void ControladorCursos::altaLeccion() {
+    lecciones.push_back(leccion_recordada); // si lecciones no se usa podemos eliminar esta linea
+
+    /* Libero memoria */
+    curso_recordado = nullptr;
+    leccion_recordada = nullptr;
+}
+
+vector<DTLeccion> ControladorCursos::listarLeccionesOrdenado() {
+    return curso_recordado->listarLeccionesOrdenado();
+}
+
+void ControladorCursos::seleccionarLeccion(string nombreTema) {
+    leccion_recordada = curso_recordado->seleccionarLeccion(nombreTema);
+}
+
+void ControladorCursos::crearEjercicio(TipoEjercicio tipo, string descripcion) {
+    tipo_recordado = tipo;
+    descripcionEjercicio_recordado = descripcion;
+}
+
+void ControladorCursos::agregarDatosCP(string fraseACompletar, string solucion) {
+    fraseACompletar_recordada = fraseACompletar;
+    solucion_recordada = solucion;
+}
+
+void ControladorCursos::agregarDatosTR(string fraseATraducir, string traduccion) {
+    fraseATraducir_recordada = fraseATraducir;
+    traduccion_recordada = traduccion;
+}
+
+void ControladorCursos::altaEjercicio() {
+    switch (tipo_recordado) {
+    case CompletarPalabras:
+        leccion_recordada->crearCP(descripcionEjercicio_recordado, fraseACompletar_recordada, solucion_recordada);
+        break;
+    case Traduccion:
+        leccion_recordada->crearTR(descripcionEjercicio_recordado, fraseATraducir_recordada, traduccion_recordada);
+        break;
+    }
+
+    /* Libero memoria */
+    leccion_recordada = nullptr;
+    curso_recordado = nullptr;
+    descripcionEjercicio_recordado.clear();
+    fraseACompletar_recordada.clear();
+    fraseATraducir_recordada.clear();
+    solucion_recordada.clear();
+    traduccion_recordada.clear();
+}
+
+vector<DTCurso> ControladorCursos::listarCursos() {
+    vector<DTCurso> salida;
+    
+    map<string, Curso *>::iterator it;
+    for(it = cursosNoHabilitados.begin(); it != cursosNoHabilitados.end(); it++) {
+        salida.push_back(it->second->getDTCurso());
+    }
+    for(it = cursosHabilitados.begin(); it != cursosHabilitados.end(); it++) {
+        salida.push_back(it->second->getDTCurso());
+    }
+
+    return salida;
+}
+
+void ControladorCursos::eliminarCurso(string nombreCurso) {
+    Curso *cursoAEliminar;
+    pair<string, Curso *> par = cursosNoHabilitados.find(nombreCurso);
+    if(par == cursosNoHabilitados.end()) {
+        par = cursosHabilitados.find(nombreCurso);
+        cursosHabilitados.erase(nombreCurso);
+    } else {
+        cursosNoHabilitados.erase(nombreCurso);
+    }
+    
+    cursoAEliminar = par->second;
+    
+    delete cursoAEliminar;
+}
+
+vector<DTCurso> ControladorCursos::listarCursosNoAprobados(string nickname) {
+    ControladorUsuarios *cu = ControladorUsuarios::getInstance();
+    estudiante_recordado = getEstudiante(nickname); // hay que implementarla
+    return cu->listarCursosNoAprobados(nickname);
+}
+
+vector<DTEjercicio> ControladorCursos::listarEjerciciosPendientes(string nombreCurso) {
+    pair<string, Curso *> par = cursosNoHabilitados.find(nombreCurso);
+    if(par == cursosNoHabilitados.end()) {
+        par = cursosHabilitados.find(nombreCurso);
+    }
+    curso_recordado = par->second;
+    leccion_recordada = estudiante->getLeccionActual(); // hay que implementarla
+    return estudiante_recordado->listarEjerciciosPendientes(nombreCurso);
+}
+
+void ControladorCursos::seleccionarEjercicio(DTEjercicio ejercicio) {
+    ejercicio_recordado = leccion_recordada->getEjercicios()
+                                        .find(ejercicio.getDescripcion())->second;
+}
+
+void ControladorCursos::ingresarSolucionCP(string sol) {
+    solucion_recordada = sol;
+}
+
+void ControladorCursos::ingresarSolucionT(string sol) {
+    traduccion_recordada = sol;
+}
+
+bool ControladorCursos::ejercicioAprobado() {
+    bool aprobado;
+
+    if (/* es CompletarPalabras */true) { // como se que subclase es ????
+        aprobado = ejercicio_recordado->estaAprobadoCP(solucion_recordada);
+    } else {
+        aprobado = ejercicio_recordado->estaAprobadoT(traduccion_recordada);
+    }
+
+    if (aprobado) {
+        estudiante_recordado->actualizarInscripcion(curso_recordado->getNombre());
+    }
+
+    /* Libero memoria */
+    estudiante_recordado = nullptr;
+    curso_recordado = nullptr;
+    leccion_recordada = nullptr;
+    ejercicio_recordado = nullptr;
+    solucion_recordada.clear();
+    traduccion_recordada.clear();
+}
+
+DTEstCurso ControladorCursos::listarEstCurso(string nombreCurso) {
+    Curso *curso;
+    pair<string, Curso *> par = cursosNoHabilitados.find(nombreCurso);
+    if(par == cursosNoHabilitados.end()) {
+        par = cursosHabilitados.find(nombreCurso);
+    }
+    curso = par->second;
+
+    return curso->listarEstCurso();
+}
 

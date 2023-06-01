@@ -5,6 +5,8 @@
 #include <vector>
 #include <map>
 #include "icontrolador_cursos.hpp"
+#include "curso.hpp"
+#include "leccion.hpp"
 
 class ControladorCursos : public IControladorCursos {
 public:
@@ -30,7 +32,7 @@ public:
     void agregarDatosTR(string fraseATraducir, string traduccion);
     void altaEjercicio();
     vector<DTCurso> listarCursos();
-    void eliminarCurso(string curso);
+    void eliminarCurso(string nombreCurso);
     vector<DTCurso> listarCursosNoAprobados(string nickname);
     vector<DTEjercicio> listarEjerciciosPendientes(string nombreCurso);
     void seleccionarEjercicio(DTEjercicio ejercicio);
@@ -39,13 +41,20 @@ public:
     bool ejercicioAprobado();
     DTEstCurso listarEstCurso(string nombreCurso);
 private:
-    string nickname_recordado, nombreCurso_recordado, descripcion_recordado;
+    string nickname_recordado, nombreCurso_recordado, descripcion_recordado,
+           descripcionEjercicio_recordado, fraseACompletar_recordada, solucion_recordada,
+           fraseATraducir_recordada, traduccion_recordada;
     Dificultad dificultad_recordado;
     DTIdioma idioma_recordado;
     map<string, Curso *> cursosHabilitados, cursosNoHabilitados;
     vector<Curso *> cursos; // Parece que esto no se usa
+    vector<Leccion *> lecciones; // Parece que esto no se usa tampoco
     vector<string> cursosPrevios;
     Curso *curso_recordado;
+    Leccion *leccion_recordada;
+    TipoEjercicio tipo_recordado;
+    Estudiante *estudiante_recordado;
+    Ejercicio *ejercicio_recordado;
 };
 
 #endif
