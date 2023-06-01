@@ -11,7 +11,7 @@ class estudiante:public usuario{
     private:
         string pais_residencia;
         DTFecha fecha_nacimiento;
-        vector<inscripcion> inscripciones;
+        vector<inscripcion*> inscripciones;
     public:
         estudiante(string,string,string,string,TipoUsuario,string,DTFecha);
         virtual ~estudiante();
