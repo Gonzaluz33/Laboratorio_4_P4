@@ -21,6 +21,6 @@ class estudiante:public usuario{
         DTFecha getFechaNacimiento();
         vector<DTEstEstudiante> listarEstEstudiante();
         vector<DTEjercicio> listarEjerciciosPendientes(string);
-        void actualizarInscripcion(ejercicio);
+        void actualizarInscripcion(string);
         virtual notificar(string,string);
 };
