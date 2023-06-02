@@ -59,6 +59,7 @@ DTEstCurso Curso::listarEstCurso(string nickname){
 
 int Curso::getPromedioAvance(){
     int Avance = 0;
+    map<string,Ejercicio*>::iterator it;
     for (it=this->Incripciones.begin(); it!=this->Inscripciones.end(); ++it){
         Avance = Avance + Inscripciones[it]->porcentajeEjerciciosRealizados;
     }

@@ -74,7 +74,7 @@ void Inscripcion::incrementarCantEjRealizados(){
 
 void Inscripcion::eliminarDePendientes(Ejercicio* ej){
     string des_a_comparar = ej->getDescripcion();
-    vector<Ejercicio*>::iterator it;
+    map<string,Ejercicio*>::iterator it;
     for(it = this->Ejercicios.begin(); it != this->Ejercicios.end(); ++it){
         if(des_a_comparar == *it->getDescripcion()){   
             Ejercicio* borrar = *it;
