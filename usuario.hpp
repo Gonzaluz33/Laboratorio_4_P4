@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <map>
 #include "tipo_usuario.hpp"
 #include "dt_idioma.hpp"
 #include "idioma.hpp"
@@ -19,7 +20,7 @@ class Usuario{
         string descripcion;
         TipoUsuario tipo;
         vector<Notificacion*> notificaciones;
-        vector<Idioma*> idiomasSuscritos;
+        map<string,idioma*> idiomasSuscritos;
     public: 
         Usuario(string,string,string,string,TipoUsuario);
         virtual ~Usuario();
