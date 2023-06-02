@@ -1,5 +1,3 @@
-#ifndef traduccion
-#define traduccion
 #include <string>
 #include "ejercicio.hpp"
 
