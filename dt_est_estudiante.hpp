@@ -1,6 +1,4 @@
-#ifndef dt_est_estudiante
-#define dt_est_estudiante
-#include "dt_curso"
+#include "dt_curso.hpp"
 
 class DTEstEstudiante{
     private:

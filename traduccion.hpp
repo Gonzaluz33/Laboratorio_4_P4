@@ -1,15 +1,13 @@
-#ifndef traduccion
-#define traduccion
 #include <string>
 #include "ejercicio.hpp"
 
-class traduccion : public ejercicio{
+class Traduccion : public Ejercicio{
     private:
         string frase_a_traducir;
         string traduccion_frase;
     public:
-        traduccion(string,tipoEjercicio,string,string);
-        ~traduccion();
+        Traduccion(string,TipoEjercicio,string,string);
+        ~Traduccion();
         void setFrase_a_traducir(string);
         string getFrase_a_traducir();
         void setTraduccion_frase(string);

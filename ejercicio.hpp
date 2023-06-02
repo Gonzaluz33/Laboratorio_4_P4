@@ -4,17 +4,17 @@
 
 using namespace std;
 
-class ejercicio{
+class Ejercicio{
     private:
         string descripcion;
         tipoEjercicio tipo;
     public:
-        ejercicio(string,tipoEjercicio);
-        virtual ~ejercicio();
+        Ejercicio(string,tipoEjercicio);
+        virtual ~Ejercicio();
         string getDescripcion();
         void setDescripcion(string);
         tipoEjercicio getTipo();
-        void setTipo(tipoEjercicio);
+        void setTipo(TipoEjercicio);
         bool estaPendiente();
         DTEjercicio getDataEjercicio();
 };

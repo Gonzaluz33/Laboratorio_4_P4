@@ -1,10 +1,11 @@
 #include "usuario.hpp"
-#include "ejercicio.hpp"
 #include "dt_est_estudiante.hpp"
-#include "inscripcion.hpp"
 #include "dt_curso.hpp"
-#include <string>
+#include "inscripcion.hpp"
+#include "dt_ejercicio.hpp"
+#include "dt_fecha.hpp"
 #include <map>
+#include <string>
 
 using namespace std;
 
@@ -23,5 +24,4 @@ class Estudiante:public Usuario {
         vector<DTEstEstudiante> listarEstEstudiante();
         vector<DTEjercicio> listarEjerciciosPendientes(string);
         void actualizarInscripcion(string);
-        virtual notificar(string,string);
 };

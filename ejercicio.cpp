@@ -1,28 +1,28 @@
 #include "ejercicio.hpp"
 
-ejercicio::ejercicio(string desc,tipoEjercicio t){
+Ejercicio::Ejercicio(string desc,tipoEjercicio t){
     this->descripcion = desc;
     this->tipo = t;
 }
 
-ejercicio::~ejercicio(){}
+Ejercicio::~Ejercicio(){}
 
-string ejercicio::getDescripcion(){
+string Ejercicio::getDescripcion(){
     return this->descripcion;
 }
 
-void ejercicio::setDescripcion(string desc){
+void Ejercicio::setDescripcion(string desc){
     this->descripcion = desc;
 }
 
-tipoEjercicio ejercicio::getTipo(){
+tipoEjercicio Ejercicio::getTipo(){
     return this->tipo;
 }
 
-void ejercicio::setTipo(tipoEjercicio t){
+void Ejercicio::setTipo(TipoEjercicio t){
     this->tipo = t;
 }
-DTEjercicio ejercicio::getDataEjercicio(){
+DTEjercicio Ejercicio::getDataEjercicio(){
     DTEjercicio dte = DTEjercicio(this->descripcion,this->tipo);
     return dte;
 }
