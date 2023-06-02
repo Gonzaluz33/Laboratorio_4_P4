@@ -2,13 +2,13 @@
 #define completarPalabras
 #include "ejercicio.hpp"
 
-class completarPalabras : public ejercicio{
+class CompletarPalabras : public ejercicio{
     private:
         string frase;
         string Palabras_faltantes;
     public:
-        completarPalabras(string,tipoEjercicio,string,string);
-        ~completarPalabras();
+        CompletarPalabras(string,tipoEjercicio,string,string);
+        ~CompletarPalabras();
         string getFrase();
         string getPalabras_faltantes();
         void setFrase(string);
