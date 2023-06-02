@@ -51,12 +51,14 @@ void Curso::crearLeccion(string nombreTema, string objetivo){
     this->Lecciones.push_back(leccionNueva);
 }
 
-DTEstCurso Curso::listarEstCurso(){
-    ControladorUsuarios* cu ControladorUsuarios::getInstance();
-    Estudiante *e = cu->buscarUsuario(nickname);
-    DTEstCurso nuevo = DTEstCurso(e->Inscripciones[i]->porsentajeEjerciciosRealizados / 
-    e->Inscripciones[i]->cantidadEjerciciosRealizados,nuevo->informacion = this->getdataCurso());
-    return setDtEstCurso;
+DTEstCurso Curso::listarEstCurso(string nickname){
+    int est;
+    for (i = 0; i < this->Inscripciones.size; i++){
+        est = est+this->Inscripciones[i]->porsentajeEjerciciosRealizados/this->Inscripciones[i]->cantidadEjerciciosRealizados;
+    }
+    
+    DTEstCurso nuevo = DTEstCurso(est, this->getdataCurso);
+    return nuevo;
 }
 
 int Curso::getPromedioAvance(){

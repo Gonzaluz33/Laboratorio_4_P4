@@ -34,6 +34,6 @@ public:
     DTCurso getdataCurso();
     int getTotalEjercicios();
     void crearLeccion(string nombreTema, string objetivo);
-    DTEstCurso listarEstCurso();
+    DTEstCurso listarEstCurso(string nickname);
     int getPromedioAvance();
 };
