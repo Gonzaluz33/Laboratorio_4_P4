@@ -87,7 +87,7 @@ void ControladorCursos::seleccionarCurso(string nombreCurso) {
         curso_recordado_par = cursosHabilitados.find(nombreCurso);
     }
 
-    curso_recordado = curso_recordado_par->second;
+    curso_recordado = curso_recordado_par.second;
 }
 
 void ControladorCursos::crearLeccion(string nombreTema, string objetivo) {
@@ -169,30 +169,32 @@ void ControladorCursos::eliminarCurso(string nombreCurso) {
         cursosNoHabilitados.erase(nombreCurso);
     }
     
-    cursoAEliminar = par->second;
+    cursoAEliminar = par.second;
     
     delete cursoAEliminar;
 }
 
 vector<DTCurso> ControladorCursos::listarCursosNoAprobados(string nickname) {
     ControladorUsuarios *cu = ControladorUsuarios::getInstance();
-    estudiante_recordado = getEstudiante(nickname); // hay que implementarla
+    estudiante_recordado = cu->getEstudiantes().find(nickname).second; // hay que implementarla
     return cu->listarCursosNoAprobados(nickname);
 }
 
 vector<DTEjercicio> ControladorCursos::listarEjerciciosPendientes(string nombreCurso) {
+    vector<Inscripcion> inscripciones;
     pair<string, Curso *> par = cursosNoHabilitados.find(nombreCurso);
     if(par == cursosNoHabilitados.end()) {
         par = cursosHabilitados.find(nombreCurso);
     }
-    curso_recordado = par->second;
-    leccion_recordada = estudiante->getLeccionActual(); // hay que implementarla
+    curso_recordado = par.second;
+    inscripciones = estudiante_recordado->getInscripciones();
+    leccion_recordada = inscripciones.find(nombreCurso).second->getCurso();
     return estudiante_recordado->listarEjerciciosPendientes(nombreCurso);
 }
 
 void ControladorCursos::seleccionarEjercicio(DTEjercicio ejercicio) {
     ejercicio_recordado = leccion_recordada->getEjercicios()
-                                        .find(ejercicio.getDescripcion())->second;
+                                        .find(ejercicio.getDescripcion()).second;
 }
 
 void ControladorCursos::ingresarSolucionCP(string sol) {
@@ -231,7 +233,7 @@ DTEstCurso ControladorCursos::listarEstCurso(string nombreCurso) {
     if(par == cursosNoHabilitados.end()) {
         par = cursosHabilitados.find(nombreCurso);
     }
-    curso = par->second;
+    curso = par.second;
 
     return curso->listarEstCurso();
 }
