@@ -8,8 +8,8 @@ class Traduccion : public ejercicio{
         string frase_a_traducir;
         string traduccion_frase;
     public:
-        traduccion(string,tipoEjercicio,string,string);
-        ~traduccion();
+        Traduccion(string,tipoEjercicio,string,string);
+        ~Traduccion();
         void setFrase_a_traducir(string);
         string getFrase_a_traducir();
         void setTraduccion_frase(string);
