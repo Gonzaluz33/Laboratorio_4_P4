@@ -11,7 +11,7 @@ class profesor : public usuario{
         vector<idioma*> idiomasEsp;
         vector<curso*> cursosADar;
     public:
-        profesor(string,string,string,string,TipoUsuario,string);
+        profesor(vector<DTIdioma> idiomas,string nickname,string,string,string,TipoUsuario,string);
         virtual ~profesor();
         string getInstituto();
         void setInstituto(string);

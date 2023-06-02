@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <set>
+#include <map>
 using namespace std;
 class DTIdioma;
 class DTFecha;
@@ -16,7 +17,8 @@ class ControladorUsuarios {
         ~ControladorUsuarios();
         static ControladorUsuarios* instancia;
         ControladorUsuarios();
-        vector <Usuario*> Usuarios;
+        map<string, Usuario*> Usuarios;
+        map<string,Idioma*> Idiomas;        
         string nickname_recordado;
         string contrasena_recordado;
         string nombre_recordado;
@@ -25,7 +27,7 @@ class ControladorUsuarios {
         string nombre_Pais_recordado;
         DTFecha fecha_Nacimiento_recordado;
         string nombre_Instituto_recordado;
-        vector <DTIdioma*> lista_idiomas_recordado;
+        vector <DTIdioma> lista_idiomas_recordado;
         string nickname_listarIdiomasNoSuscritos_recordado;
     public:
     void liberarMemoriaRecordada();
@@ -33,8 +35,8 @@ class ControladorUsuarios {
     void iniciarAltaUsuario (string nickname ,string contraseña,string nombre,string descripción);
     void datosAdicionalesEstudiante(string nom_Pais,DTFecha fecha_Nacimiento);
     void datosAdicionalesProfesor(string nom_Instituto);
-    vector <DTIdioma*> listarIdiomas();
-    void seleccionarIdioma(DTIdioma* Idioma);
+    vector <DTIdioma> listarIdiomas();
+    void seleccionarIdioma(DTIdioma Idioma);
     bool altaUsuario();
     Usuario* buscarUsuario(string nickname);//auxiliar
     vector <string> listarEstudiantes();
