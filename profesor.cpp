@@ -16,7 +16,7 @@ void Profesor::setInstituto(string inst){
 
 vector<DTIdioma> Profesor::getDTidiomas(){
     vector<DTIdioma> id;
-    map<string,idioma*>::iterator it;
+    map<string,Idioma*>::iterator it;
     it = this->idiomasEsp.begin();
     while(it <= this->idiomasEsp.end()){
         id.insert(id.begin(),*it->getDataIdioma());
