@@ -40,6 +40,8 @@ public:
     void ingresarSolucionT(string sol);
     bool ejercicioAprobado();
     DTEstCurso listarEstCurso(string nombreCurso);
+    bool habilitarCurso();
+    DTCurso getDataCurso(string nombreCurso);
 private:
     string nickname_recordado, nombreCurso_recordado, descripcion_recordado,
            descripcionEjercicio_recordado, fraseACompletar_recordada, solucion_recordada,

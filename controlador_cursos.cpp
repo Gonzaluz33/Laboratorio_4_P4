@@ -238,3 +238,36 @@ DTEstCurso ControladorCursos::listarEstCurso(string nombreCurso) {
     return curso->listarEstCurso();
 }
 
+bool ControladorCursos::habilitarCurso() {
+    map<string, Leccion *> lecciones;
+    map<string, Leccion *>::iterator it;
+    bool salida = false;
+
+    lecciones = curso_recordado->getLecciones();
+    if (lecciones.begin() != lecciones.end()) { // si hay lecciones
+        it = lecciones.begin();
+        while (it != lecciones.end() || salida) { // itero por las lecciones
+                                                  // y si tiene ejercicio sigo
+                                                  // si no tiene retorno true
+            if (it->second->getEjerciccios().begin() == it->second->getEjerciccios().end()) {
+                salida = true;
+            }
+            it++;
+        }
+    } else {
+        salida = true;
+    }
+
+    /* Libero memoria */
+    curso_recordado = nullptr;
+
+    return salida;
+}
+
+DTCurso ControladorCursos::getDataCurso(string nombreCurso) {
+    pair<string, Curso *> par = cursosNoHabilitados.find(nombreCurso);
+    if(par == cursosNoHabilitados.end()) {
+        par = cursosHabilitados.find(nombreCurso);
+    }
+    return par.second->getDataCurso();
+}
