@@ -7,4 +7,6 @@ class Notificacion{
         string nombre_idioma;
     public:
         DTNotificacion getDataNotificacion();
+        string getNombreCurso();
+        string getNombreIdioma();
 };
