@@ -40,7 +40,7 @@ DTCurso Curso::getdataCurso(){
 
 int Curso::getTotalEjercicios(){
     int totalEjercicios = 0;
-    for(i = 0; i < Lecciones.size(); i++){
+    for (i=0; i < this->Lecciones.size>>; i++){
         totalEjercicios = totalEjercicios + Lecciones[i]->getCantEjercicios();
     }
     return totalEjercicios;
@@ -52,19 +52,15 @@ void Curso::crearLeccion(string nombreTema, string objetivo){
 }
 
 DTEstCurso Curso::listarEstCurso(string nickname){
-    int est;
-    for (i = 0; i < this->Inscripciones.size; i++){
-        est = est+this->Inscripciones[i]->porsentajeEjerciciosRealizados/this->Inscripciones[i]->cantidadEjerciciosRealizados;
-    }
-    
-    DTEstCurso nuevo = DTEstCurso(est, this->getdataCurso);
+    int est = 0;
+    DTEstCurso nuevo = DTEstCurso(this->getPromedioAvance(), this->getdataCurso());
     return nuevo;
 }
 
 int Curso::getPromedioAvance(){
     int Avance = 0;
-    for (i = 0; i < Inscripciones.size(); i++){
-        Avance = Avance + Inscripciones[i]->porsentajeEjerciciosRealizados;
+    for (it=this->Incripciones.begin(); it!=this->Inscripciones.end(); ++it){
+        Avance = Avance + Inscripciones[it]->porcentajeEjerciciosRealizados;
     }
     return Avance/Inscripciones.size();
 }

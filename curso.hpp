@@ -18,7 +18,7 @@ private:
     string nombre;
     string descripcion;
     Dificultad dificultad;
-    vector <Inscripcion*> Inscripciones;
+    map <string, Inscripcion*> Inscripciones;
     vector <Leccion*> Lecciones;
     Profesor* profesorAsignado;
 
