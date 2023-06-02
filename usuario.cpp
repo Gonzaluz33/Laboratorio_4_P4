@@ -59,28 +59,18 @@ void usuario::setTipo(TipoUsuario tu){
 
 void usuario::agregaridioma(idioma i){
     idioma *id = new idioma;
-    this->idiomasSuscritos.insert(this->idiomasSuscritos.begin(),id);
+    this->idiomasSuscritos.insert(pair<string,idioma*>(i.getNombre(),id));
 }
 
 void usuario::eliminaridioma(idioma id){
-    vector<idioma*>::iterator it;
-    it = this->idiomasSuscritos.begin();
-    int j = 0;
-    while((j == 0) || (it < this->idiomasSuscritos.end())){
-        idioma *current = *it;
-        if(current->getNombre() == id.getNombre()){
-            j = 1;
-        }
-        it++;
-    }
-    if(j == 1){
-        this->idiomasSuscritos.erase(it);
+    if(this->idiomasSuscritos.count(id.getNombre())){
+        this->idiomasSuscritos.erase(id.getNombre());
     }
 }
 
 vector<DTIdioma> usuario::listarDTidiomasSuscritos(){
     vector<DTIdioma> id_sus;
-    vector<idioma*>::iterator it;
+    map<string,idioma*>::iterator it;
     it = this->idiomasSuscritos.begin();
     while(it <= this->idiomasSuscritos.end()){
         idioma *current = *it;
