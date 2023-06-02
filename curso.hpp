@@ -1,7 +1,5 @@
 #include <string>
-#include <iostream>
 #include <vector>
-#include <set>
 #include "dificultad.hpp"
 #include "dt_est_curso.hpp"
 #include "dt_idioma.hpp"
@@ -37,6 +35,6 @@ public:
     DTCurso getdataCurso();
     int getTotalEjercicios();
     void crearLeccion(string nombreTema, string objetivo);
-    set(DTEstCurso) listarEstCurso();
+    DTEstCurso listarEstCurso();
     int getPromedioAvance();
 };

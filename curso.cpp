@@ -24,7 +24,7 @@ void Curso::setDescripcion(string des){
     this->descripcion = des;
 } 
 
-Dificultad Curso::getDifiultad(){
+Dificultad Curso::getDificultad(){
     return this->dificultad;
 }
 
@@ -51,14 +51,12 @@ void Curso::crearLeccion(string nombreTema, string objetivo){
     this->Lecciones.push_back(leccionNueva);
 }
 
-vector<DTEstEstudiante*> Curso::listarEstCurso(){
+DTEstCurso Curso::listarEstCurso(){
     ControladorUsuarios* cu ControladorUsuarios::getInstance();
-    Estudiante e = cu->buscarUsuario(nickname);
-    vector<DTEstEstudiante*> setDTEstEstudiante;
-    for (i = 0; i < e->Inscripciones.size(); i++){
-        setDTEstudiante.push_back(e->Inscripciones[i]->getEstEstudiante());
-    }
-    return setDtEstEstudiante;
+    Estudiante *e = cu->buscarUsuario(nickname);
+    DTEstCurso nuevo = DTEstCurso(e->Inscripciones[i]->porsentajeEjerciciosRealizados / 
+    e->Inscripciones[i]->cantidadEjerciciosRealizados,nuevo->informacion = this->getdataCurso());
+    return setDtEstCurso;
 }
 
 int Curso::getPromedioAvance(){

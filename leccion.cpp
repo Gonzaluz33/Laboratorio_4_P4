@@ -6,8 +6,6 @@ Leccion::leccion(int totalE, string nomTema, string objetivo){
     this->objetivo = objetivo;
 }
 
-Leccion~leccion(){}
-
 int Leccion::getTotalEjercicios(){
     return this->totalEjercicios;
 }

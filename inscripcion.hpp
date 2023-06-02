@@ -1,10 +1,9 @@
 #include <string>
-#include <iostream>
 #include <vector>
-#include <set>
 #include "DTFecha"
 #include "dt_est_curso.hpp"
 #include "dt_est_estudiante.hpp"
+using namespace std;
 
 class Inscripcion{
 private:
@@ -29,9 +28,9 @@ public:
     void setCursoAprobado(bool curso);
     DTEstEstudiante getEstEstudiante();
     Leccion* getLeccionActual();
-    Set(DTEjercicio) listarEjerciciosPendientes();
+    vector<DTEjercicio> listarEjerciciosPendientes();
     void incrementarCantEjRealizados();
-    void eliminarDePendientes(Ejercicio ej);
+    void eliminarDePendientes(Ejercicio *ej);
     bool leccionTerminada(int cantEjActualizado, int totalEj);
     int getPorcentajeEjerciciosRealizados();
 };

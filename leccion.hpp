@@ -12,7 +12,6 @@ private:
     vector <Ejercicio*> Ejercicios;
 public:
     leccion(int totalE, string nomTema, string objetivo);
-    virtual~leccion();
     int getTotalEjercicios();
     void setTotalEjercicios(int t);
     int getCantEjerciciosHechos();
