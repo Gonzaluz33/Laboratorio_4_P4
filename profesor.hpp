@@ -17,8 +17,8 @@ class Profesor : public Usuario{
         virtual ~Profesor();
         string getInstituto();
         void setInstituto(string);
-        vector<DTIdioma*> getDTidiomas();
-        vector<DTEstProfesor*> listarEstProfesor();
+        vector<DTIdioma> getDTidiomas();
+        vector<DTEstProfesor> listarEstProfesor();
         void agregarIdiomaEsp(Idioma);
         void eliminarIdiomaEsp(Idioma);
         void agregarCurso(Curso);
