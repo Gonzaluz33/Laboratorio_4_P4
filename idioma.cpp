@@ -1,5 +1,6 @@
 #include "idioma.hpp"
 #include "dt_idioma.hpp"
+#include "controlador_usuarios.hpp"
 #include <set>
 
 Idioma::Idioma(string nombre){
