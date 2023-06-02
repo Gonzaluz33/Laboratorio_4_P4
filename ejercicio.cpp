@@ -19,7 +19,7 @@ tipoEjercicio Ejercicio::getTipo(){
     return this->tipo;
 }
 
-void Ejercicio::setTipo(tipoEjercicio t){
+void Ejercicio::setTipo(TipoEjercicio t){
     this->tipo = t;
 }
 DTEjercicio Ejercicio::getDataEjercicio(){
