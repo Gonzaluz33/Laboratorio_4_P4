@@ -34,7 +34,7 @@ class Usuario{
         void setDescricpion(string);
         TipoUsuario getTipo();
         void setTipo(TipoUsuario);
-        virtual notificar(string,string);
+        void notificar(string,string);
         void agregaridioma(Idioma);
         void eliminaridioma(Idioma);
         vector<DTIdioma> listarDTidiomasSuscritos();
