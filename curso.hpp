@@ -20,7 +20,6 @@ private:
     Dificultad dificultad;
     vector <Inscripcion*> Inscripciones;
     vector <Leccion*> Lecciones;
-    vector <Ejercicio*> Ejercicios;
     Profesor* profesorAsignado;
 
 public:
