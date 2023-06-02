@@ -3,7 +3,7 @@
 #include <string>
 #include "ejercicio.hpp"
 
-class traduccion : public ejercicio{
+class Traduccion : public ejercicio{
     private:
         string frase_a_traducir;
         string traduccion_frase;
