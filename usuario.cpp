@@ -5,7 +5,7 @@
 
 using namespace std;
 
-usuario::usuario(string nick, string contr, string nom, string desc, TipoUsuario tu){
+Usuario::Usuario(string nick, string contr, string nom, string desc, TipoUsuario tu){
     this->nickname=nick;
     this->contrasena=contr;
     this->nombre=nom;
@@ -13,62 +13,62 @@ usuario::usuario(string nick, string contr, string nom, string desc, TipoUsuario
     this->tipo=tu;
 }
 
-usuario::~usuario(){
+Usuario::~Usuario(){
 
 }
 
-string usuario::getNickname(){
+string Usuario::getNickname(){
     return this->nickname;
 }
 
-string usuario::getContrasena(){
+string Usuario::getContrasena(){
     return this->contrasena;
 }
 
-string usuario::getNombre(){
+string Usuario::getNombre(){
     return this->nombre;
 }
 
-string usuario::getDescripcion(){
+string Usuario::getDescripcion(){
     return this->descripcion;
 }
 
-TipoUsuario usuario::getTipo(){
+TipoUsuario Usuario::getTipo(){
     return this->tipo;
 }
 
-void usuario::setNickname(string nick){
+void Usuario::setNickname(string nick){
     this->nickname=nick;
 }
 
-void usuario::setContrasena(string contr){
+void Usuario::setContrasena(string contr){
     this->contrasena=contr;
 }
 
-void usuario::setNombre(string nom){
+void Usuario::setNombre(string nom){
     this->nombre=nom;
 }
 
-void usuario::setDescricpion(string desc){
+void Usuario::setDescricpion(string desc){
     this->descripcion=desc;
 }
 
-void usuario::setTipo(TipoUsuario tu){
+void Usuario::setTipo(TipoUsuario tu){
     this->tipo = tu;
 }
 
-void usuario::agregaridioma(idioma i){
+void Usuario::agregaridioma(idioma i){
     idioma *id = new idioma;
     this->idiomasSuscritos.insert(pair<string,idioma*>(i.getNombre(),id));
 }
 
-void usuario::eliminaridioma(idioma id){
+void Usuario::eliminaridioma(idioma id){
     if(this->idiomasSuscritos.count(id.getNombre())){
         this->idiomasSuscritos.erase(id.getNombre());
     }
 }
 
-vector<DTIdioma> usuario::listarDTidiomasSuscritos(){
+vector<DTIdioma> Usuario::listarDTidiomasSuscritos(){
     vector<DTIdioma> id_sus;
     map<string,idioma*>::iterator it;
     it = this->idiomasSuscritos.begin();
@@ -80,7 +80,7 @@ vector<DTIdioma> usuario::listarDTidiomasSuscritos(){
     return id_sus;
 }
 
-vector<DTNotificacion> usuario::getDTNotificaciones(){
+vector<DTNotificacion> Usuario::getDTNotificaciones(){
     vector<DTNotificacion> n;
     vector<Notificacion*>::iterator it;
     it = this->notificaciones.begin();
@@ -92,7 +92,7 @@ vector<DTNotificacion> usuario::getDTNotificaciones(){
     return n;
 }
 
-void usuario::eliminarNotificaciones(string nombre_curso){
+void Usuario::eliminarNotificaciones(string nombre_curso){
     vector<Notificacion*>::iterator it;
     it = this->notificaciones.begin();
     int j = 0;
@@ -106,4 +106,9 @@ void usuario::eliminarNotificaciones(string nombre_curso){
     if(j == 1){
         this->notificaciones.erase(it);
     }
+}
+
+void Usuario::notificar(string nombreCurso, string nombreIdioma){
+    Notificacion n = Notificacion(nombreCurso,nombreIdioma);
+    this->notificaciones.insert(this->notificaciones.begin(),n);
 }
