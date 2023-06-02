@@ -20,7 +20,7 @@ class Usuario{
         string descripcion;
         TipoUsuario tipo;
         vector<Notificacion*> notificaciones;
-        map<string,idioma*> idiomasSuscritos;
+        map<string,Idioma*> idiomasSuscritos;
     public: 
         Usuario(string,string,string,string,TipoUsuario);
         virtual ~Usuario();
