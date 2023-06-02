@@ -14,7 +14,7 @@ class Ejercicio{
         string getDescripcion();
         void setDescripcion(string);
         tipoEjercicio getTipo();
-        void setTipo(tipoEjercicio);
+        void setTipo(TipoEjercicio);
         bool estaPendiente();
         DTEjercicio getDataEjercicio();
 };
