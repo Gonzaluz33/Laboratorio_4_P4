@@ -1,7 +1,5 @@
 #include <string>
-#include <iostream>
 #include <vector>
-#include <set>
 #include "dificultad.hpp"
 #include "dt_est_curso.hpp"
 #include "dt_idioma.hpp"
@@ -20,9 +18,8 @@ private:
     string nombre;
     string descripcion;
     Dificultad dificultad;
-    vector <Inscripcion*> Inscripciones;
+    map <string, Inscripcion*> Inscripciones;
     vector <Leccion*> Lecciones;
-    vector <Ejercicio*> Ejercicios;
     Profesor* profesorAsignado;
 
 public:
@@ -37,6 +34,6 @@ public:
     DTCurso getdataCurso();
     int getTotalEjercicios();
     void crearLeccion(string nombreTema, string objetivo);
-    set(DTEstCurso) listarEstCurso();
+    DTEstCurso listarEstCurso(string nickname);
     int getPromedioAvance();
 };

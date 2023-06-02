@@ -6,8 +6,6 @@ Leccion::leccion(int totalE, string nomTema, string objetivo){
     this->objetivo = objetivo;
 }
 
-Leccion~leccion(){}
-
 int Leccion::getTotalEjercicios(){
     return this->totalEjercicios;
 }
@@ -40,12 +38,12 @@ void Leccion::setObjetivo(string objetivo){
     this->objetivo = objetivo;
 }
 
-void Leccion::crearCP(string descripcion,string fac, string sol){
+void Leccion::crearCP(string descripcion, string fac, string sol){
     Ejercicio* ejercicioNuevo = new CompletarPalabras(descripcion, fac, sol);
-    this->Ejercicios.tipo.push_back(ejercicioNuevo);
+    this->Ejercicios.tipo.insert(descripcion, ejercicioNuevo);
 }
 
 void Leccion::crearTR( string descripcion, string fat, string trad){
     Ejercicio* ejercicioNuevo = new Traduccion(descripcion, fat, trad);
-    this->Ejercicios.tipo.push_back(ejercicioNuevo);
+    this->Ejercicios.tipo.insert(descripcion, ejercicioNuevo);
 }

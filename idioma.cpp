@@ -1,6 +1,8 @@
 #include "idioma.hpp"
 #include "dt_idioma.hpp"
+#include "controlador_usuarios.hpp"
 #include <set>
+#include <vector>
 
 Idioma::Idioma(string nombre){
     this->nombre = nombre;
@@ -34,7 +36,8 @@ void Idioma::notificarCambio(string nombre_curso){
 
 vector <DTIdioma> Idioma::compararIdioma(vector <DTIdioma>iS){ //Retorna un DataIdioma con los datos de i si este no se encuentra en la lista iS
     //comparo, si es igual lo elimino de la nueva
-    vector<DTIdioma> idiomasNoSuscritos; //falta =todos los idiomas creados
+    ControladorUsuarios *ptr = ControladorUsuarios::getInstance(); 
+    vector<DTIdioma> idiomasNoSuscritos = ptr->listarIdiomas(); 
     vector<DTIdioma>::iterator it;
     for(it = iS.begin(); it != iS.end(); ++it){
         if(iS == it.current()){ 

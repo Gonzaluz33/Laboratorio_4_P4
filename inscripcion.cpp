@@ -2,7 +2,7 @@
 
 Inscripcion::Inscripcion(DTFecha fechaInscripcion, int porEjerReal, int cantEjerReal, bool cursoAprobado){
     this->fechaInscripcion = fechaInscripcion;
-    this->porsentajeEjerciciosRealizados = porEjerReal;
+    this->porcentajeEjerciciosRealizados = porEjerReal;
     this->cantidadEjerciciosRealizados = cantEjerReal;
     this->cursoAprobado;
 }
@@ -24,12 +24,12 @@ void Inscripcion::setCantTotalHechos(int t){
     this->cantEjerciciosHechos = t;
 }
 
-int Inscripcion::getPorsentajeEjerciciosRealizados(){
-    return this->porsentajeEjerciciosRealizados;
+int Inscripcion::getPorcentajeEjerciciosRealizados(){
+    return this->porcentajeEjerciciosRealizados;
 }
 
-void Inscripcion::setPorsentajeEjerciciosRealizados(int p){
-    this->porsentajeEjerciciosRealizados = p;
+void Inscripcion::setPorcentajeEjerciciosRealizados(int p){
+    this->porcentajeEjerciciosRealizados = p;
 }
 
 int Inscripcion::getCantidadEjerciciosRealizados(){
@@ -50,11 +50,11 @@ Leccion* Inscripcion::getLeccionActual(){
     return this->leccionAsignada;
 }
 
-vector<DTEjercicio*> Inscripcion::listarEjerciciosPendientes(){
-   vector<DTEjercicio*> SetDTEjercicio;
-   for (i = 0; i < this->Ejercicios.size(); i++){
-        if(this->Ejercicios[i]->estaPendiente()){
-            SetDTEjercicio.push_back(this->Ejercicios[i]->getDataEjercicio());
+vector<DTEjercicio> Inscripcion::listarEjerciciosPendientes(){
+   map<string,DTEjercicio> SetDTEjercicio;
+    for (it=this->Incripciones.begin(); it!=this->Inscripciones.end(); ++it){
+        if(this->Ejercicios[it]->estaPendiente()){
+            SetDTEjercicio.insert(this->Ejercicios[it]->getDataEjercicio());
         }
    }
    return SetDTEjercicios;
@@ -64,7 +64,7 @@ vector<DTEjercicio*> Inscripcion::listarEjerciciosPendientes(){
 DTEstEstudiante Inscripcion::getEstEstudiante(){
     DTCurso nuevo = this->cursoAsignado->getdataCurso();
     int promedioAvance = this->cursoAsignado->getPromedioAvance();
-    DTEstEstudiante* curso = new DtEstEstudiante(nuevo, promedioAvance);
+    DTEstEstudiante curso =  DtEstEstudiante(nuevo, promedioAvance);
     return curso;
 }
 
@@ -74,7 +74,7 @@ void Inscripcion::incrementarCantEjRealizados(){
 
 void Inscripcion::eliminarDePendientes(Ejercicio* ej){
     string des_a_comparar = ej->getDescripcion();
-    vector<Ejercicio*>::iterator it;
+    map<string,Ejercicio*>::iterator it;
     for(it = this->Ejercicios.begin(); it != this->Ejercicios.end(); ++it){
         if(des_a_comparar == *it->getDescripcion()){   
             Ejercicio* borrar = *it;

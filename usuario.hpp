@@ -1,18 +1,18 @@
 #include <string>
 #include <vector>
+#include <map>
 #include "tipo_usuario.hpp"
 #include "dt_idioma.hpp"
-
-class Notificacion{};
-class idioma{};
-class DTFecha{};
-class DTNotificacion{};
+#include "idioma.hpp"
+#include "notificacion.hpp"
+#include "dt_fecha.hpp"
+#include "dt_notificacion.hpp"
 
 using namespace std;
 
 
 
-class usuario{
+class Usuario{
     private:
         string nickname;
         string contrasena;
@@ -20,10 +20,10 @@ class usuario{
         string descripcion;
         TipoUsuario tipo;
         vector<Notificacion*> notificaciones;
-        vector<idioma*> idiomasSuscritos;
+        map<string,idioma*> idiomasSuscritos;
     public: 
-        usuario(string,string,string,string,TipoUsuario);
-        virtual ~usuario();
+        Usuario(string,string,string,string,TipoUsuario);
+        virtual ~Usuario();
         string getNickname();
         void setNickname(string);
         string getContrasena();
@@ -35,8 +35,8 @@ class usuario{
         TipoUsuario getTipo();
         void setTipo(TipoUsuario);
         virtual notificar(string,string);
-        void agregaridioma(idioma);
-        void eliminaridioma(idioma);
+        void agregaridioma(Idioma);
+        void eliminaridioma(Idioma);
         vector<DTIdioma> listarDTidiomasSuscritos();
         vector<DTNotificacion> getDTNotificaciones();
         void eliminarNotificaciones(string);

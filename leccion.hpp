@@ -1,6 +1,7 @@
 #include <string>
 #include "tipo_ejercicio.hpp"
 #include <vector>
+#include <map>
 using namespace std;
 
 class Leccion{
@@ -9,10 +10,9 @@ private:
     int cantEjerciciosHechos;
     string nombreTema;
     string objetivo;
-    vector <Ejercicio*> Ejercicios;
+    map<string, Ejercicio*> Ejercicios;
 public:
     leccion(int totalE, string nomTema, string objetivo);
-    virtual~leccion();
     int getTotalEjercicios();
     void setTotalEjercicios(int t);
     int getCantEjerciciosHechos();

@@ -1,20 +1,21 @@
 #include "usuario.hpp"
 #include "ejercicio.hpp"
 #include "dt_est_estudiante.hpp"
+#include "inscripcion.hpp"
+#include "dt_curso.hpp"
+#include <string>
+#include <map>
 
 using namespace std;
 
-class inscripcion{};
-class DTCurso{};
-
-class estudiante:public usuario{
+class Estudiante:public Usuario {
     private:
         string pais_residencia;
         DTFecha fecha_nacimiento;
-        vector<inscripcion*> inscripciones;
+        map<string, Inscripcion*> inscripciones;
     public:
-        estudiante(string,string,string,string,TipoUsuario,string,DTFecha);
-        virtual ~estudiante();
+        Estudiante(string,string,string,string,TipoUsuario,string,DTFecha);
+        virtual ~Estudiante();
         void setPaisResidencia(string);
         string getPaisResidencia();
         void setFechaNaciomiento(DTFecha);
