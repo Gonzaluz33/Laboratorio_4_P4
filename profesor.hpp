@@ -23,7 +23,6 @@ class Profesor : public Usuario{
         void setInstituto(string);
         vector<DTIdioma*> getDTidiomas();
         vector<DTEstProfesor*> listarEstProfesor();
-        virtual notificar(string,string);
         void agregarIdiomaEsp(Idioma);
         void eliminarIdiomaEsp(Idioma);
         void agregarCurso(Curso);
