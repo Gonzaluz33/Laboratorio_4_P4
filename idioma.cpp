@@ -2,6 +2,7 @@
 #include "dt_idioma.hpp"
 #include "controlador_usuarios.hpp"
 #include <set>
+#include <vector>
 
 Idioma::Idioma(string nombre){
     this->nombre = nombre;
