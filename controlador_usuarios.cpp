@@ -6,7 +6,7 @@
 #include <algorithm>
 using namespace std;
 
-ControladorUsuarios * ControladorUsuarios::instancia = nullptr;
+ControladorUsuarios* ControladorUsuarios::instancia = nullptr;
 ControladorUsuarios* ControladorUsuarios::getInstance(){
         if(this->instancia == nullptr)
         this->instancia = new ControladorUsuarios();
