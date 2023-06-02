@@ -23,5 +23,4 @@ class Estudiante:public Usuario {
         vector<DTEstEstudiante> listarEstEstudiante();
         vector<DTEjercicio> listarEjerciciosPendientes(string);
         void actualizarInscripcion(string);
-        virtual notificar(string,string);
 };
