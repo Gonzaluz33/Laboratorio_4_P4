@@ -35,7 +35,7 @@ void Idioma::notificarCambio(string nombre_curso){
 vector <DTIdioma> Idioma::compararIdioma(vector <DTIdioma>iS){ //Retorna un DataIdioma con los datos de i si este no se encuentra en la lista iS
     //comparo, si es igual lo elimino de la nueva
     ControladorUsuarios *ptr = ControladorUsuarios::getInstance(); 
-    vector<DTIdioma> idiomasNoSuscritos = ptr->listarIdiomas(); //falta =todos los idiomas creados
+    vector<DTIdioma> idiomasNoSuscritos = ptr->listarIdiomas(); 
     vector<DTIdioma>::iterator it;
     for(it = iS.begin(); it != iS.end(); ++it){
         if(iS == it.current()){ 
