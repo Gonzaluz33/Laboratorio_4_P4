@@ -2,13 +2,11 @@
 #include "ejercicio.hpp"
 #include "dt_est_estudiante.hpp"
 #include "inscripcion.hpp"
+#include "dt_curso.hpp"
 #include <string>
 #include <map>
 
 using namespace std;
-
-class Inscripcion{};
-class DTCurso{};
 
 class Estudiante:public Usuario {
     private:
