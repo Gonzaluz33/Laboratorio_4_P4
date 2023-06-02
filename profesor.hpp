@@ -2,26 +2,27 @@
 #include "usuario.hpp"
 #include "dt_est_profesor.hpp"
 #include "dt_idioma.hpp"
+#include "curso.hpp"
 
-class curso{};
+using namespace std;
 
-class profesor : public usuario{
+class Profesor : public Usuario{
     private:
         string instituto;
-        vector<idioma*> idiomasEsp;
-        vector<curso*> cursosADar;
+        vector<Idioma*> idiomasEsp;
+        vector<Curso*> cursosADar;
     public:
-        profesor(string,string,string,string,TipoUsuario,string);
-        virtual ~profesor();
+        Profesor(string,string,string,string,TipoUsuario,string);
+        virtual ~Profesor();
         string getInstituto();
         void setInstituto(string);
         vector<DTIdioma*> getDTidiomas();
         vector<DTEstProfesor*> listarEstProfesor();
         virtual notificar(string,string);
-        void agregarIdiomaEsp(idioma);
-        void eliminarIdiomaEsp(idioma);
-        void agregarCurso(curso);
-        void eliminarCurso(curso);
+        void agregarIdiomaEsp(Idioma);
+        void eliminarIdiomaEsp(Idioma);
+        void agregarCurso(Curso);
+        void eliminarCurso(Curso);
 };
 
 
