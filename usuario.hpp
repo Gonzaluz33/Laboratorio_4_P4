@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include "IObserver.hpp"
 #include "tipo_usuario.hpp"
 #include "dt_idioma.hpp"
 #include "idioma.hpp"
@@ -12,7 +13,7 @@ using namespace std;
 
 
 
-class Usuario{
+class Usuario : public IObserver{
     private:
         string nickname;
         string contrasena;
