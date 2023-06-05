@@ -1,6 +1,9 @@
 #include "leccion.hpp"
+#include "ejercicio.hpp"
+#include "completarPalabras.hpp"
+#include "traduccion.hpp"
 
-Leccion::leccion(int totalE, string nomTema, string objetivo){
+Leccion::Leccion(int totalE, string nomTema, string objetivo){
     this->totalEjercicios = totalE;
     this->nombreTema = nomTema;
     this->objetivo = objetivo;
@@ -24,11 +27,11 @@ string Leccion::getObjetivo(){
 }
 
 void Leccion::crearCP(string descripcion, string fac, string sol){
-    Ejercicio* ejercicioNuevo = new CompletarPalabras(descripcion, fac, sol);
-    this->Ejercicios.tipo.insert(descripcion, ejercicioNuevo);
+    Ejercicio* ejercicioNuevo = new CompletarPalabras(descripcion, CompPalabras, fac, sol);
+    ejercicios.insert(pair<string, Ejercicio*>(descripcion, ejercicioNuevo));
 }
 
 void Leccion::crearTR( string descripcion, string fat, string trad){
-    Ejercicio* ejercicioNuevo = new Traduccion(descripcion, fat, trad);
-    this->Ejercicios.tipo.insert(descripcion, ejercicioNuevo);
+    Ejercicio* ejercicioNuevo = new Traduccion(descripcion, Trad, fat, trad);
+    this->ejercicios.insert(pair<string, Ejercicio*>(descripcion, ejercicioNuevo));
 }

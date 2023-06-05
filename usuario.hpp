@@ -1,3 +1,6 @@
+#ifndef USUARIO_HPP
+#define USUARIO_HPP
+
 #include <string>
 #include <vector>
 #include <map>
@@ -37,9 +40,11 @@ class Usuario : public IObserver{
         TipoUsuario getTipo();
         void setTipo(TipoUsuario);
         void notificar(string,string);
-        void agregaridioma(Idioma);
-        void eliminaridioma(Idioma);
+        void agregarIdioma(Idioma*);
+        void eliminarIdioma(Idioma*);
         vector<DTIdioma> listarDTidiomasSuscritos();
         vector<DTNotificacion> getDTNotificaciones();
         void eliminarNotificaciones(string);
 };
+
+#endif

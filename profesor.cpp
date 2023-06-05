@@ -1,7 +1,18 @@
 #include "profesor.hpp"
+#include "controlador_usuarios.hpp"
 
-Profesor::Profesor(string nick,string con, string nom,string desc,TipoUsuario tp,string inst) : Usuario(nick,con,nom,desc,tp){
+using namespace std;
+
+Profesor::Profesor(string nick,string con, string nom,string desc,TipoUsuario tp,string inst, vector<DTIdioma> dts_idiomas):
+    Usuario(nick,con,nom,desc,tp)
+{
     this->instituto=inst;
+    ControladorUsuarios *cu = ControladorUsuarios::getInstance();
+    map<string, Idioma*> idiomas = cu->getIdiomas();
+    vector<DTIdioma>::iterator it;
+    for(it = dts_idiomas.begin(); it != dts_idiomas.end(); it++) {
+        idiomasEsp.push_back(idiomas.find(it->getNombre())->second);
+    }
 }
 
 Profesor::~Profesor(){}
@@ -16,10 +27,10 @@ void Profesor::setInstituto(string inst){
 
 vector<DTIdioma> Profesor::getDTidiomas(){
     vector<DTIdioma> id;
-    map<string,Idioma*>::iterator it;
+    vector<Idioma*>::iterator it;
     it = this->idiomasEsp.begin();
-    while(it <= this->idiomasEsp.end()){
-        id.insert(id.begin(),*it->getDataIdioma());
+    while(it != this->idiomasEsp.end()){
+        id.insert(id.begin(),(*it)->getDataIdioma());
         it++;
     }
     return id;
@@ -28,28 +39,9 @@ vector<DTIdioma> Profesor::getDTidiomas(){
 vector<DTEstProfesor> Profesor::listarEstProfesor(){
     vector<DTEstProfesor> dtep;
     for(auto i = this->cursosADar.begin();i != this->cursosADar.end();i++){
-        DTEstProfesor dt = DTEstProfesor(*i,*i->getPromedioAvance());
+        DTEstProfesor dt = DTEstProfesor((*i)->getdataCurso(), (*i)->getPromedioAvance());
         dtep.insert(dtep.begin(),dt);
     }
     return dtep;
 }
 
-void Profesor::agregarIdiomaEsp(Idioma id){
-    this->idiomasEsp.insert(par<string,Idioma*>(this->idiomasEsp.begin(),id));
-}
-
-void Profesor::eliminarIdiomaEsp(Idioma id){
-    if(this->idiomasEsp.count(id.getNombre())){
-        this->idiomasEsp.erase(id.getNombre());
-    }
-}
-
-void Profesor::agregarCurso(Curso c){
-    this->cursosADar.insert(par<string,Curso*>(this->cursosADar.begin(),c));
-}
-
-void Profesor::eliminarCurso(Curso c){
-    if(this->cursosADar.count(c.getNombre())){
-        this->cursosADar.erase(c.getNombre());
-    }
-}

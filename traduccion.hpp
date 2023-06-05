@@ -1,3 +1,6 @@
+#ifndef TRADUCCION_HPP
+#define TRADUCCION_HPP
+
 #include <string>
 #include "ejercicio.hpp"
 
@@ -14,3 +17,5 @@ class Traduccion : public Ejercicio{
         string getTraduccion_frase();
         bool estaAprobadoT(string);
 };
+
+#endif

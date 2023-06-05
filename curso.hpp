@@ -1,3 +1,6 @@
+#ifndef CURSO_HPP
+#define CURSO_HPP
+
 #include <string>
 #include <vector>
 #include "dificultad.hpp"
@@ -6,12 +9,13 @@
 #include "dt_profesor.hpp"
 #include "dt_curso.hpp"
 #include "controlador_usuarios.hpp"
-#include "inscripcion.hpp"
 #include "leccion.hpp"
 #include "ejercicio.hpp"
-#include "profesor.hpp"
 #include "dt_estudiante.hpp"
 using namespace std;
+
+class Inscripcion;
+class Profesor;
 
 class Curso{
 private:
@@ -34,3 +38,5 @@ public:
     DTEstCurso listarEstCurso(string nickname);
     int getPromedioAvance();
 };
+
+#endif

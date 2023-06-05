@@ -1,6 +1,6 @@
 #include "traduccion.hpp"
 
-Traduccion::Traduccion(string desc,TipoEjercicio t,string fat,string tf) : ejercicio(desc,t){
+Traduccion::Traduccion(string desc,TipoEjercicio t,string fat,string tf) : Ejercicio(desc,t){
     this->frase_a_traducir=fat;
     this->traduccion_frase=tf;
 }

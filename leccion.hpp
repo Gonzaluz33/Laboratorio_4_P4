@@ -1,5 +1,9 @@
+#ifndef LECCION_HPP
+#define LECCION_HPP
+
 #include <string>
 #include "tipo_ejercicio.hpp"
+#include "ejercicio.hpp"
 #include <vector>
 #include <map>
 using namespace std;
@@ -10,9 +14,9 @@ private:
     int cantEjerciciosHechos;
     string nombreTema;
     string objetivo;
-    map<string, Ejercicio*> Ejercicios;
+    map<string, Ejercicio*> ejercicios;
 public:
-    leccion(int totalE, string nomTema, string objetivo);
+    Leccion(int totalE, string nomTema, string objetivo);
     int getTotalEjercicios();
     int getCantEjerciciosHechos();
     string getNombreTema();
@@ -20,3 +24,5 @@ public:
     void crearCP(string descripcion,string fac, string sol);
     void crearTR(string descripcion, string fat, string trad);
 };
+
+#endif

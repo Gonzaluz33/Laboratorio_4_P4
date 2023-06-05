@@ -1,26 +1,23 @@
 #include "inscripcion.hpp"
 
-Inscripcion::Inscripcion(DTFecha fechaInscripcion, int porEjerReal, int cantEjerReal, bool cursoAprobado){
-    this->fechaInscripcion = fechaInscripcion;
+Inscripcion::Inscripcion(DTFecha fechaInscripcion, int porEjerReal, int cantEjerReal, bool cursoAprobado):
+    fechaInscripcion(fechaInscripcion)
+{
     this->porcentajeEjerciciosRealizados = porEjerReal;
     this->cantidadEjerciciosRealizados = cantEjerReal;
-    this->cursoAprobado;
+    this->cursoAprobado = cursoAprobado;
 }
 
 Inscripcion::~Inscripcion(){}
 
 DTFecha Inscripcion::getFechaInscripcion(){
-    return this->fechaIncripcion;
+    return this->fechaInscripcion;
 }
 
 DTCurso Inscripcion::getDataCurso(){
-    return this->cursoAsignado;
-}
 
-int Inscripcion::getCantEjerciciosHechos(){
-    return this->cantEjerciciosHechos;
-}
-    
+    return this->cursoAsignado->getdataCurso();
+}   
 
 int Inscripcion::getPorcentajeEjerciciosRealizados(){
     return this->porcentajeEjerciciosRealizados;
@@ -40,19 +37,18 @@ Leccion* Inscripcion::getLeccionActual(){
 }
 
 vector<DTEjercicio> Inscripcion::listarEjerciciosPendientes(){
-   map<string,DTEjercicio> SetDTEjercicio;
-    for (it=this->Incripciones.begin(); it!=this->Inscripciones.end(); ++it){
-        if(this->Ejercicios[it]->estaPendiente()){
-            SetDTEjercicio.insert(this->Ejercicios[it]->getDataEjercicio());
-        }
-   }
+    vector<DTEjercicio> SetDTEjercicios;
+    map<string, Ejercicio*>::iterator it;
+    for (it = this->ejerciciosPendientes.begin(); it != this->ejerciciosPendientes.end(); ++it){
+        SetDTEjercicios.push_back(it->second->getDataEjercicio());
+    }
    return SetDTEjercicios;
 }
 
 DTEstEstudiante Inscripcion::getEstEstudiante(){
     DTCurso nuevo = this->cursoAsignado->getdataCurso();
     int promedioAvance = this->cursoAsignado->getPromedioAvance();
-    DTEstEstudiante curso =  DtEstEstudiante(nuevo, promedioAvance);
+    DTEstEstudiante curso =  DTEstEstudiante(nuevo, promedioAvance);
     return curso;
 }
 
@@ -62,19 +58,9 @@ void Inscripcion::incrementarCantEjRealizados(){
 
 void Inscripcion::eliminarDePendientes(Ejercicio* ej){
     string des_a_comparar = ej->getDescripcion();
-    map<string,Ejercicio*>::iterator it;
-    for(it = this->Ejercicios.begin(); it != this->Ejercicios.end(); ++it){
-        if(des_a_comparar == *it->getDescripcion()){   
-            Ejercicio* borrar = *it;
-            delete borrar;
-            this->Ejercicios.erase(it);
-        }
-    }
+    ejerciciosPendientes.erase(des_a_comparar);
 }
 
 bool Inscripcion::leccionTerminada(int cantEjActualizado, int totalEj){
     return cantEjActualizado==totalEj;
-}
-int Inscripcion::getPorcentajeEjerciciosRealizados(){
-    return this->porsentajeEjerciciosRealizados;
 }

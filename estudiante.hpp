@@ -1,7 +1,10 @@
+#ifndef ESTUDIANTE_HPP
+#define ESTUDIANTE_HPP
+
 #include "usuario.hpp"
+#include "ejercicio.hpp"
 #include "dt_est_estudiante.hpp"
 #include "dt_curso.hpp"
-#include "inscripcion.hpp"
 #include "dt_ejercicio.hpp"
 #include "dt_fecha.hpp"
 #include <map>
@@ -9,13 +12,15 @@
 
 using namespace std;
 
+class Inscripcion;
+
 class Estudiante:public Usuario {
     private:
         string pais_residencia;
         DTFecha fecha_nacimiento;
         map<string, Inscripcion*> inscripciones;
     public:
-        Estudiante(string,string,string,string,TipoUsuario,string,DTFecha);
+        Estudiante(string nick, string contr, string nom, string desc,TipoUsuario tu,string pr,DTFecha fn);
         virtual ~Estudiante();
         void setPaisResidencia(string);
         string getPaisResidencia();
@@ -23,6 +28,8 @@ class Estudiante:public Usuario {
         DTFecha getFechaNacimiento();
         vector<DTEstEstudiante> listarEstEstudiante();
         vector<DTEjercicio> listarEjerciciosPendientes(string);
-        void actualizarInscripcion(string);
+        void actualizarInscripcion(string,Ejercicio *);
         vector<Inscripcion*> getInscripciones();
 };
+
+#endif

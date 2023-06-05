@@ -1,3 +1,5 @@
+#ifndef DT_FECHA_HPP
+#define DT_FECHA_HPP
 
 class DTFecha {
     private:
@@ -7,7 +9,7 @@ class DTFecha {
     public:
         DTFecha(int,int,int);
         ~DTFecha();
-         bool operator==(const DTFecha& other) const {
+        bool operator==(const DTFecha& other) const {
         return (dia == other.dia && mes == other.mes && anio == other.anio);
         };
         int getDia();
@@ -15,3 +17,4 @@ class DTFecha {
         int getAnio();
 };
 
+#endif

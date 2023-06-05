@@ -1,5 +1,6 @@
-#ifndef dt_est_profesor
-#define dt_est_profesor
+#ifndef DT_EST_PROFESOR_HPP
+#define DT_EST_PROFESOR_HPP
+
 #include "dt_curso.hpp"
 
 class DTEstProfesor {
@@ -11,5 +12,6 @@ class DTEstProfesor {
         ~DTEstProfesor();
         DTCurso getCurso();
         int getPromedioAvance();
-        DTEstProfesor(DTCurso,int);
 };
+
+#endif

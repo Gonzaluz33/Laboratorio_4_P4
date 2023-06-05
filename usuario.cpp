@@ -57,14 +57,13 @@ void Usuario::setTipo(TipoUsuario tu){
     this->tipo = tu;
 }
 
-void Usuario::agregaridioma(Idioma i){
-    Idioma *id = new Idioma;
-    this->idiomasSuscritos.insert(pair<string,idioma*>(i.getNombre(),id));
+void Usuario::agregarIdioma(Idioma *i){
+    this->idiomasSuscritos.insert(pair<string,Idioma*>(i->getNombre(),i));
 }
 
-void Usuario::eliminaridioma(Idioma id){
-    if(this->idiomasSuscritos.count(id.getNombre())){
-        this->idiomasSuscritos.erase(id.getNombre());
+void Usuario::eliminarIdioma(Idioma *id){
+    if(this->idiomasSuscritos.count(id->getNombre())){
+        this->idiomasSuscritos.erase(id->getNombre());
     }
 }
 
@@ -72,8 +71,8 @@ vector<DTIdioma> Usuario::listarDTidiomasSuscritos(){
     vector<DTIdioma> id_sus;
     map<string,Idioma*>::iterator it;
     it = this->idiomasSuscritos.begin();
-    while(it <= this->idiomasSuscritos.end()){
-        Idioma *current = *it;
+    while(it != this->idiomasSuscritos.end()){
+        Idioma *current = it->second;
         id_sus.insert(id_sus.begin(),current->getDataIdioma());
         it++;
     }
@@ -96,7 +95,7 @@ void Usuario::eliminarNotificaciones(string nombre_curso){
     vector<Notificacion*>::iterator it;
     it = this->notificaciones.begin();
     int j = 0;
-    while((j == 0) || (it < this->idiomasSuscritos.end())){
+    while((j == 0) || (it != this->notificaciones.end())){
         Notificacion *current = *it;
         if(current->getNombreCurso() == nombre_curso){
             j = 1;
@@ -109,6 +108,6 @@ void Usuario::eliminarNotificaciones(string nombre_curso){
 }
 
 void Usuario::notificar(string nombreCurso, string nombreIdioma){
-    Notificacion n = Notificacion(nombreCurso,nombreIdioma);
-    this->notificaciones.insert(this->notificaciones.begin(),n);
+    Notificacion *n = new Notificacion(nombreCurso,nombreIdioma);
+    this->notificaciones.push_back(n);
 }

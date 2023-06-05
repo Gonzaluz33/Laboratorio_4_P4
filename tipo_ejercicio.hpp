@@ -2,8 +2,8 @@
 #define TIPO_EJERCICIO_HPP
 
 enum TipoEjercicio {
-    CompletarPalabras,
-    Traduccion
+    CompPalabras,
+    Trad
 };
 
 #endif

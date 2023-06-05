@@ -1,13 +1,13 @@
-#ifndef completarPalabras
-#define completarPalabras
+#ifndef COMPLETARPALABRAS_HPP
+#define COMPLETARPALABRAS_HPP
 #include "ejercicio.hpp"
 
-class CompletarPalabras : public ejercicio{
+class CompletarPalabras : public Ejercicio{
     private:
         string frase;
         string Palabras_faltantes;
     public:
-        CompletarPalabras(string,tipoEjercicio,string,string);
+        CompletarPalabras(string, TipoEjercicio,string,string);
         ~CompletarPalabras();
         string getFrase();
         string getPalabras_faltantes();
@@ -15,3 +15,5 @@ class CompletarPalabras : public ejercicio{
         void setPalabras_faltantes(string);
         bool estaAprobadoCP(string);
 };
+
+#endif

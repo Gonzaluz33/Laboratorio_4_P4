@@ -1,3 +1,6 @@
+#ifndef DT_EST_ESTUDIANTE_HPP
+#define DT_EST_ESTUDIANTE_HPP
+
 #include "dt_curso.hpp"
 
 class DTEstEstudiante{
@@ -10,3 +13,5 @@ class DTEstEstudiante{
         DTCurso getDTCurso();
         int getAvance();
 };
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef PROFESOR_HPP
+#define PROFESOR_HPP
+
 #include <string>
 #include <map>
 #include "usuario.hpp"
@@ -13,16 +16,12 @@ class Profesor : public Usuario{
         vector<Idioma*> idiomasEsp;
         vector<Curso*> cursosADar;
     public:
-        Profesor(string,string,string,string,TipoUsuario,string);
+        Profesor(string nick, string con, string nom, string desc, TipoUsuario tp, string inst, vector<DTIdioma> dts_idiomas);
         virtual ~Profesor();
         string getInstituto();
         void setInstituto(string);
         vector<DTIdioma> getDTidiomas();
         vector<DTEstProfesor> listarEstProfesor();
-        void agregarIdiomaEsp(Idioma);
-        void eliminarIdiomaEsp(Idioma);
-        void agregarCurso(Curso);
-        void eliminarCurso(Curso);
 };
 
-
+#endif

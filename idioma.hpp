@@ -1,3 +1,6 @@
+#ifndef IDIOMA_HPP
+#define IDIOMA_HPP
+
 #include "string"
 #include "dt_idioma.hpp"
 #include "IObserver.hpp"
@@ -7,7 +10,7 @@
 class Idioma {
     private:
         string nombre;
-        set<INotificador *> observadores;
+        set<IObserver *> observadores;
         void notificarCambio(string nombre_curso);
     public:
         Idioma(string nombre);
@@ -18,3 +21,5 @@ class Idioma {
         void eliminarObservador(IObserver *o);
         vector <DTIdioma> compararIdioma(vector <DTIdioma>iS); 
 };
+
+#endif

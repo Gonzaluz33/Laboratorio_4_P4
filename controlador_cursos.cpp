@@ -33,8 +33,9 @@ void ControladorCursos::seleccionarIdiomaCurso(DTIdioma idioma) {
 
 vector<DTCurso> ControladorCursos::listarCursosHabilitados() {
     vector<DTCurso> salida;
-    for(int i = 0; i < cursosHabilitados.size(); i++) {
-        salida.push_back(cursosHabilitados[i]->getDTCurso());
+    map<string, Curso*>::iterator it;
+    for(it = cursosHabilitados.begin(); it != cursosHabilitados.end(); it++) {
+        salida.push_back(it->second->getdataCurso());
     }
 }
 

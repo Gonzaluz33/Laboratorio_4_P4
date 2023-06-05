@@ -1,5 +1,8 @@
+#ifndef EJERCICIO_HPP
+#define EJERCICIO_HPP
+
 #include <string>
-#include "dt_ejercicio"
+#include "dt_ejercicio.hpp"
 #include "tipo_ejercicio.hpp"
 
 using namespace std;
@@ -7,14 +10,16 @@ using namespace std;
 class Ejercicio{
     private:
         string descripcion;
-        tipoEjercicio tipo;
+        TipoEjercicio tipo;
     public:
-        Ejercicio(string,tipoEjercicio);
+        Ejercicio(string,TipoEjercicio);
         virtual ~Ejercicio();
         string getDescripcion();
         void setDescripcion(string);
-        tipoEjercicio getTipo();
+        TipoEjercicio getTipo();
         void setTipo(TipoEjercicio);
         bool estaPendiente();
         DTEjercicio getDataEjercicio();
 };
+
+#endif

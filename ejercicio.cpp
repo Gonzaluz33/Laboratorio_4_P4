@@ -1,6 +1,6 @@
 #include "ejercicio.hpp"
 
-Ejercicio::Ejercicio(string desc,tipoEjercicio t){
+Ejercicio::Ejercicio(string desc, TipoEjercicio t){
     this->descripcion = desc;
     this->tipo = t;
 }
@@ -15,7 +15,7 @@ void Ejercicio::setDescripcion(string desc){
     this->descripcion = desc;
 }
 
-tipoEjercicio Ejercicio::getTipo(){
+TipoEjercicio Ejercicio::getTipo(){
     return this->tipo;
 }
 
@@ -23,6 +23,6 @@ void Ejercicio::setTipo(TipoEjercicio t){
     this->tipo = t;
 }
 DTEjercicio Ejercicio::getDataEjercicio(){
-    DTEjercicio dte = DTEjercicio(this->descripcion,this->tipo);
+    DTEjercicio dte = DTEjercicio(this->descripcion);
     return dte;
 }
