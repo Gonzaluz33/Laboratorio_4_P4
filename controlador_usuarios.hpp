@@ -10,7 +10,7 @@ class DTEstProfesor;
 class DTCurso;
 class DTNotificacion;
 class Usuario;
-enum TipoUsuario {Profesor ,Estudiante };
+enum TipoUsuario {Prof,Est};
 
 class ControladorUsuarios {
     private: 
@@ -40,14 +40,14 @@ class ControladorUsuarios {
     bool altaUsuario();
     Usuario* buscarUsuario(string nickname);//auxiliar
     vector <string> listarEstudiantes();
-    vector <DTEstEstudiante*> listarEstEstudiante(string nickname); 
+    vector <DTEstEstudiante> listarEstEstudiante(string nickname); 
     vector <string> listarProfesores(); 
-    vector <DTEstProfesor*> listarEstProfesor(string nickname);
-    vector <DTIdioma*> listaIdiomasProfesor(string nickname);
-    vector <DTCurso*> listarCursosNoAprobados(string nickname);
-    vector <DTNotificacion*> listarNotificaciones(string nickname);
-    vector <DTIdioma*>listarIdiomasSuscritos(string nickname);
-    vector <DTIdioma*> listarIdiomasNoSuscritos(string nickname);
+    vector <DTEstProfesor> listarEstProfesor(string nickname);
+    vector <DTIdioma> listaIdiomasProfesor(string nickname);
+    vector <DTCurso> listarCursosNoAprobados(string nickname);
+    vector <DTNotificacion> listarNotificaciones(string nickname);
+    vector <DTIdioma>listarIdiomasSuscritos(string nickname);
+    vector <DTIdioma> listarIdiomasNoSuscritos(string nickname);
     void suscribir(vector <Idioma*> idiomasASuscribir);
     void eliminarSuscripcion(vector <Idioma*>idiomasAEliminar);
 };

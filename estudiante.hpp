@@ -24,4 +24,5 @@ class Estudiante:public Usuario {
         vector<DTEstEstudiante> listarEstEstudiante();
         vector<DTEjercicio> listarEjerciciosPendientes(string);
         void actualizarInscripcion(string);
+        vector<Inscripcion*> getInscripciones();
 };
