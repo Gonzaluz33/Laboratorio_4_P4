@@ -12,24 +12,12 @@ string Curso::getNombre(){
     return this->nombre;
 }
 
-void Curso::setNombre(string nom){
-    this->nombre = nom;
-}
-
 string Curso::getDescripcion(){
     return this->descripcion;
 }
 
-void Curso::setDescripcion(string des){
-    this->descripcion = des;
-} 
-
 Dificultad Curso::getDificultad(){
     return this->dificultad;
-}
-
-void Curso::setDificultad(Dificultad dif){
-    this->dificultad = dif;
 }
 
 DTCurso Curso::getdataCurso(){

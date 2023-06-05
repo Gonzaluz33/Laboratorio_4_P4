@@ -13,39 +13,28 @@ DTFecha Inscripcion::getFechaInscripcion(){
     return this->fechaIncripcion;
 }
 
-void Inscripcion::setFechaInscripcion(DTFecha f){
-    this->fechaInscripcion = f;
+DTCurso Inscripcion::getDataCurso(){
+    return this->cursoAsignado;
 }
+
 int Inscripcion::getCantEjerciciosHechos(){
     return this->cantEjerciciosHechos;
 }
     
-void Inscripcion::setCantTotalHechos(int t){
-    this->cantEjerciciosHechos = t;
-}
 
 int Inscripcion::getPorcentajeEjerciciosRealizados(){
     return this->porcentajeEjerciciosRealizados;
 }
 
-void Inscripcion::setPorcentajeEjerciciosRealizados(int p){
-    this->porcentajeEjerciciosRealizados = p;
-}
 
 int Inscripcion::getCantidadEjerciciosRealizados(){
     return this->cantidadEjerciciosRealizados;
-}
-void Inscripcion::setCantidadEjerciciosRealizados(int cant){
-    this->cantidadEjerciciosRealizados = cant;
 }
 
 bool Inscripcion::getCursoAprobado(){
     return this->cursoAprobado;
 }
 
-void Inscripcion::setCursoAprobado(bool curso){
-    this->cursoAprobado = curso;
-}
 Leccion* Inscripcion::getLeccionActual(){
     return this->leccionAsignada;
 }
@@ -58,7 +47,6 @@ vector<DTEjercicio> Inscripcion::listarEjerciciosPendientes(){
         }
    }
    return SetDTEjercicios;
-   
 }
 
 DTEstEstudiante Inscripcion::getEstEstudiante(){
