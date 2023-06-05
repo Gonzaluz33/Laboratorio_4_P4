@@ -7,12 +7,13 @@
 #include "notificacion.hpp"
 #include "dt_fecha.hpp"
 #include "dt_notificacion.hpp"
+#include "IObserver.hpp"
 
 using namespace std;
 
 
 
-class Usuario{
+class Usuario : public IObserver{
     private:
         string nickname;
         string contrasena;

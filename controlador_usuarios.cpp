@@ -255,7 +255,8 @@ void ControladorUsuarios::suscribir(vector<Idioma*> idiomasASuscribir)
     {
         user->agregarIdioma((*it));
         Idioma* asignar = (*it);
-        asignar->agregarObservador(user);
+        IObserver* basePtr = &user;
+        asignar->agregarObservador(basePtr);
     }
 };
 
