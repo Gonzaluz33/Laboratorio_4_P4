@@ -19,13 +19,10 @@ public:
     Inscripcion(DTFecha fechaInscripcion, int porEjerReal, int cantEjerReal, bool cursoAprobado);
     virtual~Inscripcion();
     DTFecha getFechaInscripcion();
-    void setFechaInscripcion(DTFecha f);
+    DTCurso getDataCurso();
     int getPorcentajeEjerciciosRealizados();
-    void setPorcentajeEjerciciosRealizados(int p);
     int getCantidadEjerciciosRealizados();
-    void setCantidadEjerciciosRealizados(int cant);
     bool getCursoAprobado();
-    void setCursoAprobado(bool curso);
     DTEstEstudiante getEstEstudiante();
     Leccion* getLeccionActual();
     vector<DTEjercicio> listarEjerciciosPendientes();

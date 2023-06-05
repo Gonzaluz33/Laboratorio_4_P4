@@ -26,11 +26,8 @@ public:
     Curso(string nombre, string descripcion, Dificultad dificultad);
     virtual ~Curso();
     string getNombre();
-    void setNombre(string nom);
     string getDescripcion();
-    void setDescripcion(string des);
     Dificultad getDificultad();
-    void setDificultad(Dificultad dif);
     DTCurso getdataCurso();
     int getTotalEjercicios();
     void crearLeccion(string nombreTema, string objetivo);

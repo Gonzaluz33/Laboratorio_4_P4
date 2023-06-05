@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include "IObserver.hpp"
 #include "tipo_usuario.hpp"
 #include "dt_idioma.hpp"
 #include "idioma.hpp"
