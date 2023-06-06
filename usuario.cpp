@@ -111,3 +111,7 @@ void Usuario::notificar(string nombreCurso, string nombreIdioma){
     Notificacion *n = new Notificacion(nombreCurso,nombreIdioma);
     this->notificaciones.push_back(n);
 }
+
+DTUsuario Usuario::getDataUsuario() {
+    return DTUsuario(nickname, nombre, descripcion);
+}

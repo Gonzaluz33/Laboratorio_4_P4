@@ -11,7 +11,6 @@ class Idioma {
     private:
         string nombre;
         set<IObserver *> observadores;
-        void notificarCambio(string nombre_curso);
     public:
         Idioma(string nombre);
         virtual ~Idioma();
@@ -20,6 +19,7 @@ class Idioma {
         void agregarObservador(IObserver *o); 
         void eliminarObservador(IObserver *o);
         vector <DTIdioma> compararIdioma(vector <DTIdioma>iS); 
+        void notificarCambio(string nombre_curso);
 };
 
 #endif

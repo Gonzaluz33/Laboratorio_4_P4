@@ -8,26 +8,31 @@
 #include "dt_idioma.hpp"
 #include "dt_profesor.hpp"
 #include "dt_curso.hpp"
+#include "dt_leccion.hpp"
 #include "controlador_usuarios.hpp"
 #include "leccion.hpp"
 #include "ejercicio.hpp"
 #include "dt_estudiante.hpp"
+#include "idioma.hpp"
+
 using namespace std;
 
 class Inscripcion;
 class Profesor;
 
-class Curso{
+class Curso {
 private:
     string nombre;
     string descripcion;
     Dificultad dificultad;
-    map <string, Inscripcion*> Inscripciones;
-    vector <Leccion*> Lecciones;
+    map <string, Inscripcion*> inscripciones;
+    vector <Leccion*> lecciones;
     Profesor* profesorAsignado;
+    Idioma *idioma;
+    vector<Curso*> cursosPrevios;
 
 public:
-    Curso(string nombre, string descripcion, Dificultad dificultad);
+    Curso(string nombre, string descripcion, Dificultad dificultad, Profesor *profesor, Idioma *idioma, vector<Curso*> cursosPrevios);
     virtual ~Curso();
     string getNombre();
     string getDescripcion();
@@ -35,8 +40,13 @@ public:
     DTCurso getdataCurso();
     int getTotalEjercicios();
     void crearLeccion(string nombreTema, string objetivo);
-    DTEstCurso listarEstCurso(string nickname);
+    DTEstCurso listarEstCurso();
     int getPromedioAvance();
+    vector<Leccion*> getLecciones();
+    Idioma *getIdioma();
+    vector<DTLeccion> listarLeccionesOrdenado();
+    Leccion *seleccionarLeccion(string nombreTema);
+    vector<Curso*> getCursosPrevios();
 };
 
 #endif

@@ -7,6 +7,7 @@
 #include "dt_est_profesor.hpp"
 #include "dt_idioma.hpp"
 #include "curso.hpp"
+#include "dt_profesor.hpp"
 
 using namespace std;
 
@@ -22,6 +23,7 @@ class Profesor : public Usuario{
         void setInstituto(string);
         vector<DTIdioma> getDTidiomas();
         vector<DTEstProfesor> listarEstProfesor();
+        DTProfesor getDataProfesor();
 };
 
 #endif

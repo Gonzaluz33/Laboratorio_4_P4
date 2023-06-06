@@ -12,6 +12,7 @@
 #include "dt_fecha.hpp"
 #include "dt_notificacion.hpp"
 #include "IObserver.hpp"
+#include "dt_usuario.hpp"
 
 using namespace std;
 
@@ -45,6 +46,7 @@ class Usuario : public IObserver{
         vector<DTIdioma> listarDTidiomasSuscritos();
         vector<DTNotificacion> getDTNotificaciones();
         void eliminarNotificaciones(string);
+        DTUsuario getDataUsuario();
 };
 
 #endif

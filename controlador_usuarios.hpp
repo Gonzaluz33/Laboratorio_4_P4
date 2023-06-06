@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <vector>
-#include <set>
 #include <map>
 #include "tipo_usuario.hpp"
 #include "dt_idioma.hpp"
@@ -12,15 +11,16 @@
 #include "usuario.hpp"
 #include "dt_est_estudiante.hpp"
 #include "dt_est_profesor.hpp"
+#include "icontrolador_usuarios.hpp"
 
 using namespace std;
 
-class ControladorUsuarios {
-    private: 
+class ControladorUsuarios : public IControladorUsuarios {
+    private:
+        ControladorUsuarios();
         ~ControladorUsuarios();
         static ControladorUsuarios* instancia;
-        ControladorUsuarios();
-        map<string, Usuario*> Usuarios;
+        map<string, Usuario*> usuarios;
         map<string,Idioma*> Idiomas;        
         string nickname_recordado;
         string contrasena_recordado;
@@ -35,7 +35,8 @@ class ControladorUsuarios {
     public:
         void liberarMemoriaRecordada();
         static ControladorUsuarios* getInstance();
-        void iniciarAltaUsuario (string nickname ,string contrasenia,string nombre,string descripcion, TipoUsuario tipo);
+        void iniciarAltaUsuario (string nickname ,string contrasenia,string nombre,
+                                 string descripcion, TipoUsuario tipo);
         void datosAdicionalesEstudiante(string nom_Pais,DTFecha fecha_Nacimiento);
         void datosAdicionalesProfesor(string nom_Instituto);
         vector <DTIdioma> listarIdiomas();

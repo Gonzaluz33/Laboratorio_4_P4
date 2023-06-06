@@ -1,8 +1,9 @@
 #include "dt_est_profesor.hpp"
 
 
-DTEstProfesor::DTEstProfesor(DTCurso c,int promedio){
-    this->curso = c;
+DTEstProfesor::DTEstProfesor(DTCurso c,int promedio):
+    curso(c)
+{
     this->promedio_avance = promedio;
 }
 

@@ -11,6 +11,7 @@
 #include "ejercicio.hpp"
 #include "dt_est_curso.hpp"
 #include "dt_est_estudiante.hpp"
+
 using namespace std;
 
 class Inscripcion{
@@ -24,7 +25,7 @@ private:
     Leccion* leccionAsignada;
     map<string, Ejercicio*> ejerciciosPendientes;
 public:
-    Inscripcion(DTFecha fechaInscripcion, int porEjerReal, int cantEjerReal, bool cursoAprobado);
+    Inscripcion(Curso *curso, Estudiante *estudiante, DTFecha fechaInscripcion);
     virtual~Inscripcion();
     DTFecha getFechaInscripcion();
     DTCurso getDataCurso();
@@ -36,7 +37,9 @@ public:
     vector<DTEjercicio> listarEjerciciosPendientes();
     void incrementarCantEjRealizados();
     void eliminarDePendientes(Ejercicio *ej);
-    bool leccionTerminada(int cantEjActualizado, int totalEj);
+    Curso *getCurso();
+    //bool leccionTerminada(int cantEjActualizado, int totalEj); Parece que no lo usamos
+    //int getCantidadEjerciciosPendientes();
 };
 
 #endif

@@ -1,6 +1,8 @@
 #include "completarPalabras.hpp"
 
-CompletarPalabras::CompletarPalabras(string desc,tipoEjercicio t,string fr,string pf) : ejercicio(desc,t){
+CompletarPalabras::CompletarPalabras(string desc, TipoEjercicio t,string fr,string pf):
+    Ejercicio(desc,t)
+{
     this->frase = fr;
     this->Palabras_faltantes = pf;
 }
@@ -20,9 +22,9 @@ void CompletarPalabras::setFrase(string fr){
 }
 
 void CompletarPalabras::setPalabras_faltantes(string pf){
-    this->Palabras_faltantes;
+    this->Palabras_faltantes = pf;
 }
 
 bool CompletarPalabras::estaAprobadoCP(string palabras_faltantes){
-    return palabras_faltantes==this->Palabras_faltantes;
+    return palabras_faltantes == this->Palabras_faltantes;
 }

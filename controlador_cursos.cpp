@@ -1,5 +1,11 @@
 #include "controlador_cursos.hpp"
 #include "controlador_usuarios.hpp"
+#include "profesor.hpp"
+#include "estudiante.hpp"
+#include "inscripcion.hpp"
+#include "ejercicio.hpp"
+#include "completarPalabras.hpp"
+#include "traduccion.hpp"
 
 ControladorCursos::ControladorCursos() {
 
@@ -28,7 +34,7 @@ vector<DTIdioma> ControladorCursos::listaIdiomasProfesor(string nickname) {
 }
 
 void ControladorCursos::seleccionarIdiomaCurso(DTIdioma idioma) {
-    idioma_recordado = idioma;
+    idioma_recordado = idioma.getNombre();
 }
 
 vector<DTCurso> ControladorCursos::listarCursosHabilitados() {
@@ -37,19 +43,29 @@ vector<DTCurso> ControladorCursos::listarCursosHabilitados() {
     for(it = cursosHabilitados.begin(); it != cursosHabilitados.end(); it++) {
         salida.push_back(it->second->getdataCurso());
     }
+    return salida;
 }
 
 void ControladorCursos::seleccionarCursosPrevios(string nombre) {
-    cursosPrevios.push_back(nombre);
+    nombresCursosPrevios.push_back(nombre);
 }
 
 void ControladorCursos::crearCurso() {
-    curso_recordado = new Curso(nickname_recordado, nombreCurso_recordado,
-                                descripcion_recordado, dificultad_recordado,
-                                idioma_recordado, cursosPrevios);
+    //string nombre, string descripcion, Dificultad dificultad, Profesor *profesor, Idioma *idioma, vector<Curso*> cursosPrevios
+    ControladorUsuarios *cu = ControladorUsuarios::getInstance();
+    Profesor *profesor = dynamic_cast<Profesor*>(cu->buscarUsuario(nickname_recordado));
+    Idioma *idioma = cu->getIdiomas().find(idioma_recordado)->second;
+    vector<Curso*> cursosPrevios;
+    vector<string>::iterator it;
+    for (it = nombresCursosPrevios.begin(); it != nombresCursosPrevios.end(); it++) {
+        cursosPrevios.push_back(cursosHabilitados.find(*it)->second);
+    }
+    curso_recordado = new Curso(nombreCurso_recordado, descripcion_recordado,
+                                dificultad_recordado, profesor,
+                                idioma, cursosPrevios);
 
     /* Libero memoria */
-    cursosPrevios.clear();
+    nombresCursosPrevios.clear();
     nickname_recordado.clear();
     nombreCurso_recordado.clear();
     descripcion_recordado.clear();
@@ -64,9 +80,9 @@ void ControladorCursos::darAltaCurso() {
     cursosNoHabilitados.insert(pair<string, Curso*>(curso_recordado->getNombre(), curso_recordado));
 
     /* Notifico que se creo el curso */
-    idioma_notificacion = curso_recordado.getIdioma();
-    string nombreCurso_notificacion = curso_recordado.getNombre();
-    idioma_notificacion.notificarCambio(nombreCurso_notificacion);
+    idioma_notificacion = curso_recordado->getIdioma();
+    string nombreCurso_notificacion = curso_recordado->getNombre();
+    idioma_notificacion->notificarCambio(nombreCurso_notificacion);
 
     /* Libero memoria */
     curso_recordado = nullptr;
@@ -77,22 +93,28 @@ vector<DTCurso> ControladorCursos::listarCursosNoHabilitados() {
     
     map<string, Curso *>::iterator it;
     for(it = cursosNoHabilitados.begin(); it != cursosNoHabilitados.end(); it++) {
-        salida.push_back(it->second->getDTCurso());
+        salida.push_back(it->second->getdataCurso());
     }
     return salida;
 }
 
 void ControladorCursos::seleccionarCurso(string nombreCurso) {
-    pair<string, Curso *> curso_recordado_par = cursosNoHabilitados.find(nombreCurso);
+    map<string, Curso *>::iterator curso_recordado_par = cursosNoHabilitados.find(nombreCurso);
     if(curso_recordado_par == cursosNoHabilitados.end()) {
         curso_recordado_par = cursosHabilitados.find(nombreCurso);
     }
 
-    curso_recordado = curso_recordado_par.second;
+    curso_recordado = curso_recordado_par->second;
 }
 
 void ControladorCursos::crearLeccion(string nombreTema, string objetivo) {
-    leccion_recordada = curso_recordado->crearLeccion(nombreTema, objetivo);
+    curso_recordado->crearLeccion(nombreTema, objetivo);
+    vector<Leccion*> lecciones = curso_recordado->getLecciones();
+    vector<Leccion*>::iterator it = lecciones.begin();
+    while((*it)->getNombreTema() != nombreTema) {
+        it++;
+    }
+    leccion_recordada = (*it);
 }
 
 void ControladorCursos::altaLeccion() {
@@ -128,10 +150,10 @@ void ControladorCursos::agregarDatosTR(string fraseATraducir, string traduccion)
 
 void ControladorCursos::altaEjercicio() {
     switch (tipo_recordado) {
-    case CompletarPalabras:
+    case CompPalabras:
         leccion_recordada->crearCP(descripcionEjercicio_recordado, fraseACompletar_recordada, solucion_recordada);
         break;
-    case Traduccion:
+    case Trad:
         leccion_recordada->crearTR(descripcionEjercicio_recordado, fraseATraducir_recordada, traduccion_recordada);
         break;
     }
@@ -151,10 +173,10 @@ vector<DTCurso> ControladorCursos::listarCursos() {
     
     map<string, Curso *>::iterator it;
     for(it = cursosNoHabilitados.begin(); it != cursosNoHabilitados.end(); it++) {
-        salida.push_back(it->second->getDTCurso());
+        salida.push_back(it->second->getdataCurso());
     }
     for(it = cursosHabilitados.begin(); it != cursosHabilitados.end(); it++) {
-        salida.push_back(it->second->getDTCurso());
+        salida.push_back(it->second->getdataCurso());
     }
 
     return salida;
@@ -162,7 +184,7 @@ vector<DTCurso> ControladorCursos::listarCursos() {
 
 void ControladorCursos::eliminarCurso(string nombreCurso) {
     Curso *cursoAEliminar;
-    pair<string, Curso *> par = cursosNoHabilitados.find(nombreCurso);
+    map<string, Curso *>::iterator par = cursosNoHabilitados.find(nombreCurso);
     if(par == cursosNoHabilitados.end()) {
         par = cursosHabilitados.find(nombreCurso);
         cursosHabilitados.erase(nombreCurso);
@@ -170,32 +192,32 @@ void ControladorCursos::eliminarCurso(string nombreCurso) {
         cursosNoHabilitados.erase(nombreCurso);
     }
     
-    cursoAEliminar = par.second;
+    cursoAEliminar = par->second;
     
     delete cursoAEliminar;
 }
 
 vector<DTCurso> ControladorCursos::listarCursosNoAprobados(string nickname) {
     ControladorUsuarios *cu = ControladorUsuarios::getInstance();
-    estudiante_recordado = cu->getEstudiantes().find(nickname).second; // hay que implementarla
+    estudiante_recordado = dynamic_cast<Estudiante*>(cu->buscarUsuario(nickname));
     return cu->listarCursosNoAprobados(nickname);
 }
 
 vector<DTEjercicio> ControladorCursos::listarEjerciciosPendientes(string nombreCurso) {
-    vector<Inscripcion> inscripciones;
-    pair<string, Curso *> par = cursosNoHabilitados.find(nombreCurso);
+    map<string, Inscripcion*> inscripciones;
+    map<string, Curso *>::iterator par = cursosNoHabilitados.find(nombreCurso);
     if(par == cursosNoHabilitados.end()) {
         par = cursosHabilitados.find(nombreCurso);
     }
-    curso_recordado = par.second;
+    curso_recordado = par->second;
     inscripciones = estudiante_recordado->getInscripciones();
-    leccion_recordada = inscripciones.find(nombreCurso).second->getCurso();
+    leccion_recordada = inscripciones.find(nombreCurso)->second->getLeccionActual();
     return estudiante_recordado->listarEjerciciosPendientes(nombreCurso);
 }
 
 void ControladorCursos::seleccionarEjercicio(DTEjercicio ejercicio) {
     ejercicio_recordado = leccion_recordada->getEjercicios()
-                                        .find(ejercicio.getDescripcion()).second;
+                                        .find(ejercicio.getDescripcion())->second;
 }
 
 void ControladorCursos::ingresarSolucionCP(string sol) {
@@ -209,14 +231,16 @@ void ControladorCursos::ingresarSolucionT(string sol) {
 bool ControladorCursos::ejercicioAprobado() {
     bool aprobado;
 
-    if (/* es CompletarPalabras */true) { // como se que subclase es ????
-        aprobado = ejercicio_recordado->estaAprobadoCP(solucion_recordada);
+    CompletarPalabras *ejCP = dynamic_cast<CompletarPalabras*>(ejercicio_recordado);
+    if (ejCP) { // como se que subclase es ????
+        aprobado = ejCP->estaAprobadoCP(solucion_recordada);
     } else {
-        aprobado = ejercicio_recordado->estaAprobadoT(traduccion_recordada);
+        Traduccion *ejTR = dynamic_cast<Traduccion*>(ejercicio_recordado);
+        aprobado = ejTR->estaAprobadoT(traduccion_recordada);
     }
 
     if (aprobado) {
-        estudiante_recordado->actualizarInscripcion(curso_recordado->getNombre());
+        estudiante_recordado->actualizarInscripcion(curso_recordado->getNombre(), ejercicio_recordado);
     }
 
     /* Libero memoria */
@@ -226,22 +250,24 @@ bool ControladorCursos::ejercicioAprobado() {
     ejercicio_recordado = nullptr;
     solucion_recordada.clear();
     traduccion_recordada.clear();
+
+    return aprobado;
 }
 
 DTEstCurso ControladorCursos::listarEstCurso(string nombreCurso) {
     Curso *curso;
-    pair<string, Curso *> par = cursosNoHabilitados.find(nombreCurso);
+    map<string, Curso *>::iterator par = cursosNoHabilitados.find(nombreCurso);
     if(par == cursosNoHabilitados.end()) {
         par = cursosHabilitados.find(nombreCurso);
     }
-    curso = par.second;
+    curso = par->second;
 
     return curso->listarEstCurso();
 }
 
 bool ControladorCursos::habilitarCurso() {
-    map<string, Leccion *> lecciones;
-    map<string, Leccion *>::iterator it;
+    vector<Leccion*> lecciones;
+    vector<Leccion*>::iterator it;
     bool salida = false;
 
     lecciones = curso_recordado->getLecciones();
@@ -250,7 +276,7 @@ bool ControladorCursos::habilitarCurso() {
         while (it != lecciones.end() || salida) { // itero por las lecciones
                                                   // y si tiene ejercicio sigo
                                                   // si no tiene retorno true
-            if (it->second->getEjerciccios().begin() == it->second->getEjerciccios().end()) {
+            if ((*it)->getEjercicios().begin() == (*it)->getEjercicios().end()) {
                 salida = true;
             }
             it++;
@@ -266,9 +292,34 @@ bool ControladorCursos::habilitarCurso() {
 }
 
 DTCurso ControladorCursos::getDataCurso(string nombreCurso) {
-    pair<string, Curso *> par = cursosNoHabilitados.find(nombreCurso);
+    map<string, Curso *>::iterator par = cursosNoHabilitados.find(nombreCurso);
     if(par == cursosNoHabilitados.end()) {
         par = cursosHabilitados.find(nombreCurso);
     }
-    return par.second->getDataCurso();
+    return par->second->getdataCurso();
+}
+
+static bool estaApto(Estudiante *estudiante, vector<Curso *> cursosPrevios) {
+    bool estaAprobado = true;
+    vector<Curso*>::iterator it = cursosPrevios.begin();
+    while (it != cursosPrevios.end() && estaAprobado) {
+        Inscripcion *inscripcion = estudiante->getInscripcionDeCurso((*it)->getNombre());
+        estaAprobado = inscripcion->getCursoAprobado();
+        it++;
+    }
+    return estaAprobado;
+}
+
+// Cursos Habilitados 
+vector<DTCurso> ControladorCursos::listarCursosDisponibles(string nickname) {
+    ControladorUsuarios *cu = ControladorUsuarios::getInstance();
+    Estudiante *estudiante = dynamic_cast<Estudiante*>(cu->buscarUsuario(nickname));
+    vector<DTCurso> salida;
+    map<string, Curso*>::iterator it;
+    for (it = cursosHabilitados.begin(); it != cursosHabilitados.end(); it++) {
+        if (estaApto(estudiante, it->second->getCursosPrevios())) {
+            salida.push_back(it->second->getdataCurso());
+        }
+    }
+    return salida;
 }

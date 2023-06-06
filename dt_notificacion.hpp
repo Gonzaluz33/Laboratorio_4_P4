@@ -3,6 +3,8 @@
 
 #include <string>
 
+using namespace std;
+
 class DTNotificacion{
     private:
         string nombre_curso;

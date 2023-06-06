@@ -52,3 +52,11 @@ void Estudiante::actualizarInscripcion(string nombCurso,Ejercicio *ej){
     it->second->incrementarCantEjRealizados();
     it->second->eliminarDePendientes(ej);
 }
+
+Inscripcion *Estudiante::getInscripcionDeCurso(string nombreCurso) {
+    return inscripciones.find(nombreCurso)->second;
+}
+
+map<string, Inscripcion*> Estudiante::getInscripciones() {
+    return inscripciones;
+}

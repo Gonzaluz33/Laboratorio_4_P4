@@ -45,3 +45,11 @@ vector<DTEstProfesor> Profesor::listarEstProfesor(){
     return dtep;
 }
 
+DTProfesor Profesor::getDataProfesor() {
+    vector<DTIdioma> idiomas;
+    vector<Idioma*>::iterator it;
+    for(it = idiomasEsp.begin(); it != idiomasEsp.end(); it++) {
+        idiomas.push_back((*it)->getDataIdioma());
+    }
+    return DTProfesor(this->getNickname(), this->getNombre(), this->getDescripcion(), instituto, idiomas);
+}

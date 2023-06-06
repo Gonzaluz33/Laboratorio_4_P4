@@ -9,15 +9,27 @@
 #include <vector>
 #include <set>
 #include <map>
+
 using namespace std;
 
 ControladorUsuarios *ControladorUsuarios::instancia = nullptr;
+
+ControladorUsuarios::ControladorUsuarios():
+    fecha_Nacimiento_recordado(0, 0, 0)
+{
+}
+
+ControladorUsuarios::~ControladorUsuarios() {
+
+}
+
 ControladorUsuarios *ControladorUsuarios::getInstance()
 {
     if (ControladorUsuarios::instancia == nullptr)
         ControladorUsuarios::instancia = new ControladorUsuarios();
     return ControladorUsuarios::instancia;
 };
+
 void ControladorUsuarios::iniciarAltaUsuario(string nickname, string contrasenia, string nombre, string descripcion, TipoUsuario tipo)
 {
     this->nickname_recordado = nickname;
@@ -68,8 +80,8 @@ bool ControladorUsuarios::altaUsuario()
     bool ya_esta_usuario = false;
     string nick = this->nickname_recordado;
     map<string,Usuario*>::iterator it;
-    it = this->Usuarios.find(nick);
-    ya_esta_usuario = this->Usuarios.end() != it;
+    it = this->usuarios.find(nick);
+    ya_esta_usuario = this->usuarios.end() != it;
     if (!(ya_esta_usuario))
     {
         Usuario* nuevo_usuario;
@@ -84,7 +96,7 @@ bool ControladorUsuarios::altaUsuario()
                 nuevo_usuario = new Estudiante(this->nickname_recordado, this->contrasena_recordado, this->nombre_recordado, this->descripcion_recordado, this->tipo_Usuario_recordado, this->nombre_Pais_recordado, this->fecha_Nacimiento_recordado);
             }
         }
-        this->Usuarios.insert(pair<string, Usuario*>(this->nickname_recordado,nuevo_usuario));
+        this->usuarios.insert(pair<string, Usuario*>(this->nickname_recordado,nuevo_usuario));
     }
     this->liberarMemoriaRecordada();
     return (!(ya_esta_usuario)); // retorna true si se agrego el usuario
@@ -95,7 +107,7 @@ void ControladorUsuarios::liberarMemoriaRecordada(){}; // por hacer
 vector<string> ControladorUsuarios::listarEstudiantes(){
     vector<string> nicknames_a_listar;
     map<string,Usuario*>::iterator it;
-    for (it = this->Usuarios.begin(); it != this->Usuarios.end(); ++it)
+    for (it = this->usuarios.begin(); it != this->usuarios.end(); ++it)
     {
         Usuario* user = it->second;
         if (user->getTipo() == Est)
@@ -107,7 +119,7 @@ vector<string> ControladorUsuarios::listarEstudiantes(){
 vector<string> ControladorUsuarios::listarProfesores(){
     vector<string> nicknames_a_listar;
     map<string, Usuario *>::iterator it;
-    for (it = this->Usuarios.begin(); it != this->Usuarios.end(); ++it)
+    for (it = this->usuarios.begin(); it != this->usuarios.end(); ++it)
     {
         Usuario* user = it->second;
         if (user->getTipo() == Prof)
@@ -119,8 +131,8 @@ vector<string> ControladorUsuarios::listarProfesores(){
 vector<DTEstEstudiante> ControladorUsuarios::listarEstEstudiante(string nickname){
     vector<DTEstEstudiante> estadisticas;
     map<string,Usuario*>::iterator it;
-    it = this->Usuarios.find(nickname);
-    bool esta = this->Usuarios.end() != it;
+    it = this->usuarios.find(nickname);
+    bool esta = this->usuarios.end() != it;
     if(esta){
     Estudiante* objetoDerivado = dynamic_cast<Estudiante*>(it->second);
     if(objetoDerivado)
@@ -132,8 +144,8 @@ vector<DTEstEstudiante> ControladorUsuarios::listarEstEstudiante(string nickname
 vector<DTEstProfesor> ControladorUsuarios::listarEstProfesor(string nickname){
     vector<DTEstProfesor> estadisticas;
     map<string,Usuario*>::iterator it;
-    it = this->Usuarios.find(nickname);
-    bool esta = this->Usuarios.end() != it;
+    it = this->usuarios.find(nickname);
+    bool esta = this->usuarios.end() != it;
     if(esta){
         Profesor* objetoDerivado = dynamic_cast<Profesor*>(it->second);
         if(objetoDerivado)
@@ -145,8 +157,8 @@ vector<DTEstProfesor> ControladorUsuarios::listarEstProfesor(string nickname){
 vector<DTIdioma> ControladorUsuarios::listaIdiomasProfesor(string nickname){
     vector<DTIdioma> listar;
     map<string,Usuario*>::iterator it;
-    it = this->Usuarios.find(nickname);
-    bool esta = this->Usuarios.end() != it;
+    it = this->usuarios.find(nickname);
+    bool esta = this->usuarios.end() != it;
     if(esta){
         Profesor* objetoDerivado = dynamic_cast<Profesor*>(it->second);
         if(objetoDerivado)
@@ -159,20 +171,20 @@ vector<DTCurso> ControladorUsuarios::listarCursosNoAprobados(string nickname)
 {
     vector<DTCurso> cursos_a_listar;
     map<string,Usuario*>::iterator it;
-    it = this->Usuarios.find(nickname);
-    bool esta = this->Usuarios.end() != it;
+    it = this->usuarios.find(nickname);
+    bool esta = this->usuarios.end() != it;
     if(esta){
     Estudiante* objetoDerivado = dynamic_cast<Estudiante*>(it->second);
     if (objetoDerivado)
     {
-        vector<Inscripcion*> inscripciones_del_estudiante = objetoDerivado->getInscripciones();
-        vector<Inscripcion*>::iterator it2;
+        map<string, Inscripcion*> inscripciones_del_estudiante = objetoDerivado->getInscripciones();
+        map<string, Inscripcion*>::iterator it2;
         for (it2 = inscripciones_del_estudiante.begin(); it2 != inscripciones_del_estudiante.end(); ++it2)
         {
-            bool esta_aprobado = (*it2)->getCursoAprobado();
+            bool esta_aprobado = it2->second->getCursoAprobado();
             if (!esta_aprobado)
             {
-                cursos_a_listar.push_back((*it2)->getDataCurso());
+                cursos_a_listar.push_back(it2->second->getDataCurso());
             }
         }
     }
@@ -184,8 +196,8 @@ vector<DTNotificacion> ControladorUsuarios::listarNotificaciones(string nickname
 {   
     vector<DTNotificacion> notificaciones_retorno;
     map<string,Usuario*>::iterator it;
-    it = this->Usuarios.find(nickname);
-    bool esta = this->Usuarios.end() != it;
+    it = this->usuarios.find(nickname);
+    bool esta = this->usuarios.end() != it;
     if(esta){
        notificaciones_retorno = it->second->getDTNotificaciones();
     }
@@ -196,8 +208,8 @@ vector<DTIdioma> ControladorUsuarios::listarIdiomasSuscritos(string nickname)
 {   
     vector<DTIdioma> salida;
     map<string,Usuario*>::iterator it;
-    it = this->Usuarios.find(nickname);
-    bool esta = this->Usuarios.end() != it;
+    it = this->usuarios.find(nickname);
+    bool esta = this->usuarios.end() != it;
     if(esta){
         salida = it->second->listarDTidiomasSuscritos();
     }
@@ -207,8 +219,8 @@ vector<DTIdioma> ControladorUsuarios::listarIdiomasSuscritos(string nickname)
 Usuario* ControladorUsuarios::buscarUsuario(string nickname)
 {   
     map<string,Usuario*>::iterator it;
-    it = this->Usuarios.find(nickname);
-    bool esta = this->Usuarios.end() != it;
+    it = this->usuarios.find(nickname);
+    bool esta = this->usuarios.end() != it;
     if(esta){
         return it->second;
     }
@@ -253,6 +265,10 @@ void ControladorUsuarios::suscribir(vector<Idioma*> idiomasASuscribir)
     }
 };
 
+void ControladorUsuarios::eliminarSuscripcion(vector<Idioma*> idiomasAEliminar) {
+    
+}
+
 bool ControladorUsuarios::iniciarAltaIdioma(DTIdioma idioma)
 {
     string nombre = idioma.getNombre();
@@ -268,4 +284,18 @@ bool ControladorUsuarios::iniciarAltaIdioma(DTIdioma idioma)
 
 map<string, Idioma*> ControladorUsuarios::getIdiomas() {
     return Idiomas;
+}
+
+vector<string> ControladorUsuarios::listarNickname() {
+
+    vector<string> salida;
+    map<string, Usuario*>::iterator it;
+    for(it = usuarios.begin(); it != usuarios.end(); it++) {
+        salida.push_back(it->second->getNickname());
+    }
+    return salida;
+}
+
+DTUsuario ControladorUsuarios::getDataUsuario(string nickname) {
+    return usuarios.find(nickname)->second->getDataUsuario();
 }

@@ -7,6 +7,7 @@
 #include "icontrolador_cursos.hpp"
 #include "curso.hpp"
 #include "leccion.hpp"
+#include "estudiante.hpp"
 
 class ControladorCursos : public IControladorCursos {
 public:
@@ -42,16 +43,17 @@ public:
     DTEstCurso listarEstCurso(string nombreCurso);
     bool habilitarCurso();
     DTCurso getDataCurso(string nombreCurso);
+    vector<DTCurso> listarCursosDisponibles(string nickname);
 private:
     string nickname_recordado, nombreCurso_recordado, descripcion_recordado,
            descripcionEjercicio_recordado, fraseACompletar_recordada, solucion_recordada,
            fraseATraducir_recordada, traduccion_recordada;
     Dificultad dificultad_recordado;
-    DTIdioma idioma_recordado;
+    string idioma_recordado;
     map<string, Curso *> cursosHabilitados, cursosNoHabilitados;
     vector<Curso *> cursos; // Parece que esto no se usa
     vector<Leccion *> lecciones; // Parece que esto no se usa tampoco
-    vector<string> cursosPrevios;
+    vector<string> nombresCursosPrevios;
     Curso *curso_recordado;
     Leccion *leccion_recordada;
     TipoEjercicio tipo_recordado;

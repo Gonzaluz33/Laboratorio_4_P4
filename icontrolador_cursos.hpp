@@ -15,7 +15,6 @@ using namespace std;
 
 class IControladorCursos {
 public:
-    IControladorCursos();
     virtual ~IControladorCursos(){};
 
     virtual vector<string> listarProfesores()=0;

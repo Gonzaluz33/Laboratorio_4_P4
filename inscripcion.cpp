@@ -1,11 +1,17 @@
 #include "inscripcion.hpp"
 
-Inscripcion::Inscripcion(DTFecha fechaInscripcion, int porEjerReal, int cantEjerReal, bool cursoAprobado):
+// DTFecha fechaInscripcion, int porEjerReal, int cantEjerReal
+Inscripcion::Inscripcion(Curso *curso, Estudiante *estudiante, DTFecha fechaInscripcion):
     fechaInscripcion(fechaInscripcion)
 {
-    this->porcentajeEjerciciosRealizados = porEjerReal;
-    this->cantidadEjerciciosRealizados = cantEjerReal;
-    this->cursoAprobado = cursoAprobado;
+    this->cursoAsignado = curso;
+    this->estudianteAsignado = estudiante;
+    this->porcentajeEjerciciosRealizados = 0;
+    this->cantidadEjerciciosRealizados = 0;
+    this->cursoAprobado = false;
+    this->leccionAsignada = curso->getLecciones().front();
+
+    this->ejerciciosPendientes = leccionAsignada->getEjercicios();
 }
 
 Inscripcion::~Inscripcion(){}
@@ -59,8 +65,29 @@ void Inscripcion::incrementarCantEjRealizados(){
 void Inscripcion::eliminarDePendientes(Ejercicio* ej){
     string des_a_comparar = ej->getDescripcion();
     ejerciciosPendientes.erase(des_a_comparar);
+    if (ejerciciosPendientes.size() == 0) {
+        vector<Leccion*>::iterator it;
+        vector<Leccion*> lecciones = cursoAsignado->getLecciones();
+        it = lecciones.begin();
+        while (it != lecciones.end() && (*it) != leccionAsignada) {
+            it++;
+        }
+        leccionAsignada = *(it++);
+
+        if(leccionAsignada == lecciones.back()) {
+            cursoAprobado = true;
+        } else {
+            ejerciciosPendientes = leccionAsignada->getEjercicios();
+        }
+    }
 }
 
+Curso *Inscripcion::getCurso() {
+    return cursoAsignado;
+}
+
+/* Parece que no lo usamos
 bool Inscripcion::leccionTerminada(int cantEjActualizado, int totalEj){
     return cantEjActualizado==totalEj;
 }
+*/

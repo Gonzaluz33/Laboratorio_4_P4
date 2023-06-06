@@ -1,9 +1,14 @@
 #include "curso.hpp"
+#include "profesor.hpp"
+#include "inscripcion.hpp"
 
-Curso::Curso(string nombre, string descripcion, Dificultad dificultad){
+Curso::Curso(string nombre, string descripcion, Dificultad dificultad, Profesor *profesor, Idioma *idioma, vector<Curso*> cursosPrevios) {
     this->nombre = nombre;
     this->descripcion = descripcion;
     this->dificultad = dificultad;
+    this->profesorAsignado = profesor;
+    this->idioma = idioma;
+    this->cursosPrevios = cursosPrevios;
 }
 
 Curso::~Curso(){}
@@ -21,25 +26,25 @@ Dificultad Curso::getDificultad(){
 }
 
 DTCurso Curso::getdataCurso(){
-    DTCurso* cursoNuevo = new DTCurso(this->getNombre(),this->getDescripcion(), this->getDificultad(),this->getIdioma(),
-            this->getCantidadLecciones(), this->getCantidadEjercicios(), this->getProfesor());
-    return cursoNuevo;
+    return DTCurso(this->getNombre(),this->getDescripcion(), this->getDificultad(), this->idioma->getDataIdioma(),
+            lecciones.size(), this->getTotalEjercicios(), this->profesorAsignado->getDataProfesor());
 }
 
 int Curso::getTotalEjercicios(){
     int totalEjercicios = 0;
-    for (i=0; i < this->Lecciones.size>>; i++){
-        totalEjercicios = totalEjercicios + Lecciones[i]->getCantEjercicios();
+    vector<Leccion *>::iterator it;
+    for (it=lecciones.begin(); it != lecciones.end(); it++){
+        totalEjercicios = totalEjercicios + (*it)->getTotalEjercicios();
     }
     return totalEjercicios;
 }
 
 void Curso::crearLeccion(string nombreTema, string objetivo){
-    Leccion* leccionNueva = new Leccion(nombreTema, objetivo, this->getTotalEjercicios());
-    this->Lecciones.push_back(leccionNueva);
+    Leccion* leccionNueva = new Leccion(this->getTotalEjercicios(), nombreTema, objetivo);
+    this->lecciones.push_back(leccionNueva);
 }
 
-DTEstCurso Curso::listarEstCurso(string nickname){
+DTEstCurso Curso::listarEstCurso(){
     int est = 0;
     DTEstCurso nuevo = DTEstCurso(this->getPromedioAvance(), this->getdataCurso());
     return nuevo;
@@ -47,10 +52,38 @@ DTEstCurso Curso::listarEstCurso(string nickname){
 
 int Curso::getPromedioAvance(){
     int Avance = 0;
-    map<string,Ejercicio*>::iterator it;
-    for (it=this->Incripciones.begin(); it!=this->Inscripciones.end(); ++it){
-        Avance = Avance + Inscripciones[it]->porcentajeEjerciciosRealizados;
+    map<string,Inscripcion*>::iterator it;
+    for (it = inscripciones.begin(); it != inscripciones.end(); ++it){
+        Avance = Avance + it->second->getPorcentajeEjerciciosRealizados();
     }
-    return Avance/Inscripciones.size();
+    return Avance/inscripciones.size();
 }
 
+vector<Leccion*> Curso::getLecciones() {
+    return lecciones;
+}
+
+Idioma *Curso::getIdioma() {
+    return idioma;
+}
+
+vector<DTLeccion> Curso::listarLeccionesOrdenado() {
+    vector<DTLeccion> salida;
+    vector<Leccion*>::iterator it;
+    for (it = lecciones.begin(); it != lecciones.end(); it++) {
+        salida.push_back((*it)->getDataLeccion());
+    }
+    return salida;
+}
+
+Leccion *Curso::seleccionarLeccion(string nombreTema) {
+    vector<Leccion *>::iterator it = lecciones.begin();
+    while((*it)->getNombreTema() != nombreTema) {
+        it++;
+    }
+    return *it;
+}
+
+vector<Curso*> Curso::getCursosPrevios() {
+    return cursosPrevios;
+}
