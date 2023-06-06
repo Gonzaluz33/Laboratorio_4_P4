@@ -16,7 +16,7 @@ int main(){
         cout << "MENU" << endl;
         cout << "1. Alta de Usuario" << endl;
         cout << "2. Consulta de Usuario" << endl;
-        cout << "3. Alta Idioma" << endl;
+        cout << "3. Alta de Idioma" << endl;
         cout << "4. Consultar Idiomas" << endl;
         cout << "5. Alta de Curso" << endl;
         cout << "6. Agregar Leccion" << endl;
@@ -28,7 +28,7 @@ int main(){
         cout << "12. Realizar Ejercicio" << endl;
         cout << "13. Consultar Estadísticas" << endl;
         cout << "14. Suscribirse a Notificaciones" << endl;
-        cout << "15. Consultar Notificaciones" << endl;
+        cout << "15. Consulta de Notificaciones" << endl;
         cout << "16. Eliminar Suscripciones" << endl;
         cout << "17. Cargar Datos de Prueba" << endl;
         cout << "18. Salir" << endl;
@@ -39,7 +39,7 @@ int main(){
         switch (opcion) {
         case 1:
             {
-                cout << "Ha seleccionado la opción 1" << endl;
+                cout << "Ha seleccionado la opción 1: Alta de Usuario" << endl;
                 cout << "Ingrese el Nickname del Usuario: ";
                 string nickname;
                 cin >> nickname;
@@ -131,7 +131,7 @@ int main(){
             }
             break;
         case 2:
-            cout << "Ha seleccionado la opción 2" << endl;
+            cout << "Ha seleccionado la opción 2: Consulta de Usuario" << endl;
             cout << "Listando los usuarios" << endl;
             ControladorUsuarios* cu = ControladorUsuarios::getInstance();
             vector<string> nicknames = cu->listarNicknames();
@@ -170,7 +170,7 @@ int main(){
             }
             break;
         case 3:
-            cout << "Ha seleccionado la opción 3" << endl;
+            cout << "Ha seleccionado la opción 3: Alta de Idioma" << endl;
             do{
                 cout << "ingrese el nombre del idioma a dar de alta: ";
                 string i;
@@ -185,7 +185,7 @@ int main(){
             }while(error);
             break;
         case 4:
-            cout << "Ha seleccionado la opción 4" << endl;
+            cout << "Ha seleccionado la opción 4: Consultar Idiomas" << endl;
             do{
                 cout << "Idiomas disponibles:" << endl;
                 ControladorUsuarios* cu = ControladorUsuarios::getInstance();
@@ -202,43 +202,43 @@ int main(){
             }while(dtidiomas.empty());
             break;
         case 5:
-            cout << "Ha seleccionado la opción 5" << endl;
+            cout << "Ha seleccionado la opción 5: Alta de Curso" << endl;
             break;
         case 6:
-            cout << "Ha seleccionado la opción 6" << endl;
+            cout << "Ha seleccionado la opción 6: Agregar Leccion" << endl;
             break;
         case 7:
-            cout << "Ha seleccionado la opción 4" << endl;
+            cout << "Ha seleccionado la opción 7: Agregar Ejercicio" << endl;
             break;
         case 8:
-            cout << "Ha seleccionado la opción 4" << endl;
+            cout << "Ha seleccionado la opción 8: Habilitar Curso" << endl;
             break;
         case 9:
-            cout << "Ha seleccionado la opción 4" << endl;
+            cout << "Ha seleccionado la opción 9: Eliminar Curso" << endl;
             break;
         case 10:
-            cout << "Ha seleccionado la opción 4" << endl;
+            cout << "Ha seleccionado la opción 10: Consultar Curso" << endl;
             break;
         case 11:
-            cout << "Ha seleccionado la opción 4" << endl;
+            cout << "Ha seleccionado la opción 11: Inscribirse a Curso" << endl;
             break;
         case 12:
-            cout << "Ha seleccionado la opción 4" << endl;
+            cout << "Ha seleccionado la opción 12: Realizar Ejercicio" << endl;
             break;
         case 13:
-            cout << "Ha seleccionado la opción 4" << endl;
+            cout << "Ha seleccionado la opción 13: Consultar Estadísticas" << endl;
             break;
         case 14:
-            cout << "Ha seleccionado la opción 4" << endl;
+            cout << "Ha seleccionado la opción 14: Suscribirse a Notificaciones" << endl;
             break;
         case 15:
-            cout << "Ha seleccionado la opción 4" << endl;
+            cout << "Ha seleccionado la opción 15: Consulta de Notificaciones" << endl;
             break;
         case 16:
-            cout << "Ha seleccionado la opción 4" << endl;
+            cout << "Ha seleccionado la opción 16: Eliminar Suscripciones" << endl;
             break;
         case 17:
-            cout << "Ha seleccionado la opción 4" << endl;
+            cout << "Ha seleccionado la opción 17: Cargar Datos de Prueba" << endl;
             break;
         case 18:
             cout << "Saliendo del programa..." << endl;
