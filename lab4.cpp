@@ -132,15 +132,74 @@ int main(){
             break;
         case 2:
             cout << "Ha seleccionado la opción 2" << endl;
-            // Realizar acción para la opción 2
+            cout << "Listando los usuarios" << endl;
+            ControladorUsuarios* cu = ControladorUsuarios::getInstance();
+            vector<string> nicknames = cu->listarNicknames();
+            vector<string>::iterator it;
+            int i = 1;
+            for(it = nicknames.begin();it != nicknames.end();it++){
+                cout << i << ". " << *it << endl;
+                i++;
+            }
+            do{
+                cout << "Seleccione un usuario con su nombre: ";
+                string u;
+                cin >> u;
+                it = nicknames.being();
+                while(it != nicknames.end() && *it != u){
+                    it++;
+                }
+                if(*it != u){
+                    cout << "El nombre de usuario no existe" << endl;
+                }
+            }while(*it != u);
+            cout << "informacion del usuario:" << endl;
+            map<string,Usuario*>::iterator it;
+            it = cu->usuarios.find(u);
+            cout << "Nombre: " << (*it)->getNickname() << endl;
+            cout << "Descripcion: " << (*it)->getDescripcion() << endl;
+            if ((*it)->getTipo() == Est){
+                cout << "Pais de residencia: " << (*it)->getPaisResidencia() << endl;
+            }else{
+                cout << "Instituto donde trabaja: " << (*it)->getInstituto() << endl;
+                map<string,Idioma*>::iterator iter;
+                cout << "Idiomas en los que se especializa: " << endl;
+                for(iter = (*it)->idiomasEsp.begin();iter != (*it)->idiomasEsp.end(); iter++){
+                    cout << (*iter)->getNombre() << endl;
+                }
+            }
             break;
         case 3:
             cout << "Ha seleccionado la opción 3" << endl;
-            // Realizar acción para la opción 3
+            do{
+                cout << "ingrese el nombre del idioma a dar de alta: ";
+                string i;
+                cin >> i;
+                DTIdioma dti = DTIdioma(i);
+                bool error = iniciarAltaIdioma(dti);
+                if (error){
+                    cout << "Ya existe un idioma con ese nombre" << endl;
+                }else{
+                    cout << "El idioma fue dado de alta correctamente" << endl;
+                }
+            }while(error);
             break;
         case 4:
             cout << "Ha seleccionado la opción 4" << endl;
-            // Realizar acción para la opción 4
+            do{
+                cout << "Idiomas disponibles:" << endl;
+                ControladorUsuarios* cu = ControladorUsuarios::getInstance();
+                vector<DTIdioma> dtidiomas = cu->listarIdiomas();
+                vector<DTIdioma>::iterator it;
+                if(dtidiomas.size() > 0){
+                    int i = 1;
+                    for(it = dtidiomas.begin();it != dtidiomas.end(); it++){
+                        cout << i << ". " << (*it)->getNombre() << endl;
+                    }
+                }else {
+                    cout << "No hay ningun idioma en el sistema" << endl;
+                }
+            }while(dtidiomas.empty());
             break;
         case 5:
             cout << "Ha seleccionado la opción 5" << endl;
