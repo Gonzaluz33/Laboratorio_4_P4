@@ -211,6 +211,112 @@ int main(){
             break;
         case 5:
             cout << "Ha seleccionado la opción 5: Alta de Curso" << endl;
+            ControladorUsuarios* cu = ControladorUsuarios::getInstance();
+            vector<string> profes = cu->listarProfesores();
+            if(profes.empty()){
+                cout << "No existen profesores en el sistema, le recomendamos cargar un profesor seleccionando la opcion 1" << endl;
+            }else{
+                cout << "Ingrese el nombre del profesor que quiere seleccionar para el curso" << endl;
+                cout << "Profesores disponibles:" << endl;
+                vector<string>::iterator it;
+                for(it = profes.begin(); it != profes.end(); it++){
+                    cout << *it << endl;
+                }
+                string p;
+                cin >> p;
+                cout << "Ingrese el nombre del curso: ";
+                string nom;
+                cin >> nom;
+                cout << "Ingrese la descripcion del curso: ";
+                string desc;
+                cin >> desc;
+                bool difbien;
+                Dificultad d;
+                do{
+                    cout << "Ingrese la dificultad del curso: ";
+                    string dificult;
+                    cin >> dificult;
+                    if(dificult == "Principiante"){
+                        d = Principiante;
+                        difbien = true;
+                    }else if(dificult == "Medio"){
+                        d = Medio;
+                        difbien = true;
+                    }else if(dificult == "Avanzado"){
+                        d = Avanzado;
+                        difbien = true;
+                    }else{
+                        difbien = false;
+                        cout << "No existe esa dificultad, por favor elija entre Principiante, Medio o Avanzado" << endl;
+                    }
+                }while(!difbien);
+                ControladorCursos cc = ControladorCursos();
+                cc.iniciarAltaCurso(p,nom,desc,d);
+                cout << "Listando los idiomas en los que se especializa el profesor:" << endl;
+                vector<DTIdioma> idiomasProf = cc.listaIdiomasProfesor(p);
+                if(idiomasProf.empty()){
+                    cout << "El profesor no tiene cargado ningun idioma, agregue un idioma al profesor y vuelva a empezar con el alta del curso" << endl;
+                }else{
+                    cout << "Seleccione el nombre del idioma en el cual se dictara el curso: ";
+                    vector<DTIdioma>::iterator i;
+                    for(i = idiomasProf.begin(); i != idiomasProf.end(); i++){
+                        cout << i->getNombre() << endl;
+                    }
+                    string idiom;
+                    cin >> idiom;
+                    DTIdioma dtidioma = DTIdioma(idiom);
+                    cc.seleccionarIdiomaCurso(dtidioma);
+                    cout << "¿Desea que este curso tenga cursos previos?(responda con si o no): ";
+                    string respuesta;
+                    cin >> respuesta;
+                    if(respuesta == "si"){
+                        cout << "Listando cursos habilitados:" << endl;
+                        vector<DTCurso> cursos = cc.listarCursosHabilitados();
+                        if(cursos.empty()){
+                            cout << "No existen cursos disponibles en el sistema" << endl;
+                        }else{
+                            bool salir;
+                            do{
+                                vector<DTCurso>::iterator iter;
+                                for(iter = cursos.begin(); iter != cursos.end(); it++){
+                                    cout << iter->getNombre() << endl;
+                                }
+                                cout << "Seleccione el curso que quiere como previa con su nombre: ";
+                                string previa;
+                                cin >> previa;
+                                iter = cursos.begin();
+                                while(iter->getNombre() != previa || iter != cursos.end()){
+                                    it++;
+                                }
+                                if(iter != cursos.end()){
+                                    cc.seleccionarCursosPrevios(previa);
+                                    cout << "¿Desea agregar otro curso?: ";
+                                    string respuesta2;
+                                    cin >> respuesta2;
+                                    bool respondioBien;
+                                    do{
+                                        if(respuesta2 == "si"){
+                                            salir = false;
+                                            respondioBien = true;
+                                        }else if (respuesta2 == "no"){
+                                            salir = true;
+                                            respondioBien = true;
+                                        }else{
+                                            cout << "ingrese si o no";
+                                            respondioBien = false;
+                                        }
+                                    }while(!respondioBien);
+                                }else{
+                                    cout << "El nombre de curso que escribió no existe, intentelo devuelta" << endl;
+                                    salir = false;
+                                }
+                            }while(!salir);
+                        }
+                    }
+                    cc.crearCurso();
+                    cc.darAltaCurso();
+                }
+            }
             break;
         case 6:
             cout << "Ha seleccionado la opción 6: Agregar Leccion" << endl;
