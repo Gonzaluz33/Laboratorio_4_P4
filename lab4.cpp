@@ -176,12 +176,14 @@ int main(){
             break;
         case 3:
             cout << "Ha seleccionado la opción 3: Alta de Idioma" << endl;
+            bool error;
             do{
                 cout << "ingrese el nombre del idioma a dar de alta: ";
                 string i;
                 cin >> i;
                 DTIdioma dti = DTIdioma(i);
-                bool error = iniciarAltaIdioma(dti);
+                ControladorUsuarios* cu = ControladorUsuarios::getInstance();
+                error = cu->iniciarAltaIdioma(dti);
                 if (error){
                     cout << "Ya existe un idioma con ese nombre" << endl;
                 }else{
@@ -191,15 +193,16 @@ int main(){
             break;
         case 4:
             cout << "Ha seleccionado la opción 4: Consultar Idiomas" << endl;
+            vector<DTIdioma> dtidiomas;
             do{
                 cout << "Idiomas disponibles:" << endl;
                 ControladorUsuarios* cu = ControladorUsuarios::getInstance();
-                vector<DTIdioma> dtidiomas = cu->listarIdiomas();
+                dtidiomas = cu->listarIdiomas();
                 vector<DTIdioma>::iterator it;
                 if(dtidiomas.size() > 0){
                     int i = 1;
                     for(it = dtidiomas.begin();it != dtidiomas.end(); it++){
-                        cout << i << ". " << (*it)->getNombre() << endl;
+                        cout << i << ". " << it->getNombre() << endl;
                     }
                 }else {
                     cout << "No hay ningun idioma en el sistema" << endl;
