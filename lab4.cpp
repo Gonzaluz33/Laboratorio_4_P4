@@ -7,6 +7,9 @@ using namespace std;
 #include "dt_idioma.hpp"
 #include "dt_fecha.hpp"
 #include"controlador_usuarios.hpp"
+#include "estudiante.hpp"
+#include "profesor.hpp"
+#include "dt_idioma.hpp"
 
 
 int main(){
@@ -131,21 +134,21 @@ int main(){
             }
             break;
         case 2:
-            cout << "Ha seleccionado la opción 2: Consulta de Usuario" << endl;
+           cout << "Ha seleccionado la opción 2: Consulta de Usuario" << endl;
             cout << "Listando los usuarios" << endl;
             ControladorUsuarios* cu = ControladorUsuarios::getInstance();
-            vector<string> nicknames = cu->listarNicknames();
+            vector<string> nicknames = cu->listarNickname();
             vector<string>::iterator it;
             int i = 1;
             for(it = nicknames.begin();it != nicknames.end();it++){
                 cout << i << ". " << *it << endl;
                 i++;
             }
+            string u;
             do{
                 cout << "Seleccione un usuario con su nombre: ";
-                string u;
                 cin >> u;
-                it = nicknames.being();
+                it = nicknames.begin();
                 while(it != nicknames.end() && *it != u){
                     it++;
                 }
@@ -154,18 +157,20 @@ int main(){
                 }
             }while(*it != u);
             cout << "informacion del usuario:" << endl;
-            map<string,Usuario*>::iterator it;
-            it = cu->usuarios.find(u);
-            cout << "Nombre: " << (*it)->getNickname() << endl;
-            cout << "Descripcion: " << (*it)->getDescripcion() << endl;
-            if ((*it)->getTipo() == Est){
-                cout << "Pais de residencia: " << (*it)->getPaisResidencia() << endl;
+            map<string,Usuario*> us = cu->getUsuarios();
+            //Usuario* pu = us.find(u)->second->;
+            cout << "Nombre: " << us.find(u)->second->getNombre() << endl;
+            cout << "Descripcion: " << us.find(u)->second->getDescripcion() << endl;
+            if (us.find(u)->second->getTipo() == Est){
+                Estudiante* e = dynamic_cast<Estudiante*>(us.find(u)->second);
+                cout << "Pais de residencia: " << e->getPaisResidencia() << endl;
             }else{
-                cout << "Instituto donde trabaja: " << (*it)->getInstituto() << endl;
-                map<string,Idioma*>::iterator iter;
+                Profesor* p = dynamic_cast<Profesor*>(us.find(u)->second);
+                cout << "Instituto donde trabaja: " << p->getInstituto() << endl;
+                vector<DTIdioma>::iterator iter2;
                 cout << "Idiomas en los que se especializa: " << endl;
-                for(iter = (*it)->idiomasEsp.begin();iter != (*it)->idiomasEsp.end(); iter++){
-                    cout << (*iter)->getNombre() << endl;
+                for(iter2 = p->getDTidiomas().begin();iter2 != p->getDTidiomas().end(); iter2++){
+                    cout << iter2->getNombre() << endl;
                 }
             }
             break;
