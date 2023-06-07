@@ -58,6 +58,7 @@ class ControladorUsuarios : public IControladorUsuarios {
         vector<string> listarNickname();
         bool iniciarAltaIdioma(DTIdioma idioma);
         DTUsuario getDataUsuario(string nickname);
+        map<string, Usuario*> getUsuarios();
 };
 
 #endif
