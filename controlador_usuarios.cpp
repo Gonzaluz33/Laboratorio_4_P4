@@ -299,3 +299,7 @@ vector<string> ControladorUsuarios::listarNickname() {
 DTUsuario ControladorUsuarios::getDataUsuario(string nickname) {
     return usuarios.find(nickname)->second->getDataUsuario();
 }
+
+map<string,Usuario*> ControladorUsuarios::getUsuarios(){
+    return usuarios;
+}
