@@ -83,9 +83,11 @@ vector<DTNotificacion> Usuario::getDTNotificaciones(){
     vector<DTNotificacion> n;
     vector<Notificacion*>::iterator it;
     it = this->notificaciones.begin();
-    while(it <= this->notificaciones.end()){
+    while(it != this->notificaciones.end()){
         Notificacion *current = *it;
         n.insert(n.begin(),current->getDataNotificacion());
+        delete (*it);
+        this->notificaciones.erase(it);
         it++;
     }
     return n;
