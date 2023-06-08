@@ -233,14 +233,14 @@ int main(){
                     cout << "Ingrese el profesor que quiere seleccionar para el curso" << endl;
                     cout << "Profesores disponibles:" << endl;
                     vector<string>::iterator it;
-                    i = 1;
+                    int i = 1;
                     for(it = profes.begin(); it != profes.end(); it++){
                         cout << i << ". " << *it << endl;
                         i++;
                     }
                     int ind_selecc;
                     cin >> ind_selecc;
-                    esta_en_rango = true;
+                    bool esta_en_rango = true;
                     do{
                         esta_en_rango = (ind_selecc > 0) && (ind_selecc < i);
                         if(!esta_en_rango){
