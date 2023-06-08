@@ -577,10 +577,79 @@ int main(){
             cout << "Ha seleccionado la opción 14: Suscribirse a Notificaciones" << endl;
             break;
         case 15:
-            cout << "Ha seleccionado la opción 15: Consulta de Notificaciones" << endl;
+            {
+                ControladorUsuarios* cu_15 = ControladorUsuarios::getInstance();
+                cout << "Ha seleccionado la opción 15: Consulta de Notificaciones" << endl;
+                cout << "Por favor ingrese el nickname del usuario a consultar: " << endl;
+                string nick_user_15;
+                cin >> nick_user_15;
+                Usuario* user_15 = cu_15->buscarUsuario(nick_user_15);
+                if(user_15 == nullptr){
+                    cout << "El nickname ingresado no corresponde a ningún usuario del sistema.." << endl;
+                    cout << "Por favor intente nuevamente." << endl;
+                    
+                }else{
+                     cout << "Listando Notidicaciones..." << endl;
+                    vector<DTNotificacion> notificaciones_a_listar = user_15->getDTNotificaciones();
+                    vector<DTNotificacion>::iterator it_15;
+                    for(it_15 = notificaciones_a_listar.begin(); it_15 != notificaciones_a_listar.end();++it_15){
+                        cout << (*it_15) << endl;
+                    }
+                }
+            }
             break;
         case 16:
-            cout << "Ha seleccionado la opción 16: Eliminar Suscripciones" << endl;
+            {
+                ControladorUsuarios* cu_16 = ControladorUsuarios::getInstance();
+                cout << "Ha seleccionado la opción 16: Eliminar Suscripciones" << endl;
+                cout << "Por favor ingrese el nickname del usuario correspondiente: " << endl;
+                string nick_user_16;
+                cin >> nick_user_16;
+                Usuario* user_16 = cu_16->buscarUsuario(nick_user_16);
+                if(user_16 == nullptr){
+                    cout << "El nickname ingresado no corresponde a ningún usuario del sistema.." << endl;
+                    cout << "Por favor intente nuevamente." << endl;
+                }else{
+                    vector<DTIdioma> idiomas_seleccionados;
+                   vector<DTIdioma> idiomas_suscritos = cu_16->listarIdiomasSuscritos(nick_user_16);
+                   cout << "Listando idiomas suscritos..." << endl;
+                   cout << "-------------------------" << endl;
+                   vector<DTIdioma>::iterator it_16;
+                   int i_16 = 1;
+                   for(it_16 = idiomas_suscritos.begin(); it_16 != idiomas_suscritos.end();++it_16){
+                    cout << i_16 << ". " << (*it_16).getNombre() << endl;
+                    i_16++;
+                   }
+                    cout << "-------------------------" << endl;
+                    int opcion_16 = 0;
+                     do{
+                            cout << "Ingrese el número 0 cuando haya seleccionado todos los idiomas" << endl;
+                            cout << "Ingrese la opcion correspondiente a el idioma seleccionado: ";
+                            cin >> opcion_16;
+                            if(opcion_16 > idiomas_suscritos.size() + 1 || opcion_16 < 0 ){
+                                cout << "Ingrese un número dentro de las opciones" << endl;  
+                            }else{
+                                if(opcion_16 != 0){
+                                    idiomas_seleccionados.push_back(idiomas_suscritos[opcion_16-1]);
+                                }
+                            }
+                            
+                        }while(opcion_16 != 0);
+                        vector<Idioma*> idiomas_a_eliminar;
+                        map<string, Idioma*> todos_los_idiomas = cu_16->getIdiomas();
+                        map<string, Idioma*>::iterator it_aux;
+                        string nombre_del_idioma;
+                         for(it_16 = idiomas_seleccionados.begin(); it_16 != idiomas_seleccionados.end();++it_16){
+                            nombre_del_idioma = (*it_16).getNombre();
+                            it_aux = todos_los_idiomas.find(nombre_del_idioma);
+                            if(it_aux->second != nullptr){
+                                idiomas_a_eliminar.push_back(it_aux->second);
+                            }
+                        }
+                    cu_16->eliminarSuscripcion(idiomas_a_eliminar);
+               
+                }
+            }
             break;
         case 17:
             cout << "Ha seleccionado la opción 17: Cargar Datos de Prueba" << endl;
