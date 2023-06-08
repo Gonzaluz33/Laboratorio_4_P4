@@ -1,4 +1,3 @@
-using namespace std;
 #include <iostream>
 #include <string>
 #include <vector>
@@ -6,12 +5,17 @@ using namespace std;
 #include "tipo_usuario.hpp"
 #include "dt_idioma.hpp"
 #include "dt_fecha.hpp"
-#include"controlador_usuarios.hpp"
+#include "controlador_usuarios.hpp"
 #include "estudiante.hpp"
 #include "profesor.hpp"
 #include "dt_idioma.hpp"
 #include "controlador_cursos.hpp"
+#include "fabrica.hpp"
+#include "icontrolador_cursos.hpp"
 
+using namespace std;
+
+Fabrica fabrica;
 
 int main(){
     int opcion;
@@ -326,7 +330,39 @@ int main(){
             cout << "Ha seleccionado la opción 7: Agregar Ejercicio" << endl;
             break;
         case 8:
-            cout << "Ha seleccionado la opción 8: Habilitar Curso" << endl;
+            {
+                int indice_curso;
+                IControladorCursos *cc = fabrica.getIControladorCursos();
+                cout << "Ha seleccionado la opción 8: Habilitar Curso" << endl;
+                vector<DTCurso> cursos = cc->listarCursosNoHabilitados();
+                cout << "Cursos No Habilitados:" << endl;
+                vector<DTCurso>::iterator it;
+                int index = 1;
+                for(it = cursos.begin(); it != cursos.end(); it++) {
+                    /* 1. [Ingles] - Curso Introductorio Ingles - En este curso se enseña... */
+                    cout << index++ << ". [" << it->getIdioma().getNombre() << "] - "
+                         << it->getNombre() << endl << "\t" << it->getDescripcion() << endl;
+                }
+                bool esta_dentro_del_rango;
+                do {
+                    cout << "Seleccione un curso: ";
+                    cin >> indice_curso;
+                    esta_dentro_del_rango = indice_curso >= 1 && indice_curso < index;
+                    if(!esta_dentro_del_rango) {
+                        cout << "Seleccione un numero dentro del rango." << endl;
+                    }
+                } while(!esta_dentro_del_rango);
+
+                DTCurso curso_seleccionado = cursos[indice_curso];
+                cc->seleccionarCurso(curso_seleccionado.getNombre());
+                if(cc->habilitarCurso()) {
+                    cout << "El curso no pudo ser habilitado." << endl
+                         << "El curso puede ser habilitado solamente si tiene al menos una leccion y un curso." << endl;
+                } else {
+                    cout << "El curso fue habilitado." << endl;
+                }
+
+            }
             break;
         case 9:
             cout << "Ha seleccionado la opción 9: Eliminar Curso" << endl;
