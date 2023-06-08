@@ -54,11 +54,9 @@ class ControladorUsuarios : public IControladorUsuarios {
         vector <DTIdioma> listarIdiomasNoSuscritos(string nickname);
         void suscribir(vector <Idioma*> idiomasASuscribir);
         void eliminarSuscripcion(vector <Idioma*>idiomasAEliminar);
-        map<string, Idioma*> getIdiomas();
         vector<string> listarNickname();
         bool iniciarAltaIdioma(DTIdioma idioma);
         DTUsuario getDataUsuario(string nickname);
-        map<string, Usuario*> getUsuarios();
 };
 
 #endif
