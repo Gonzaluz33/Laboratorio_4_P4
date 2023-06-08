@@ -53,9 +53,10 @@ int Curso::getTotalEjercicios(){
     return totalEjercicios;
 }
 
-void Curso::crearLeccion(string nombreTema, string objetivo){
+Leccion *Curso::crearLeccion(string nombreTema, string objetivo){
     Leccion* leccionNueva = new Leccion(this->getTotalEjercicios(), nombreTema, objetivo);
     this->lecciones.push_back(leccionNueva);
+    return leccionNueva;
 }
 
 DTEstCurso Curso::listarEstCurso(){

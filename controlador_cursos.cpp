@@ -108,13 +108,7 @@ void ControladorCursos::seleccionarCurso(string nombreCurso) {
 }
 
 void ControladorCursos::crearLeccion(string nombreTema, string objetivo) {
-    curso_recordado->crearLeccion(nombreTema, objetivo);
-    vector<Leccion*> lecciones = curso_recordado->getLecciones();
-    vector<Leccion*>::iterator it = lecciones.begin();
-    while((*it)->getNombreTema() != nombreTema) {
-        it++;
-    }
-    leccion_recordada = (*it);
+    leccion_recordada = curso_recordado->crearLeccion(nombreTema, objetivo);
 }
 
 void ControladorCursos::altaLeccion() {

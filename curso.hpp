@@ -40,7 +40,7 @@ public:
     Dificultad getDificultad();
     DTCurso getdataCurso();
     int getTotalEjercicios();
-    void crearLeccion(string nombreTema, string objetivo);
+    Leccion *crearLeccion(string nombreTema, string objetivo);
     DTEstCurso listarEstCurso();
     int getPromedioAvance();
     vector<Leccion*> getLecciones();
