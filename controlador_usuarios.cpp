@@ -282,10 +282,6 @@ bool ControladorUsuarios::iniciarAltaIdioma(DTIdioma idioma)
     return esta;
 }
 
-map<string, Idioma*> ControladorUsuarios::getIdiomas() {
-    return Idiomas;
-}
-
 vector<string> ControladorUsuarios::listarNickname() {
 
     vector<string> salida;
