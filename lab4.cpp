@@ -157,20 +157,20 @@ int main(){
                 }
             }while(*it != u);
             cout << "informacion del usuario:" << endl;
-            map<string,Usuario*> us = cu->getUsuarios();
-            //Usuario* pu = us.find(u)->second->;
-            cout << "Nombre: " << us.find(u)->second->getNombre() << endl;
-            cout << "Descripcion: " << us.find(u)->second->getDescripcion() << endl;
-            if (us.find(u)->second->getTipo() == Est){
-                Estudiante* e = dynamic_cast<Estudiante*>(us.find(u)->second);
-                cout << "Pais de residencia: " << e->getPaisResidencia() << endl;
+            DTUsuario* us;
+            *us = cu->getDataUsuario(u);
+            cout << "Nombre: " << us->getNombre() << endl;
+            cout << "Descripcion: " << us->getDescripcion() << endl;
+            DTProfesor* dtp = dynamic_cast<DTProfesor*>(us);
+            if(dtp == nullptr){
+                DTEstudiante* dte = dynamic_cast<DTEstudiante*>(us);
+                cout << "Pais de residencia: " << dte->getPais() << endl;
             }else{
-                Profesor* p = dynamic_cast<Profesor*>(us.find(u)->second);
-                cout << "Instituto donde trabaja: " << p->getInstituto() << endl;
+                cout << "Instituto donde trabaja: " << dtp->getInstituto() << endl;
                 vector<DTIdioma>::iterator iter2;
                 cout << "Idiomas en los que se especializa: " << endl;
-                for(iter2 = p->getDTidiomas().begin();iter2 != p->getDTidiomas().end(); iter2++){
-                    cout << iter2->getNombre() << endl;
+                for(iter2 = dtp->getIdiomas().begin();iter2 != dtp->getIdiomas().end(); iter2++){
+                   cout << iter2->getNombre() << endl;
                 }
             }
             break;
