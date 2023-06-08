@@ -151,21 +151,22 @@ int main(){
                     cout << i << ". " << *it << endl;
                     i++;
                 }
-                string u;
+                int ind_selecc;
+                bool esta_en_rango;
+                cout << "Seleccione un usuario: ";
+                cin >> ind_selecc;
+                string usuario_seleccionado = nicknames.at(ind_selecc-1);
                 do{
-                    cout << "Seleccione un usuario con su nombre: ";
-                    cin >> u;
-                    it = nicknames.begin();
-                    while(it != nicknames.end() && *it != u){
-                        it++;
+                    esta_en_rango = (ind_selecc > 0) && (ind_selecc < i);
+                    if(!esta_en_rango){
+                        cout << "Ingrese un numero dentro del rango: ";
+                        cin >> ind_selecc;
+                        usuario_seleccionado = nicknames.at(i-1);
                     }
-                    if(*it != u){
-                        cout << "El nombre de usuario no existe" << endl;
-                    }
-                }while(*it != u);
+                }while(!esta_en_rango);
                 cout << "informacion del usuario:" << endl;
                 DTUsuario* us;
-                *us = cu->getDataUsuario(u);
+                *us = cu->getDataUsuario(usuario_seleccionado);
                 cout << "Nombre: " << us->getNombre() << endl;
                 cout << "Descripcion: " << us->getDescripcion() << endl;
                 DTProfesor* dtp = dynamic_cast<DTProfesor*>(us);
@@ -229,14 +230,25 @@ int main(){
                 if(profes.empty()){
                     cout << "No existen profesores en el sistema, le recomendamos cargar un profesor seleccionando la opcion 1" << endl;
                 }else{
-                    cout << "Ingrese el nombre del profesor que quiere seleccionar para el curso" << endl;
+                    cout << "Ingrese el profesor que quiere seleccionar para el curso" << endl;
                     cout << "Profesores disponibles:" << endl;
                     vector<string>::iterator it;
+                    i = 1;
                     for(it = profes.begin(); it != profes.end(); it++){
-                        cout << *it << endl;
+                        cout << i << ". " << *it << endl;
+                        i++;
                     }
-                    string p;
-                    cin >> p;
+                    int ind_selecc;
+                    cin >> ind_selecc;
+                    esta_en_rango = true;
+                    do{
+                        esta_en_rango = (ind_selecc > 0) && (ind_selecc < i);
+                        if(!esta_en_rango){
+                            cout << "Ingrese un numero dentro del rango: ";
+                            cin >> ind_selecc;
+                        }
+                    }while(!esta_en_rango);
+                    string profe_selecc = profes.at(ind_selecc-1);
                     cout << "Ingrese el nombre del curso: ";
                     string nom;
                     cin >> nom;
@@ -264,19 +276,29 @@ int main(){
                         }
                     }while(!difbien);
                     ControladorCursos cc = ControladorCursos();
-                    cc.iniciarAltaCurso(p,nom,desc,d);
+                    cc.iniciarAltaCurso(profe_selecc,nom,desc,d);
                     cout << "Listando los idiomas en los que se especializa el profesor:" << endl;
-                    vector<DTIdioma> idiomasProf = cc.listaIdiomasProfesor(p);
+                    vector<DTIdioma> idiomasProf = cc.listaIdiomasProfesor(profe_selecc);
                     if(idiomasProf.empty()){
                         cout << "El profesor no tiene cargado ningun idioma, agregue un idioma al profesor y vuelva a empezar con el alta del curso" << endl;
                     }else{
-                        cout << "Seleccione el nombre del idioma en el cual se dictara el curso: ";
+                        cout << "Seleccione el idioma en el cual se dictara el curso: ";
                         vector<DTIdioma>::iterator i;
+                        int j = 1;
                         for(i = idiomasProf.begin(); i != idiomasProf.end(); i++){
-                            cout << i->getNombre() << endl;
+                            cout << j << ". " << i->getNombre() << endl;
                         }
-                        string idiom;
-                        cin >> idiom;
+                        int indice_selecc;
+                        cin >> indice_selecc;
+                        esta_en_rango = true;
+                        do{
+                            esta_en_rango = (indice_selecc < 0) && (indice_selecc > j);
+                            if(!esta_en_rango){
+                                cout << "Ingrese un numero que este en el rango: ";
+                                cin >> indice_selecc;
+                            }
+                        }while(!esta_en_rango);
+                        string idiom = idiomasProf.at(indice_selecc - 1).getNombre();
                         DTIdioma dtidioma = DTIdioma(idiom);
                         cc.seleccionarIdiomaCurso(dtidioma);
                         cout << "¿Desea que este curso tenga cursos previos?(responda con si o no): ";
@@ -327,13 +349,78 @@ int main(){
                             }
                         }
                         cc.crearCurso();
+                        cout << "¿Desea agregar lecciones? (responda con si o no): ";
+                        string resp;
+                        cin >> resp;
+                        if(resp == "si"){
+                            cc.seleccionarCurso(nom);
+                            cout << "Indique el nombre del tema a tratar en la leccion: ";
+                            string tema;
+                            cin >> tema;
+                            cout << "Indique el objetivo de la leccion: ";
+                            string objetivo;
+                            cin >> objetivo;
+                            cc.crearLeccion(tema,objetivo);
+                            cout << "¿Desea agregar un ejercicio?(indique si o no): ";
+                            string resp;
+                            cin >> resp;
+                            if (resp == "si"){
+                                do{
+                                    //Copio las instrucciones para agregar ejercicio
+                                }while(resp == "si");
+                            }
+                            cc.altaLeccion();
+                            cout << "La leccion fue creada con éxito" << endl;
+                        }
                         cc.darAltaCurso();
                     }
                 }
             }
             break;
         case 6:
-            cout << "Ha seleccionado la opción 6: Agregar Leccion" << endl;
+            {
+                cout << "Ha seleccionado la opción 6: Agregar Leccion" << endl;
+                ControladorCursos cc = ControladorCursos();
+                vector<DTCurso> cursosNoHabilitados = cc.listarCursosNoHabilitados();
+                cout << "Cursos no habilitados:" << endl;
+                vector<DTCurso>::iterator iter;
+                int indice = 1;
+                for(iter = cursosNoHabilitados.begin(); iter != cursosNoHabilitados.end(); iter++){
+                    cout << indice << ". " << iter->getNombre() << endl;
+                    indice++;
+                }
+                bool estaEnRango;
+                int indice_selecc;
+                do{
+                    cout << "Seleccione el curso al cual le quiere agregar la leccion: ";
+                    cin >> indice_selecc;
+                    if((indice_selecc < indice)&&(indice_selecc > 0)){
+                        estaEnRango = true;
+                    }else{
+                        cout << "Seleccione un numero dentro del rango: " << endl;
+                        cin >> indice_selecc;
+                        estaEnRango = false;
+                    }
+                }while(!estaEnRango);
+                cc.seleccionarCurso((cursosNoHabilitados.at(indice-1)).getNombre());
+                cout << "Indique el nombre del tema a tratar en la leccion: ";
+                string tema;
+                cin >> tema;
+                cout << "Indique el objetivo de la leccion: ";
+                string objetivo;
+                cin >> objetivo;
+                cc.crearLeccion(tema,objetivo);
+                cout << "¿Desea agregar un ejercicio?(indique si o no): ";
+                string resp;
+                cin >> resp;
+                if (resp == "si"){
+                    do{
+                        //Copio las instrucciones para agregar ejercicio
+                    }while(resp == "si");
+                }
+                cc.altaLeccion();
+                cout << "La leccion fue creada con éxito" << endl;
+            }
             break;
         case 7:
             cout << "Ha seleccionado la opción 7: Agregar Ejercicio" << endl;
