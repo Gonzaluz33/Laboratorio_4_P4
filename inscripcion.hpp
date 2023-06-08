@@ -11,6 +11,7 @@
 #include "ejercicio.hpp"
 #include "dt_est_curso.hpp"
 #include "dt_est_estudiante.hpp"
+#include "dt_inscripcion.hpp"
 
 using namespace std;
 
@@ -38,6 +39,7 @@ public:
     void incrementarCantEjRealizados();
     void eliminarDePendientes(Ejercicio *ej);
     Curso *getCurso();
+    DTInscripcion getDataInscripcion();
     //bool leccionTerminada(int cantEjActualizado, int totalEj); Parece que no lo usamos
     //int getCantidadEjerciciosPendientes();
 };

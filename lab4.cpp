@@ -12,6 +12,7 @@
 #include "controlador_cursos.hpp"
 #include "fabrica.hpp"
 #include "icontrolador_cursos.hpp"
+#include "dt_inscripcion.hpp"
 
 using namespace std;
 
@@ -361,11 +362,12 @@ int main(){
                     }
                 } while(!esta_dentro_del_rango);
 
-                DTCurso curso_seleccionado = cursos[indice_curso];
+                DTCurso curso_seleccionado = cursos[indice_curso-1];
                 cc->seleccionarCurso(curso_seleccionado.getNombre());
                 if(cc->habilitarCurso()) {
                     cout << "El curso no pudo ser habilitado." << endl
-                         << "El curso puede ser habilitado solamente si tiene al menos una leccion y un curso." << endl;
+                         << "El curso puede ser habilitado solamente si tiene al menos una "
+                            "leccion y todas sus lecciones tienen al menos un curso." << endl;
                 } else {
                     cout << "El curso fue habilitado." << endl;
                 }
@@ -373,10 +375,107 @@ int main(){
             }
             break;
         case 9:
-            cout << "Ha seleccionado la opción 9: Eliminar Curso" << endl;
+            {
+                IControladorCursos *cc = fabrica.getIControladorCursos();
+                int indice_curso;
+                cout << "Ha seleccionado la opción 9: Eliminar Curso" << endl;
+                cout << "Cursos: " << endl;
+
+                vector<DTCurso> cursos = cc->listarCursos();
+                vector<DTCurso>::iterator it;
+                int index = 1;
+                for(it = cursos.begin(); it != cursos.end(); it++) {
+                    /* 1. [Ingles] - Curso Introductorio Ingles - En este curso se enseña... */
+                    cout << index++ << ". [" << it->getIdioma().getNombre() << "] - "
+                         << it->getNombre() << endl << "\t" << it->getDescripcion() << endl;
+                }
+                bool esta_dentro_del_rango;
+                do {
+                    cout << "Seleccione un curso: ";
+                    cin >> indice_curso;
+                    esta_dentro_del_rango = indice_curso >= 1 && indice_curso < index;
+                    if(!esta_dentro_del_rango) {
+                        cout << "Seleccione un numero dentro del rango." << endl;
+                    }
+                } while(!esta_dentro_del_rango);
+                DTCurso curso_seleccionado = cursos[indice_curso-1];
+                cc->eliminarCurso(curso_seleccionado.getNombre());
+                cout << "El curso fue eliminado." << endl;
+
+            }
             break;
         case 10:
-            cout << "Ha seleccionado la opción 10: Consultar Curso" << endl;
+            {
+                IControladorCursos *cc = fabrica.getIControladorCursos();
+                int indice_curso;
+                cout << "Ha seleccionado la opción 10: Consultar Curso" << endl;
+                cout << "Cursos: " << endl;
+
+                // Listo cursos
+                vector<DTCurso> cursos = cc->listarCursos();
+                vector<DTCurso>::iterator it_curso;
+                int index = 1;
+                for(it_curso = cursos.begin(); it_curso != cursos.end(); it_curso++) {
+                    cout << index++ << it_curso->getNombre() << endl;
+                }
+                bool esta_dentro_del_rango;
+
+                // Seleccion de curso
+                do {
+                    cout << "Seleccione un curso: ";
+                    cin >> indice_curso;
+                    esta_dentro_del_rango = indice_curso >= 1 && indice_curso < index;
+                    if(!esta_dentro_del_rango) {
+                        cout << "Seleccione un numero dentro del rango." << endl;
+                    }
+                } while(!esta_dentro_del_rango);
+                DTCurso curso_seleccionado = cursos[indice_curso-1];
+
+                // Imprimo datos curso
+                cout << "Informacion del Curso:" << endl
+                     << "Nombre: " << curso_seleccionado.getNombre() << endl
+                     << "Descripción: " << curso_seleccionado.getDescripcion() << endl
+                     << "Dificultad: "
+                     << ((curso_seleccionado.getDificultad() == Principiante) ? "Principiante" :
+                        (curso_seleccionado.getDificultad() == Medio) ? "Medio" :
+                        (curso_seleccionado.getDificultad() == Avanzado) ? "Avanzado" : "")
+                     << endl
+                     << "Idioma: " << curso_seleccionado.getIdioma().getNombre() << endl
+                     << "Nombre del Profesor: " << curso_seleccionado.getProfesor().getNombre()
+                     << endl
+                     << "Esta Habilitado: " << (curso_seleccionado.getEstaHabilitado() ? "Si":"No")
+                     << endl;
+
+                // Listo lecciones
+                vector<DTLeccion> lecciones = curso_seleccionado.getLecciones();
+                vector<DTLeccion>::iterator it_leccion;
+                for(it_leccion = lecciones.begin(); it_leccion != lecciones.end(); it_leccion++) {
+                    cout << "\tTema: " << it_leccion->getNombreTema() << endl
+                         << "\tObjetivo: " << it_leccion->getObjetivo() << endl;
+                    vector<DTEjercicio> ejercicios = it_leccion->getEjercicios();
+                    vector<DTEjercicio>::iterator it_ejercicio;
+                    for(it_ejercicio = ejercicios.begin();
+                                    it_ejercicio != ejercicios.end(); it_ejercicio++) {
+                        cout << "\t\tEjercicio: " << endl
+                             << "\t\tDescripcion: " << it_ejercicio->getDescripcion() << endl;
+                        // ACA TENGO QUE IMPRIMIR LOS DATOS DEL TIPO ESPECIFICO DE EJERCICIO
+                        // CUANDO SEPA COMO TENER LOS DATOS (LO MISMO PASA CON DTUsuario y
+                        // DTProfesor, DTEstudiante)
+                    }   
+                }
+
+                // Listo inscripciones
+                vector<DTInscripcion> inscripciones = curso_seleccionado.getInscripciones();
+                vector<DTInscripcion>::iterator it_inscripcion;
+                for(it_inscripcion = inscripciones.begin(); 
+                                    it_inscripcion != inscripciones.end(); it_inscripcion++) {
+                    DTFecha f = it_inscripcion->getFechaInscripcion();
+                    cout << "\tNombre Estudiante: " << it_inscripcion->getNombreEstudiante() << endl
+                         << "\tFecha Inscripcion: " << f.getDia() << "/" << f.getMes() << "/"
+                         << f.getAnio() << endl;
+                }
+
+            }
             break;
         case 11:
             cout << "Ha seleccionado la opción 11: Inscribirse a Curso" << endl;

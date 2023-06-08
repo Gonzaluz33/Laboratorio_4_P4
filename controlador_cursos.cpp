@@ -284,6 +284,12 @@ bool ControladorCursos::habilitarCurso() {
     } else {
         salida = true;
     }
+    if (!salida) {
+        cursosNoHabilitados.erase(curso_recordado->getNombre());
+        cursosHabilitados.insert(pair<string, Curso*>(curso_recordado->getNombre(),
+                                                      curso_recordado));
+        curso_recordado->setEstaHabilitado(true);
+    }
 
     /* Libero memoria */
     curso_recordado = nullptr;

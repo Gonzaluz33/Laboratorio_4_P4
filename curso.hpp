@@ -30,6 +30,7 @@ private:
     Profesor* profesorAsignado;
     Idioma *idioma;
     vector<Curso*> cursosPrevios;
+    bool estaHabilitado;
 
 public:
     Curso(string nombre, string descripcion, Dificultad dificultad, Profesor *profesor, Idioma *idioma, vector<Curso*> cursosPrevios);
@@ -47,6 +48,7 @@ public:
     vector<DTLeccion> listarLeccionesOrdenado();
     Leccion *seleccionarLeccion(string nombreTema);
     vector<Curso*> getCursosPrevios();
+    void setEstaHabilitado(bool valor);
 };
 
 #endif
