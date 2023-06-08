@@ -10,6 +10,7 @@ using namespace std;
 #include "estudiante.hpp"
 #include "profesor.hpp"
 #include "dt_idioma.hpp"
+#include "controlador_cursos.hpp"
 
 
 int main(){
