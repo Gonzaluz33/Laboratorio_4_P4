@@ -21,7 +21,7 @@ class ControladorUsuarios : public IControladorUsuarios {
         ~ControladorUsuarios();
         static ControladorUsuarios* instancia;
         map<string, Usuario*> usuarios;
-        map<string,Idioma*> Idiomas;        
+        map<string,Idioma*> idiomas;        
         string nickname_recordado;
         string contrasena_recordado;
         string nombre_recordado;
@@ -57,6 +57,7 @@ class ControladorUsuarios : public IControladorUsuarios {
         vector<string> listarNickname();
         bool iniciarAltaIdioma(DTIdioma idioma);
         DTUsuario getDataUsuario(string nickname);
+        map<string, Idioma*> getIdiomas();
 };
 
 #endif
