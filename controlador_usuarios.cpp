@@ -266,6 +266,16 @@ void ControladorUsuarios::suscribir(vector<Idioma*> idiomasASuscribir)
 };
 
 void ControladorUsuarios::eliminarSuscripcion(vector<Idioma*> idiomasAEliminar) {
+    Usuario* user = buscarUsuario(nickname_listarIdiomasNoSuscritos_recordado);
+    vector<Idioma*>::iterator it;
+    for(it = idiomasAEliminar.begin();it != idiomasAEliminar.end();++it){
+        user->eliminarIdioma(*it);
+        (*it)->eliminarObservador(user);
+    }
+    IObserver* observador = user;
+    for(it = idiomasAEliminar.begin();it != idiomasAEliminar.end();++it){
+        (*it)->eliminarObservador(observador);
+    }
     
 }
 
