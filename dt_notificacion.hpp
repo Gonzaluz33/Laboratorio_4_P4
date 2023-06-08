@@ -14,6 +14,7 @@ class DTNotificacion{
         ~DTNotificacion();
         string getNombreCurso();
         string getNombreIdioma();
+        friend ostream& operator<<(ostream& os, DTNotificacion notificacion);
 };
 
 #endif
