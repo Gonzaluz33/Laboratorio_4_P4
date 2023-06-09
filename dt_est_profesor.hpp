@@ -12,6 +12,7 @@ class DTEstProfesor {
         ~DTEstProfesor();
         DTCurso getCurso();
         int getPromedioAvance();
+        friend ostream& operator<<(ostream& os, DTEstProfesor estProfesor);
 };
 
 #endif

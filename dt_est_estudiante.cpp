@@ -16,3 +16,9 @@ DTCurso DTEstEstudiante::getDTCurso(){
 int DTEstEstudiante::getAvance(){
     return this->avance;
 }
+
+ostream& operator<<(ostream& os, DTEstEstudiante estEstudiante){ 
+    DTCurso curso = estEstudiante.getDTCurso();
+    os << "Nombre del curso: " + curso.getNombre() + "Avance Correspondiente: " + char(estEstudiante.getAvance());
+    return os;
+}

@@ -12,11 +12,15 @@
 #include "controlador_cursos.hpp"
 #include "fabrica.hpp"
 #include "icontrolador_cursos.hpp"
+#include "completarPalabras.hpp"
+#include "traduccion.hpp"
+#include "dt_est_estudiante.hpp"
+#include "dt_est_curso.hpp"
+#include "dt_est_profesor.hpp"
 #include "dt_inscripcion.hpp"
+ 
 
-using namespace std;
 
-Fabrica fabrica;
 
 int main(){
     int opcion;
@@ -119,10 +123,10 @@ int main(){
                     {
                         tipo = Est;
                         cu->iniciarAltaUsuario(nickname,contrasenia,nombre,descripcion,tipo);
-                        cout << "Ingrese el pais de Residencia";
+                        cout << "Ingrese el pais de Residencia: "<< endl;
                         string pais;
                         cin >> pais;
-                        cout << "Ingrese la fecha de nacimiento separados por espacios: dia mes año en formato numerico";
+                        cout << "Ingrese la fecha de nacimiento separados por espacios: dia mes año en formato numerico: "<< endl;
                         int dia;
                         int mes;
                         int anio;
@@ -139,7 +143,7 @@ int main(){
                 }
             }
             break;
-        case 2:
+       case 2:
             {
                 cout << "Ha seleccionado la opción 2: Consulta de Usuario" << endl;
                 cout << "Listando los usuarios" << endl;
@@ -657,20 +661,298 @@ int main(){
 
             }
             break;
-        case 11:
+        case 11: {/* Falta implementar las operaciones
             cout << "Ha seleccionado la opción 11: Inscribirse a Curso" << endl;
-            break;
-        case 12:
-            cout << "Ha seleccionado la opción 12: Realizar Ejercicio" << endl;
-            break;
-        case 13:
-            cout << "Ha seleccionado la opción 13: Consultar Estadísticas" << endl;
-            break;
-        case 14:
-            {
-                cout << "Ha seleccionado la opción 14: Suscribirse a Notificaciones" << endl;
-                
+            cout << "Ingrese el Nickname del Usuario: ";
+            string nickname;
+            cin >> nickname;
+            int indice_curso;
+            Fabrica* f = new Fabrica();
+            IControladorCursos* cc = f->getIControladorCursos();
+            vector<DTCurso> cursosSeleccionados;
+            vector<DTCurso> cursosDisponibles = cc->listarCursosDisponibles(nickname);
+            vector<DTCurso>::iterator it1;
+            int i_12 = 1;
+            for(it1 = cursosDisponibles.begin(); it1 != cursosDisponibles.end(); ++it1){
+                cout << i_12 << ". " << (*it1).getNombre() << endl;
+                i_12++;
             }
+            cout << "-------------------------" << endl;
+            int opcion_12 = 0;
+            do{
+                cout << "Ingrese el número 0 cuando haya seleccionado todos los cursos disponibles" << endl;
+                cout << "Ingrese la opcion correspondiente a el curso seleccionado: ";
+                cin >> opcion_12;
+                if(opcion_12 > cursosDisponibles.size() + 1 || opcion_12 < 0 ){
+                    cout << "Ingrese un número dentro de las opciones" << endl;  
+                }else{
+                    if(opcion_12 != 0){
+                        cursosSeleccionados.push_back(cursosDisponibles[opcion_12-1]);
+                    }
+                }
+            }while(opcion_12 != 0);
+            cout << "Cursos Disponibles:" << endl;
+    
+            int i = 0;
+            do{
+                cout << "Ingrese la opcion correspondiente de un Curso Disponible: ";
+                cin >> i;
+                if(opcion_12 > cursosDisponibles.size() + 1 || opcion_12 < 0 ){
+                    cout << "Ingrese un número dentro de las opciones" << endl;  
+                }
+            }while(i != 0);
+            
+            cc->inscribirseACurso(cursosDisponibles[i]);*/
+            }
+            break;
+        case 12: {
+            cout << "Ha seleccionado la opción 12: Realizar Ejercicio" << endl;
+            cout << "Ingrese el Nickname del Usuario: ";
+            string nickname;
+            cin >> nickname;
+            Fabrica* f = new Fabrica();
+            IControladorCursos* cc = f->getIControladorCursos();
+            vector<DTCurso> cursosSeleccionados;
+            vector<DTCurso> cursosNoAprobados = cc->listarCursosNoAprobados(nickname);
+            vector<DTCurso>::iterator it1;
+            int i_12 = 1;
+            for(it1 = cursosNoAprobados.begin(); it1 != cursosNoAprobados.end(); ++it1){
+                cout << i_12 << ". " << (*it1).getNombre() << endl;
+                i_12++;
+            }
+            cout << "-------------------------" << endl;
+            int opcion_12 = 0;
+            do{
+                cout << "Ingrese el número 0 cuando haya seleccionado todos los cursos no aprobados" << endl;
+                cout << "Ingrese la opcion correspondiente a el curso seleccionado: ";
+                cin >> opcion_12;
+                if(opcion_12 > cursosNoAprobados.size() + 1 || opcion_12 < 0 ){
+                    cout << "Ingrese un número dentro de las opciones" << endl;  
+                }else{
+                    if(opcion_12 != 0){
+                        cursosSeleccionados.push_back(cursosNoAprobados[opcion_12-1]);
+                    }
+                }
+            }while(opcion_12 != 0);
+            cout << "Cursos No Aprobados:" << endl; 
+
+            cout << "Ingrese el Nombre del Curso: ";
+            string nomCurso;
+            cin >> nickname;
+            vector<DTEjercicio> ejerciciosSelecionados;
+            vector<DTEjercicio> ejerciciosPendientes = cc->listarEjerciciosPendientes(nomCurso);
+            vector<DTEjercicio>::iterator it2;
+            i_12 = 1;
+            for(it2 = ejerciciosPendientes.begin(); it2 != ejerciciosPendientes.end(); ++it2){
+                cout << i_12 << ". " << (*it2).getDescripcion() << endl;
+                i_12++;
+            }
+            cout << "-------------------------" << endl;
+            opcion_12 = 0;
+            do{
+                cout << "Ingrese el número 0 cuando haya seleccionado todos los ejercicios pendientes" << endl;
+                cout << "Ingrese la opcion correspondiente a el ejercicio seleccionado: ";
+                cin >> opcion_12;
+                if(opcion_12 > ejerciciosPendientes.size() + 1 || opcion_12 < 0 ){
+                    cout << "Ingrese un número dentro de las opciones" << endl;  
+                }else{
+                    if(opcion_12 != 0){
+                        ejerciciosSelecionados.push_back(ejerciciosPendientes[opcion_12-1]);
+                    }
+                }
+            }while(opcion_12 != 0);
+            cout << "Ejercicios Pendientes :" << endl;
+
+            opcion_12 = 0;
+            do{
+                cout << "Ingrese el número 0 cuando haya seleccionado un ejercicio" << endl;
+                cout << "Ingrese la opcion correspondiente a el ejercicio seleccionado: ";
+                cin >> opcion_12;
+                if(opcion_12 > ejerciciosPendientes.size() + 1 || opcion_12 < 0 ){
+                    cout << "Ingrese un número dentro de las opciones" << endl;  
+                }else{
+                    if(opcion_12 != 0){
+                         cc->seleccionarEjercicio(ejerciciosSelecionados[opcion_12]);
+                    }
+                }
+            }while(opcion_12 != 0);
+           
+            CompletarPalabras* objetoDerivado = dynamic_cast<CompletarPalabras*>(cc->getEjercicioRecordado());
+            cout << "Ingrese solucion: ";
+            string solucion;
+            cin >> solucion;
+            if(objetoDerivado){
+                cc->ingresarSolucionCP(solucion);
+            }
+            else {
+                cc->ingresarSolucionT(solucion);
+            }
+            bool ejAprobado = cc->ejercicioAprobado();
+            if(ejAprobado){
+                cout << "Ejercicio Aprobado ";
+            }
+            else{
+                cout << "Ejercicio no Aprobado";
+            }
+        }
+        break;
+        case 13:{
+            cout << "Ha seleccionado la opción 13: Consultar Estadísticas" << endl;
+
+            Fabrica* f = new Fabrica();
+            IControladorUsuarios* cu = f->getIControladorUsuarios();
+            IControladorCursos* cc = f->getIControladorCursos();
+
+            vector<string> estudiantesSelecionados;
+            vector<string> listarEstudiantes = cu->listarEstudiantes();
+            vector<string>::iterator it1;
+            int i_13 = 1;
+            for(it1 = listarEstudiantes.begin(); it1 != listarEstudiantes.end(); ++it1){
+                cout << i_13 << ". " << (*it1) << endl;
+                i_13++;
+            }
+            cout << "-------------------------" << endl;
+            int opcion_13 = 0;
+            do{
+                cout << "Ingrese el número 0 cuando haya listado todos los estudiantes" << endl;
+                cout << "Ingrese la opcion correspondiente a el estudiante seleccionado: ";
+                cin >> opcion_13;
+                if(opcion_13 > listarEstudiantes.size() + 1 || opcion_13 < 0 ){
+                    cout << "Ingrese un número dentro de las opciones" << endl;  
+                }else{
+                    if(opcion_13 != 0){
+                        estudiantesSelecionados.push_back(listarEstudiantes[opcion_13-1]);
+                    }
+                }
+            }while(opcion_13 != 0);
+            cout << "lista de estudiantes :" << endl;
+
+            cout << "Ingrese nickname del estudiante: ";
+            string nickname;
+            cin >> nickname;
+            vector<DTEstEstudiante> estEstudiantesSelecionados;
+            vector<DTEstEstudiante> listarEstEstudiantes = cu->listarEstEstudiante(nickname);
+            vector<DTEstEstudiante>::iterator it2;
+            i_13 = 1;
+            for(it2 = listarEstEstudiantes.begin(); it2 != listarEstEstudiantes.end(); ++it2){
+                cout << i_13 << ". " << (*it2)<< endl;
+                i_13++;
+            }
+            cout << "-------------------------" << endl;
+            opcion_13 = 0;
+            do{
+                cout << "Ingrese el número 0 cuando haya listado las estadisticas de todos los estudiantes" << endl;
+                cout << "Ingrese la opcion correspondiente a el estudiante seleccionado: ";
+                cin >> opcion_13;
+                if(opcion_13 > listarEstEstudiantes.size() + 1 || opcion_13 < 0 ){
+                    cout << "Ingrese un número dentro de las opciones" << endl;  
+                }else{
+                    if(opcion_13 != 0){
+                        estEstudiantesSelecionados.push_back(listarEstEstudiantes[opcion_13-1]);
+                    }
+                }
+            }while(opcion_13 != 0);
+            cout << "lista de estadisticas de estudiantes :" << endl;
+
+            int opcion_tipo;
+            do{
+                cout << "Ingrese el tipo de usuario (1_ Profesor 2_Estudiante): ";
+                cin >> opcion_tipo;
+                if(opcion_tipo < 1 || opcion_tipo > 2)
+                cout << "Ingrese un número dentro de las opciones" << endl;
+            }while(opcion_tipo < 1 || opcion_tipo > 2);
+            switch (opcion_tipo) {
+                case 1:{
+                    vector<string> profesoresSelecionados;
+                    vector<string> listarProfesores = cu->listarProfesores();
+                    vector<string>::iterator it3;
+                    i_13 = 1;
+                    for(it3 = listarProfesores.begin(); it3 != listarProfesores.end(); ++it3){
+                        cout << i_13 << ". " << (*it3)<< endl;
+                        i_13++;
+                    }
+                    cout << "-------------------------" << endl;
+                    opcion_13 = 0;
+                    do{
+                        cout << "Ingrese el número 0 cuando haya listado todos los profesores" << endl;
+                        cout << "Ingrese la opcion correspondiente a el profesor seleccionado: ";
+                        cin >> opcion_13;
+                        if(opcion_13 > listarProfesores.size() + 1 || opcion_13 < 0 ){
+                            cout << "Ingrese un número dentro de las opciones" << endl;  
+                        }else{
+                            if(opcion_13 != 0){
+                                profesoresSelecionados.push_back(listarProfesores[opcion_13-1]);
+                            }
+                        }
+                    }while(opcion_13 != 0);
+                    cout << "lista de profesores :" << endl;
+
+                    cout << "Ingrese nickname del estudiante: ";
+                    string nickname;
+                    cin >> nickname;
+                    vector<DTEstProfesor> estProfesorSelecionados;
+                    vector<DTEstProfesor> listarEstProfesor = cu->listarEstProfesor(nickname);
+                    vector<DTEstProfesor>::iterator it4;
+                    i_13 = 1;
+                    for(it4 = listarEstProfesor.begin(); it4 != listarEstProfesor.end(); ++it4){
+                        cout << i_13 << ". " << (*it4) << endl;
+                        i_13++;
+                    }
+                    cout << "-------------------------" << endl;
+                    opcion_13 = 0;
+                    do{
+                        cout << "Ingrese el número 0 cuando haya listado las estadisticas de todos los profesores" << endl;
+                        cout << "Ingrese la opcion correspondiente a el profesor seleccionado: ";
+                        cin >> opcion_13;
+                        if(opcion_13 > listarEstProfesor.size() + 1 || opcion_13 < 0 ){
+                            cout << "Ingrese un número dentro de las opciones" << endl;  
+                        }else{
+                            if(opcion_13 != 0){
+                                estProfesorSelecionados.push_back(listarEstProfesor[opcion_13-1]);
+                            }
+                        }
+                    }while(opcion_13 != 0);
+                    cout << "lista de estadisticas de profesores:" << endl;
+                }
+                break;
+                case 2: {
+                    vector<DTCurso> cursosSelecionados;
+                    vector<DTCurso> listarCursos = cc->listarCursos();
+                    vector<DTCurso>::iterator it5;
+                    i_13 = 1;
+                    for(it5 = listarCursos.begin(); it5 != listarCursos.end(); ++it5){
+                        cout << i_13 << ". " << (*it5).getNombre() << endl;
+                        i_13++;
+                    }
+                    cout << "-------------------------" << endl;
+                    opcion_13 = 0;
+                    do{
+                        cout << "Ingrese el número 0 cuando haya listado todos los cursos" << endl;
+                        cout << "Ingrese la opcion correspondiente a el curso seleccionado: ";
+                        cin >> opcion_13;
+                        if(opcion_13 > listarCursos.size() + 1 || opcion_13 < 0 ){
+                            cout << "Ingrese un número dentro de las opciones" << endl;  
+                        }else{
+                            if(opcion_13 != 0){
+                                cursosSelecionados.push_back(listarCursos[opcion_13-1]);
+                            }
+                        }
+                    }while(opcion_13 != 0);
+                    cout << "lista de cursos :" << endl;
+                  
+                    cout << "Ingrese nombre de curso: ";
+                    string nombreCurso;
+                    cin >> nombreCurso;
+                    
+                    DTEstCurso listarEstCurso = cc->listarEstCurso(nombreCurso);
+                    vector<DTEstCurso>::iterator it6;
+                    cout << "lista de estadisticas del curso:" << endl;
+                }
+            }
+        }
+        break;
+        case 14:
+            cout << "Ha seleccionado la opción 14: Suscribirse a Notificaciones" << endl;
             break;
         case 15:
             {
@@ -758,7 +1040,7 @@ int main(){
         }
         
         cout << endl;
-    } while (opcion != 5);
+    } while (opcion != 18);
 
     return 0;
 }

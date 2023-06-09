@@ -12,6 +12,7 @@ public:
 private:
     int promedioAvance;
     DTCurso informacion;
+    friend ostream& operator<<(ostream& os, DTEstCurso estCurso);
 };
 
 #endif

@@ -10,6 +10,7 @@
 #include "dt_est_curso.hpp"
 #include "dificultad.hpp"
 #include "tipo_ejercicio.hpp"
+#include "ejercicio.hpp"
 
 using namespace std;
 
@@ -44,7 +45,7 @@ public:
     virtual void ingresarSolucionT(string sol)=0;
     virtual bool ejercicioAprobado()=0;
     virtual DTEstCurso listarEstCurso(string nombreCurso)=0;
-    virtual bool habilitarCurso()=0;
+    virtual Ejercicio *getEjercicioRecordado()=0;
 };
 
 #endif

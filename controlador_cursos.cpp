@@ -108,7 +108,13 @@ void ControladorCursos::seleccionarCurso(string nombreCurso) {
 }
 
 void ControladorCursos::crearLeccion(string nombreTema, string objetivo) {
-    leccion_recordada = curso_recordado->crearLeccion(nombreTema, objetivo);
+    curso_recordado->crearLeccion(nombreTema, objetivo);
+    vector<Leccion*> lecciones = curso_recordado->getLecciones();
+    vector<Leccion*>::iterator it = lecciones.begin();
+    while((*it)->getNombreTema() != nombreTema) {
+        it++;
+    }
+    leccion_recordada = (*it);
 }
 
 void ControladorCursos::altaLeccion() {
@@ -278,12 +284,6 @@ bool ControladorCursos::habilitarCurso() {
     } else {
         salida = true;
     }
-    if (!salida) {
-        cursosNoHabilitados.erase(curso_recordado->getNombre());
-        cursosHabilitados.insert(pair<string, Curso*>(curso_recordado->getNombre(),
-                                                      curso_recordado));
-        curso_recordado->setEstaHabilitado(true);
-    }
 
     /* Libero memoria */
     curso_recordado = nullptr;
@@ -322,4 +322,8 @@ vector<DTCurso> ControladorCursos::listarCursosDisponibles(string nickname) {
         }
     }
     return salida;
+}
+
+Ejercicio *ControladorCursos::getEjercicioRecordado(){
+    return this->ejercicio_recordado;
 }

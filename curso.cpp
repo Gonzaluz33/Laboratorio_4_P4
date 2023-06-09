@@ -9,7 +9,6 @@ Curso::Curso(string nombre, string descripcion, Dificultad dificultad, Profesor 
     this->profesorAsignado = profesor;
     this->idioma = idioma;
     this->cursosPrevios = cursosPrevios;
-    this->estaHabilitado = false;
 }
 
 Curso::~Curso(){}
@@ -27,21 +26,8 @@ Dificultad Curso::getDificultad(){
 }
 
 DTCurso Curso::getdataCurso(){
-    vector<DTLeccion> dts_lecciones;
-    vector<Leccion*>::iterator it_leccion;
-    for(it_leccion = lecciones.begin(); it_leccion != lecciones.end(); it_leccion++) {
-        dts_lecciones.push_back((*it_leccion)->getDataLeccion());
-    }
-
-    vector<DTInscripcion> dts_inscripciones;
-    map<string, Inscripcion*>::iterator it_inscripcion;
-    for(it_inscripcion = inscripciones.begin(); it_inscripcion != inscripciones.end(); it_inscripcion++) {
-        dts_inscripciones.push_back(it_inscripcion->second->getDataInscripcion());
-    }
-    return DTCurso(this->getNombre(),this->getDescripcion(), this->getDificultad(),
-            this->idioma->getDataIdioma(), lecciones.size(), this->getTotalEjercicios(),
-            this->profesorAsignado->getDataProfesor(), this->estaHabilitado, dts_lecciones,
-            dts_inscripciones);
+    return DTCurso(this->getNombre(),this->getDescripcion(), this->getDificultad(), this->idioma->getDataIdioma(),
+            lecciones.size(), this->getTotalEjercicios(), this->profesorAsignado->getDataProfesor());
 }
 
 int Curso::getTotalEjercicios(){
@@ -53,10 +39,9 @@ int Curso::getTotalEjercicios(){
     return totalEjercicios;
 }
 
-Leccion *Curso::crearLeccion(string nombreTema, string objetivo){
+void Curso::crearLeccion(string nombreTema, string objetivo){
     Leccion* leccionNueva = new Leccion(this->getTotalEjercicios(), nombreTema, objetivo);
     this->lecciones.push_back(leccionNueva);
-    return leccionNueva;
 }
 
 DTEstCurso Curso::listarEstCurso(){
@@ -101,8 +86,4 @@ Leccion *Curso::seleccionarLeccion(string nombreTema) {
 
 vector<Curso*> Curso::getCursosPrevios() {
     return cursosPrevios;
-}
-
-void Curso::setEstaHabilitado(bool valor) {
-    estaHabilitado = valor;
 }

@@ -79,7 +79,7 @@ vector<DTIdioma> Usuario::listarDTidiomasSuscritos(){
     return id_sus;
 }
 
-vector<DTNotificacion> Usuario::getDTNotificaciones(){
+vector<DTNotificacion> Usuario::getDTNotificaciones(){//cambio
     vector<DTNotificacion> n;
     vector<Notificacion*>::iterator it;
     it = this->notificaciones.begin();
