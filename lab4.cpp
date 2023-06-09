@@ -164,7 +164,7 @@ int main(){
                         usuario_seleccionado = nicknames.at(i-1);
                     }
                 }while(!esta_en_rango);
-                cout << "informacion del usuario:" << endl;
+                cout << "Informacion del usuario: " << endl;
                 DTUsuario* us;
                 *us = cu->getDataUsuario(usuario_seleccionado);
                 cout << "Nombre: " << us->getNombre() << endl;
@@ -188,7 +188,7 @@ int main(){
                 cout << "Ha seleccionado la opción 3: Alta de Idioma" << endl;
                 bool error;
                 do{
-                    cout << "ingrese el nombre del idioma a dar de alta: ";
+                    cout << "Ingrese el nombre del idioma a dar de alta: ";
                     string i;
                     cin >> i;
                     DTIdioma dti = DTIdioma(i);
@@ -207,7 +207,7 @@ int main(){
                 cout << "Ha seleccionado la opción 4: Consultar Idiomas" << endl;
                 vector<DTIdioma> dtidiomas;
                 do{
-                    cout << "Idiomas disponibles:" << endl;
+                    cout << "Idiomas disponibles: " << endl;
                     ControladorUsuarios* cu = ControladorUsuarios::getInstance();
                     dtidiomas = cu->listarIdiomas();
                     vector<DTIdioma>::iterator it;
@@ -423,7 +423,98 @@ int main(){
             }
             break;
         case 7:
-            cout << "Ha seleccionado la opción 7: Agregar Ejercicio" << endl;
+            {
+                cout << "Ha seleccionado la opción 7: Agregar Ejercicio" << endl;
+                IControladorCursos *cc = fabrica.getIControladorCursos();
+                //listar cursos no habilitados
+                vector<DTCurso> cursos = cc->listarCursosNoHabilitados();
+                cout << "Cursos No Habilitados:" << endl;
+                vector<DTCurso>::iterator it_curso;
+                int index = 0;
+                for(it_curso = cursos.begin(); it_curso != cursos.end(); it_curso++) {
+                    /* 1. [Ingles] - Curso Introductorio Ingles - En este curso se enseña... */
+                    cout << index++ << ". [" << it_curso->getIdioma().getNombre() << "] - "
+                         << it_curso->getNombre() << endl << "\t" << it_curso->getDescripcion() << endl;
+                }
+                //seleccionar un curso
+                int curso_seleccionado;
+                bool esta_dentro_del_rango;
+                do {
+                    cout << "Seleccione un curso: ";
+                    cin >> curso_seleccionado;
+                    esta_dentro_del_rango = curso_seleccionado >= 1 && curso_seleccionado < index;
+                    if(!esta_dentro_del_rango) {
+                        cout << "Seleccione un numero dentro del rango." << endl;
+                    }
+                } while(!esta_dentro_del_rango);
+                DTCurso curso_sel = cursos[curso_seleccionado-1];
+                cc->seleccionarCurso(curso_sel.getNombre());
+                //listar las lecciones de forma ordenada
+                vector<DTLeccion> lecciones = curso_seleccionado->listarLeccionesOrdenado();
+                cout << "Lecciones definidas:" << endl;
+                vector<DTLeccion>::iterator it_leccion;
+                for(it_leccion = lecciones.begin(); it_leccion != lecciones.end(); it_leccion++) {
+                    cout << index++ <<". Tema: " << it_leccion->getNombreTema() 
+                         << " - Objetivo: " << it_leccion->getObjetivo()
+                         << " - Cantidad de ejercicios: " << it_leccion->getTotalEjercicios() << endl;
+                }
+                //seleccionar una leccion
+                int leccion_seleccionada;
+                do {
+                    cout << "Seleccione una leccion: ";
+
+                    cin >> leccion_seleccionada;
+                    esta_dentro_del_rango = leccion_seleccionada >= 1 && leccion_seleccionada <= index;
+                    if(!esta_dentro_del_rango) {
+                        cout << "Seleccione un numero dentro del rango." << endl;
+                    }
+                } while(!esta_dentro_del_rango);
+                DTLeccion leccion_sel = lecciones[leccion_seleccionada-1];
+                cc->seleccionarLeccion(leccion_sel.getNombreTema);
+                //ingresar tipo ejercicio y descripcion
+                int opcion_tipo;
+                do{
+                    cout << "Ingrese el tipo de ejercicio (1: Completar palabras 2: Traduccion): ";
+                    cin >> opcion_tipo;
+                    if(opcion_tipo < 1 || opcion_tipo > 2)
+                        cout << "Ingrese un número dentro de las opciones" << endl;
+                }while(opcion_tipo < 1 || opcion_tipo > 2);
+                cout << "Ingrese una descripcion: ";
+                string descripcion;
+                cin >> descripcion;
+                //ingresar mas datos del ejercicio (segun el tipo)
+                TipoEjercicio tipo_ej;
+                switch (opcion_tipo){
+                    case 1:
+                        {
+                            tipo_ej = CompPalabras;
+                            cc->crearEjercicio(tipo_ej, descripcion);
+                            cout << "Ingrese la frase a completar, representando las palabras faltantes mediante 3 guiones"<< endl;
+                            string frase;
+                            cin >> frase;
+                            cout << "Ingrese el conjunto ordenado de palabras que conforman la solución, separandolas con una coma"
+                            string solucion;
+                            cin >> solucion;
+                            cc->agregarDatosCP(frase, solucion); //ya queda en el ejercicio seleccionado??
+                        }
+                        break;
+                    case 2:
+                        {
+                            tipo_ej = Trad;
+                            cc->crearEjercicio(tipo_ej, descripcion);
+                            cout << "Ingrese la frase a traducir" << endl;
+                            string frase;
+                            cin >> frase;
+                            cout << "Ingrese la frase traducida" << endl;
+                            string solucion;
+                            cin >> solucion;
+                            cc->agregarDatosTR(frase, solucion);
+                        }    
+                        break;
+                }
+                cc->altaEjercicio();
+                cout << "Ejercicio agregado correctamente"<< endl;
+            }
             break;
         case 8:
             {
