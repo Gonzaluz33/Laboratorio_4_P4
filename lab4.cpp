@@ -430,7 +430,7 @@ int main(){
                 vector<DTCurso> cursos = cc->listarCursosNoHabilitados();
                 cout << "Cursos No Habilitados:" << endl;
                 vector<DTCurso>::iterator it_curso;
-                int i = 1;
+                int i = 1; //1?
                 for(it_curso = cursos.begin(); it_curso != cursos.end(); it_curso++) {
                     /* 1. [Ingles] - Curso Introductorio Ingles - En este curso se enseña... */
                     cout << i << ". [" << it_curso->getIdioma().getNombre() << "] - "
@@ -443,7 +443,7 @@ int main(){
                 do {
                     cout << "Seleccione un curso: ";
                     cin >> curso_seleccionado;
-                    esta_dentro_del_rango = curso_seleccionado >= 1 && curso_seleccionado < index;
+                    esta_dentro_del_rango = curso_seleccionado >= 1 && curso_seleccionado < i;
                     if(!esta_dentro_del_rango) {
                         cout << "Seleccione un numero dentro del rango." << endl;
                     }
@@ -451,13 +451,13 @@ int main(){
                 DTCurso curso_sel = cursos[curso_seleccionado-1];
                 cc->seleccionarCurso(curso_sel.getNombre());
                 //listar las lecciones de forma ordenada
-                vector<DTLeccion> lecciones = curso_seleccionado->listarLeccionesOrdenado();
+                vector<DTLeccion> lecciones = cc->listarLeccionesOrdenado();
                 cout << "Lecciones definidas:" << endl;
                 vector<DTLeccion>::iterator it_leccion;
                 for(it_leccion = lecciones.begin(); it_leccion != lecciones.end(); it_leccion++) {
                     cout << i <<". Tema: " << it_leccion->getNombreTema() 
                          << " - Objetivo: " << it_leccion->getObjetivo()
-                         << " - Cantidad de ejercicios: " << it_leccion->getTotalEjercicios() << endl;
+                         << " - Cantidad de ejercicios: " << it_leccion->getTotalDeEjercicios() << endl;
                     i++;
                 }
                 //seleccionar una leccion
@@ -466,13 +466,13 @@ int main(){
                     cout << "Seleccione una leccion: ";
 
                     cin >> leccion_seleccionada;
-                    esta_dentro_del_rango = leccion_seleccionada >= 1 && leccion_seleccionada <= index;
+                    esta_dentro_del_rango = leccion_seleccionada >= 1 && leccion_seleccionada <= i;
                     if(!esta_dentro_del_rango) {
                         cout << "Seleccione un numero dentro del rango." << endl;
                     }
                 } while(!esta_dentro_del_rango);
                 DTLeccion leccion_sel = lecciones[leccion_seleccionada-1];
-                cc->seleccionarLeccion(leccion_sel.getNombreTema);
+                cc->seleccionarLeccion(leccion_sel.getNombreTema());
                 //ingresar tipo ejercicio y descripcion
                 int opcion_tipo;
                 do{
@@ -494,7 +494,7 @@ int main(){
                             cout << "Ingrese la frase a completar, representando las palabras faltantes mediante 3 guiones"<< endl;
                             string frase;
                             cin >> frase;
-                            cout << "Ingrese el conjunto ordenado de palabras que conforman la solución, separandolas con una coma"
+                            cout << "Ingrese el conjunto ordenado de palabras que conforman la solución, separandolas con una coma" << endl;
                             string solucion;
                             cin >> solucion;
                             cc->agregarDatosCP(frase, solucion); //ya queda en el ejercicio seleccionado??
@@ -669,52 +669,7 @@ int main(){
         case 14:
             {
                 cout << "Ha seleccionado la opción 14: Suscribirse a Notificaciones" << endl;
-                ControladorUsuarios* cu = ControladorUsuarios::getInstance();
-                cout << "Ingrese el nickname del usuario que desea suscribirse" << endl;
-                string nickname_us;
-                cin >> nickname_us;
-                //listas idiomas no suscritos
-                vector<DTIdioma> idiomas_a_listar = cu->listarIdiomasNoSuscritos(nickname_us);
-                vector<DTIdioma> idiomas_seleccionados;
-                int opcion;
-                bool es_el_primero = true;
-                do{
-                    cout << "Mostrando idiomas a los que no esta suscrito..." << endl;
-                    cout << "Ingrese el número 0 cuando haya seleccionado todos los idiomas" << endl;
-                    vector<DTIdioma>::iterator it;
-                    int i = 1;
-                    for(it = idiomas_a_listar.begin() ; it != idiomas_a_listar.end(); ++it){
-                        cout << i << ". " << it->getNombre() << endl;
-                        i++;
-                    }
-                    cout << "Ingrese el idioma seleccionado";
-                    cin >> opcion;
-                    if(opcion != 0){
-                        idiomas_seleccionados.push_back(idiomas_a_listar[opcion-1]);
-                    }
-                    if(opcion > idiomas_a_listar.size() + 1 || opcion < 0 ){
-                        cout << "Ingrese un número dentro de las opciones" << endl;  
-                    } else if(es_el_primero){
-                        if(opcion == 0){
-                                cout << "Debe ingresar al menos un idioma" << endl;
-                            }else{
-                                es_el_primero = false;
-                            }
-                    }
-                }while(opcion != 0 || es_el_primero);
-                vector<Idioma*> idiomas_a_suscribir;
-                map<string, Idioma*> todos_los_idiomas = cu->getIdiomas();
-                map<string, Idioma*>::iterator it2;
-                string nombre_idioma;
-                for(it2 = idiomas_seleccionados.begin(); it2 != idiomas_seleccionados.end(); ++it2){
-                    nombre_idioma = (*it2).getNombre();
-                    it2 = todos_los_idiomas.find(nombre_idioma);
-                    if(it2->second != nullptr){
-                        idiomas_a_suscribir.push_back(it2->second);
-                    }
-                }
-                cu->suscribir(idiomas_a_suscribir);
-                cout << "Suscripciones realizadas con exito" << endl;
+                
             }
             break;
         case 15:
