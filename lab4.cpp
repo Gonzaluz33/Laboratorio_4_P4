@@ -430,11 +430,12 @@ int main(){
                 vector<DTCurso> cursos = cc->listarCursosNoHabilitados();
                 cout << "Cursos No Habilitados:" << endl;
                 vector<DTCurso>::iterator it_curso;
-                int index = 0;
+                int i = 1;
                 for(it_curso = cursos.begin(); it_curso != cursos.end(); it_curso++) {
                     /* 1. [Ingles] - Curso Introductorio Ingles - En este curso se enseña... */
-                    cout << index++ << ". [" << it_curso->getIdioma().getNombre() << "] - "
+                    cout << i << ". [" << it_curso->getIdioma().getNombre() << "] - "
                          << it_curso->getNombre() << endl << "\t" << it_curso->getDescripcion() << endl;
+                    i++;
                 }
                 //seleccionar un curso
                 int curso_seleccionado;
@@ -454,9 +455,10 @@ int main(){
                 cout << "Lecciones definidas:" << endl;
                 vector<DTLeccion>::iterator it_leccion;
                 for(it_leccion = lecciones.begin(); it_leccion != lecciones.end(); it_leccion++) {
-                    cout << index++ <<". Tema: " << it_leccion->getNombreTema() 
+                    cout << i <<". Tema: " << it_leccion->getNombreTema() 
                          << " - Objetivo: " << it_leccion->getObjetivo()
                          << " - Cantidad de ejercicios: " << it_leccion->getTotalEjercicios() << endl;
+                    i++;
                 }
                 //seleccionar una leccion
                 int leccion_seleccionada;
