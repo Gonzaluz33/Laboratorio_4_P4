@@ -60,3 +60,9 @@ Inscripcion *Estudiante::getInscripcionDeCurso(string nombreCurso) {
 map<string, Inscripcion*> Estudiante::getInscripciones() {
     return inscripciones;
 }
+
+void Estudiante::inscribirse(Curso* curso, DTFecha fecha){
+    Inscripcion* insc = new Inscripcion(curso,this,fecha);
+    this->inscripciones.insert(pair<string,Inscripcion*>(curso->getNombre(), insc));
+    curso->agregarInscripcion(insc,this->getNickname());
+}

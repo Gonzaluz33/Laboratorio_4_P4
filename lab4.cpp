@@ -12,15 +12,17 @@
 #include "controlador_cursos.hpp"
 #include "fabrica.hpp"
 #include "icontrolador_cursos.hpp"
+#include "dt_inscripcion.hpp"
 #include "completarPalabras.hpp"
 #include "traduccion.hpp"
 #include "dt_est_estudiante.hpp"
 #include "dt_est_curso.hpp"
 #include "dt_est_profesor.hpp"
-#include "dt_inscripcion.hpp"
  
 
+using namespace std;
 
+Fabrica fabrica;
 
 int main(){
     int opcion;
@@ -123,10 +125,10 @@ int main(){
                     {
                         tipo = Est;
                         cu->iniciarAltaUsuario(nickname,contrasenia,nombre,descripcion,tipo);
-                        cout << "Ingrese el pais de Residencia: "<< endl;
+                        cout << "Ingrese el pais de Residencia";
                         string pais;
                         cin >> pais;
-                        cout << "Ingrese la fecha de nacimiento separados por espacios: dia mes año en formato numerico: "<< endl;
+                        cout << "Ingrese la fecha de nacimiento separados por espacios: dia mes año en formato numerico";
                         int dia;
                         int mes;
                         int anio;
@@ -143,7 +145,7 @@ int main(){
                 }
             }
             break;
-       case 2:
+        case 2:
             {
                 cout << "Ha seleccionado la opción 2: Consulta de Usuario" << endl;
                 cout << "Listando los usuarios" << endl;
@@ -661,14 +663,13 @@ int main(){
 
             }
             break;
-        case 11: {/* Falta implementar las operaciones
+        case 11: {
             cout << "Ha seleccionado la opción 11: Inscribirse a Curso" << endl;
             cout << "Ingrese el Nickname del Usuario: ";
             string nickname;
             cin >> nickname;
             int indice_curso;
-            Fabrica* f = new Fabrica();
-            IControladorCursos* cc = f->getIControladorCursos();
+            IControladorCursos* cc = fabrica.getIControladorCursos();
             vector<DTCurso> cursosSeleccionados;
             vector<DTCurso> cursosDisponibles = cc->listarCursosDisponibles(nickname);
             vector<DTCurso>::iterator it1;
@@ -702,7 +703,7 @@ int main(){
                 }
             }while(i != 0);
             
-            cc->inscribirseACurso(cursosDisponibles[i]);*/
+            cc->inscribirseACurso(cursosDisponibles[i]);
             }
             break;
         case 12: {
@@ -710,8 +711,7 @@ int main(){
             cout << "Ingrese el Nickname del Usuario: ";
             string nickname;
             cin >> nickname;
-            Fabrica* f = new Fabrica();
-            IControladorCursos* cc = f->getIControladorCursos();
+            IControladorCursos* cc = fabrica.getIControladorCursos();
             vector<DTCurso> cursosSeleccionados;
             vector<DTCurso> cursosNoAprobados = cc->listarCursosNoAprobados(nickname);
             vector<DTCurso>::iterator it1;
@@ -952,6 +952,7 @@ int main(){
         }
         break;
         case 14:
+            cout << "Ha seleccionado la opción 14: Suscribirse a Notificaciones" << endl;
             {
                 cout << "Ha seleccionado la opción 14: Suscribirse a Notificaciones" << endl;
                 ControladorUsuarios* cu = ControladorUsuarios::getInstance();

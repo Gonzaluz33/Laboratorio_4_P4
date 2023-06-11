@@ -45,7 +45,10 @@ public:
     virtual void ingresarSolucionT(string sol)=0;
     virtual bool ejercicioAprobado()=0;
     virtual DTEstCurso listarEstCurso(string nombreCurso)=0;
+    virtual bool habilitarCurso()=0;
     virtual Ejercicio *getEjercicioRecordado()=0;
+    virtual vector<DTCurso> listarCursosDisponibles(string nickname)=0;
+    virtual void inscribirseACurso(DTCurso curso)=0;
 };
 
 #endif

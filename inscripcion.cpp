@@ -91,3 +91,7 @@ bool Inscripcion::leccionTerminada(int cantEjActualizado, int totalEj){
     return cantEjActualizado==totalEj;
 }
 */
+
+DTInscripcion Inscripcion::getDataInscripcion() {
+    return DTInscripcion(estudianteAsignado->getNombre(), fechaInscripcion);
+}

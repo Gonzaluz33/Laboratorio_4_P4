@@ -4,7 +4,6 @@
 #include "usuario.hpp"
 #include "estudiante.hpp"
 #include "inscripcion.hpp"
-#include "IObserver.hpp"
 #include "dt_idioma.hpp"
 #include <iostream>
 #include <vector>
@@ -53,7 +52,7 @@ vector<DTIdioma> ControladorUsuarios::listarIdiomas()
 {
     vector<DTIdioma> a_listar;
     map<string,Idioma*>::iterator it;
-    for (it = this->Idiomas.begin(); it != this->Idiomas.end(); ++it)
+    for (it = this->idiomas.begin(); it != this->idiomas.end(); ++it)
     {   Idioma* id = it->second;
         DTIdioma dataIdioma = id->getDataIdioma();
         a_listar.push_back(dataIdioma);
@@ -266,7 +265,7 @@ void ControladorUsuarios::suscribir(vector<Idioma*> idiomasASuscribir)
     }
 };
 
-void ControladorUsuarios::eliminarSuscripcion(vector<Idioma*> idiomasAEliminar) { //implemento esta operacion
+void ControladorUsuarios::eliminarSuscripcion(vector<Idioma*> idiomasAEliminar) {
     Usuario* user = buscarUsuario(nickname_listarIdiomasNoSuscritos_recordado);
     vector<Idioma*>::iterator it;
     for(it = idiomasAEliminar.begin();it != idiomasAEliminar.end();++it){
@@ -284,17 +283,13 @@ bool ControladorUsuarios::iniciarAltaIdioma(DTIdioma idioma)
 {
     string nombre = idioma.getNombre();
     map<string, Idioma*>::iterator it;
-    it = this->Idiomas.find(nombre);
-    bool esta = this->Idiomas.end() != it;
+    it = this->idiomas.find(nombre);
+    bool esta = this->idiomas.end() != it;
     if (!esta) {
         Idioma *idiomaNuevo = new Idioma(nombre);
-        this->Idiomas.insert(pair<string, Idioma*>(nombre,idiomaNuevo));
+        this->idiomas.insert(pair<string, Idioma*>(nombre,idiomaNuevo));
     }
     return esta;
-}
-
-map<string, Idioma*> ControladorUsuarios::getIdiomas() {
-    return Idiomas;
 }
 
 vector<string> ControladorUsuarios::listarNickname() {
@@ -309,4 +304,8 @@ vector<string> ControladorUsuarios::listarNickname() {
 
 DTUsuario ControladorUsuarios::getDataUsuario(string nickname) {
     return usuarios.find(nickname)->second->getDataUsuario();
+}
+
+map<string, Idioma*> ControladorUsuarios::getIdiomas() {
+    return idiomas;
 }

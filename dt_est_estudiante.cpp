@@ -22,3 +22,4 @@ ostream& operator<<(ostream& os, DTEstEstudiante estEstudiante){
     os << "Nombre del curso: " + curso.getNombre() + "Avance Correspondiente: " + char(estEstudiante.getAvance());
     return os;
 }
+

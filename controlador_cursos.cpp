@@ -6,6 +6,7 @@
 #include "ejercicio.hpp"
 #include "completarPalabras.hpp"
 #include "traduccion.hpp"
+#include <ctime>
 
 ControladorCursos::ControladorCursos() {
 
@@ -108,13 +109,7 @@ void ControladorCursos::seleccionarCurso(string nombreCurso) {
 }
 
 void ControladorCursos::crearLeccion(string nombreTema, string objetivo) {
-    curso_recordado->crearLeccion(nombreTema, objetivo);
-    vector<Leccion*> lecciones = curso_recordado->getLecciones();
-    vector<Leccion*>::iterator it = lecciones.begin();
-    while((*it)->getNombreTema() != nombreTema) {
-        it++;
-    }
-    leccion_recordada = (*it);
+    leccion_recordada = curso_recordado->crearLeccion(nombreTema, objetivo);
 }
 
 void ControladorCursos::altaLeccion() {
@@ -284,6 +279,12 @@ bool ControladorCursos::habilitarCurso() {
     } else {
         salida = true;
     }
+    if (!salida) {
+        cursosNoHabilitados.erase(curso_recordado->getNombre());
+        cursosHabilitados.insert(pair<string, Curso*>(curso_recordado->getNombre(),
+                                                      curso_recordado));
+        curso_recordado->setEstaHabilitado(true);
+    }
 
     /* Libero memoria */
     curso_recordado = nullptr;
@@ -321,9 +322,23 @@ vector<DTCurso> ControladorCursos::listarCursosDisponibles(string nickname) {
             salida.push_back(it->second->getdataCurso());
         }
     }
+    this->estudiante_recordado = estudiante;
     return salida;
 }
 
 Ejercicio *ControladorCursos::getEjercicioRecordado(){
     return this->ejercicio_recordado;
 }
+
+void ControladorCursos::inscribirseACurso(DTCurso curso){
+    time_t tiempoActual = time(nullptr);
+    tm* fechaHora = localtime(&tiempoActual);
+    int anio = fechaHora->tm_year + 1900; // tm_year cuenta los años a partir de 1900
+    int mes = fechaHora->tm_mon + 1;      // tm_mon cuenta los meses desde 0 (enero)
+    int dia = fechaHora->tm_mday; 
+    DTFecha fecha = DTFecha(dia,mes,anio);
+    string nombre = curso.getNombre();
+    Curso* cursoActual = this->cursosHabilitados.find(nombre)->second;
+    this->estudiante_recordado->inscribirse(cursoActual,fecha);
+    
+};

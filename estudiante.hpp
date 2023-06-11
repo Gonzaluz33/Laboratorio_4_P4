@@ -31,6 +31,7 @@ class Estudiante:public Usuario {
         void actualizarInscripcion(string,Ejercicio *);
         map<string, Inscripcion*> getInscripciones();
         Inscripcion *getInscripcionDeCurso(string nombreCurso);
+        void inscribirse(Curso* curso,DTFecha fecha);
 };
 
 #endif

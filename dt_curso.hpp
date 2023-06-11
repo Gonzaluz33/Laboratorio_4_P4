@@ -5,13 +5,16 @@
 #include "dificultad.hpp"
 #include "dt_idioma.hpp"
 #include "dt_profesor.hpp"
+#include "dt_leccion.hpp"
+#include "dt_inscripcion.hpp"
 
 using namespace std;
 
 class DTCurso {
 public:
     DTCurso(string nombre, string descripcion, Dificultad dificultad, DTIdioma idioma,
-            int cantidadLecciones, int cantidadEjercicios, DTProfesor profesor);
+            int cantidadLecciones, int cantidadEjercicios, DTProfesor profesor,
+            bool estaHabilitado, vector<DTLeccion> lecciones, vector<DTInscripcion> inscripciones);
     ~DTCurso();
     string getNombre();
     string getDescripcion();
@@ -20,12 +23,18 @@ public:
     int getCantidadLecciones();
     int getCantidadEjercicios();
     DTProfesor getProfesor();
+    bool getEstaHabilitado();
+    vector<DTLeccion> getLecciones();
+    vector<DTInscripcion> getInscripciones();
 private:
     string nombre, descripcion;
     Dificultad dificultad;
     DTIdioma idioma;
     int cantidadLecciones, cantidadEjercicios;
     DTProfesor profesor;
+    bool estaHabilitado;
+    vector<DTLeccion> lecciones;
+    vector<DTInscripcion> inscripciones;
 };
 
 #endif
