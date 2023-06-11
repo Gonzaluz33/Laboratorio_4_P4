@@ -116,7 +116,7 @@ void ControladorCursos::altaLeccion() {
     lecciones.push_back(leccion_recordada); // si lecciones no se usa podemos eliminar esta linea
 
     /* Libero memoria */
-    curso_recordado = nullptr;
+    //curso_recordado = nullptr;
     leccion_recordada = nullptr;
 }
 

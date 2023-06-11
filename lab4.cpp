@@ -361,7 +361,7 @@ int main(){
                         string resp;
                         cin >> resp;
                         if(resp == "si"){
-                            cc->seleccionarCurso(nom);
+                            //cc->seleccionarCurso(nom);
                             cout << "Indique el nombre del tema a tratar en la leccion: ";
                             string tema;
                             cin >> tema;
@@ -390,8 +390,8 @@ int main(){
         case 6:
             {
                 cout << "Ha seleccionado la opción 6: Agregar Leccion" << endl;
-                ControladorCursos cc = ControladorCursos();
-                vector<DTCurso> cursosNoHabilitados = cc.listarCursosNoHabilitados();
+                IControladorCursos *cc = fabrica.getIControladorCursos();
+                vector<DTCurso> cursosNoHabilitados = cc->listarCursosNoHabilitados();
                 cout << "Cursos no habilitados:" << endl;
                 vector<DTCurso>::iterator iter;
                 int indice = 1;
@@ -412,14 +412,14 @@ int main(){
                         estaEnRango = false;
                     }
                 }while(!estaEnRango);
-                cc.seleccionarCurso((cursosNoHabilitados.at(indice-1)).getNombre());
+                cc->seleccionarCurso((cursosNoHabilitados.at(indice-1)).getNombre());
                 cout << "Indique el nombre del tema a tratar en la leccion: ";
                 string tema;
                 cin >> tema;
                 cout << "Indique el objetivo de la leccion: ";
                 string objetivo;
                 cin >> objetivo;
-                cc.crearLeccion(tema,objetivo);
+                cc->crearLeccion(tema,objetivo);
                 cout << "¿Desea agregar un ejercicio?(indique si o no): ";
                 string resp;
                 cin >> resp;
@@ -428,7 +428,7 @@ int main(){
                         //Copio las instrucciones para agregar ejercicio
                     }while(resp == "si");
                 }
-                cc.altaLeccion();
+                cc->altaLeccion();
                 cout << "La leccion fue creada con éxito" << endl;
             }
             break;
