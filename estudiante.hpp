@@ -1,6 +1,7 @@
 #ifndef ESTUDIANTE_HPP
 #define ESTUDIANTE_HPP
 
+#include "curso.hpp"
 #include "usuario.hpp"
 #include "ejercicio.hpp"
 #include "dt_est_estudiante.hpp"
@@ -31,7 +32,7 @@ class Estudiante:public Usuario {
         void actualizarInscripcion(string,Ejercicio *);
         map<string, Inscripcion*> getInscripciones();
         Inscripcion *getInscripcionDeCurso(string nombreCurso);
-        void inscribirse(Curso* curso,DTFecha fecha);
+        void inscribirse(Curso *curso,DTFecha fecha);
 };
 
 #endif
