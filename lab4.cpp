@@ -74,13 +74,14 @@ int main(){
                 int opcion_tipo;
                 do{
                     cout << "Ingrese el tipo de usuario: "<< endl
-                    << "1. Profesor " << endl << "2. Estudiante "<< endl;
+                    << "1. Profesor "<<endl<<"2. Estudiante "<< endl;
                     cin >> opcion_tipo;
                     if(opcion_tipo < 1 || opcion_tipo > 2)
                     cout << "Ingrese un número dentro de las opciones" << endl;
                 }while(opcion_tipo < 1 || opcion_tipo > 2);
                 ControladorUsuarios* cu = ControladorUsuarios::getInstance();
                 TipoUsuario tipo;
+                bool selecciono_idioma = false;
                 switch (opcion_tipo) {
                 case 1:
                     {
@@ -90,38 +91,44 @@ int main(){
                         string instituto;
                         cin >> instituto;
                         cu->datosAdicionalesProfesor(instituto);
-                        cout << "Seleccionar Idiomas (debe seleccionar almenos un idioma)";
+                        cout << "Seleccionar Idiomas (debe seleccionar almenos un idioma)"<<endl;
                         vector<DTIdioma> idiomas_a_listar = cu->listarIdiomas();
                         int opcion3;
                         bool es_el_primero = true;
-                        do{
-                            cout << "Mostrando Idiomas..." << endl;
-                            cout << "Ingrese el número 0 cuando haya seleccionado todos los idiomas" << endl;
-                            vector<DTIdioma>::iterator it;
-                            int i = 1;
-                            for(it = idiomas_a_listar.begin() ; it != idiomas_a_listar.end(); ++it){
-                                cout << i << ". " << it->getNombre() << endl;
-                                i++;
-                            }
-                            cout << "Ingrese el idioma seleccionado: ";
-                            cin >> opcion3;
-                            if(opcion3 != 0){
-                                DTIdioma idioma_seleccionado = idiomas_a_listar[opcion3-1];
-                                cu->seleccionarIdioma(idioma_seleccionado);
-                            }
-                            if(opcion3 > idiomas_a_listar.size() + 1 || opcion3 < 0 ){
-                                cout << "Ingrese un número dentro de las opciones" << endl;  
-                            } else if(es_el_primero){
-                                if(opcion3 == 0){
-                                    cout << "Debe ingresar al menos un idioma" << endl;
-                                }else{
-                                    es_el_primero = false;
+                        if(idiomas_a_listar.size() > 0){
+                            do{
+                                cout << "Mostrando Idiomas..." << endl;
+                                cout << "Ingrese el número 0 cuando haya seleccionado todos los idiomas" << endl;
+                                vector<DTIdioma>::iterator it;
+                                int i = 1;
+                                for(it = idiomas_a_listar.begin() ; it != idiomas_a_listar.end(); ++it){
+                                    cout << i << ". " << it->getNombre() << endl;
+                                    i++;
                                 }
-                            }
-                        }while(opcion3 != 0 || es_el_primero);
+                                cout << "Ingrese el idioma seleccionado";
+                                cin >> opcion3;
+                                if(opcion3 != 0){
+                                    DTIdioma idioma_seleccionado = idiomas_a_listar[opcion3-1];
+                                    cu->seleccionarIdioma(idioma_seleccionado);
+                                    selecciono_idioma = true;
+                                }
+                                if(opcion3 > idiomas_a_listar.size() + 1 || opcion3 < 0 ){
+                                    cout << "Ingrese un número dentro de las opciones" << endl;  
+                                } else if(es_el_primero){
+                                    if(opcion3 == 0){
+                                        cout << "Debe ingresar al menos un idioma" << endl;
+                                    }else{
+                                        es_el_primero = false;
+                                    }
+                                }
+                            }while(opcion3 != 0 || es_el_primero);
+                        }
+                    else{
+                        cout<<"---------------------------------------------------" <<endl<< "No hay ningun idioma disponible en el sistema..."<<endl<<"Asegurese de que haya algun idioma disponible antes de ingresar un profesor." << endl<<"---------------------------------------------------";
+
                     }
                     break;
-
+                    }
                 case 2:
                     {
                         tipo = Est;
@@ -129,7 +136,7 @@ int main(){
                         cout << "Ingrese el pais de Residencia: ";
                         string pais;
                         cin >> pais;
-                        cout << "Ingrese la fecha de nacimiento separados por espacios: dia mes año en formato numerico";
+                        cout << "Ingrese la fecha de nacimiento separados por espacios: dia mes año en formato numerico: ";
                         int dia;
                         int mes;
                         int anio;
@@ -139,10 +146,12 @@ int main(){
                     }
                     break;
                 }
-                if(cu->altaUsuario()){
-                    cout << "El usuario se dio de alta correctamente";
-                }else{
-                    cout << "El nickname ingresado ya existe en el sistema";
+                if(tipo == Est || (selecciono_idioma && tipo == Prof)){
+                    if(cu->altaUsuario()){
+                        cout << "El usuario se dio de alta correctamente";
+                    }else{
+                        cout << "El nickname ingresado ya existe en el sistema";
+                    }
                 }
             }
             break;
