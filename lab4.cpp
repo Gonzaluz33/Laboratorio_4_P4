@@ -73,7 +73,7 @@ int main(){
                 cin >> descripcion;
                 int opcion_tipo;
                 do{
-                    cout << "Ingrese el tipo de usuario (1_ Profesor 2_Estudiante): "<< endl;
+                    cout << "Ingrese el tipo de usuario: "<< endl;
                     << "1. Profesor "<<endl<<"2. Estudiante "<< endl;
                     cin >> opcion_tipo;
                     if(opcion_tipo < 1 || opcion_tipo > 2)
