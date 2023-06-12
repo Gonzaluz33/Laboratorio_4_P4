@@ -644,12 +644,12 @@ int main(){
                 for(it_leccion = lecciones.begin(); it_leccion != lecciones.end(); it_leccion++) {
                     cout << "\tTema: " << it_leccion->getNombreTema() << endl
                          << "\tObjetivo: " << it_leccion->getObjetivo() << endl;
-                    vector<DTEjercicio> ejercicios = it_leccion->getEjercicios();
-                    vector<DTEjercicio>::iterator it_ejercicio;
+                    vector<DTEjercicio*> ejercicios = it_leccion->getEjercicios();
+                    vector<DTEjercicio*>::iterator it_ejercicio;
                     for(it_ejercicio = ejercicios.begin();
                                     it_ejercicio != ejercicios.end(); it_ejercicio++) {
                         cout << "\t\tEjercicio: " << endl
-                             << "\t\tDescripcion: " << it_ejercicio->getDescripcion() << endl;
+                             << "\t\tDescripcion: " << (*it_ejercicio)->getDescripcion() << endl;
                         // ACA TENGO QUE IMPRIMIR LOS DATOS DEL TIPO ESPECIFICO DE EJERCICIO
                         // CUANDO SEPA COMO TENER LOS DATOS (LO MISMO PASA CON DTUsuario y
                         // DTProfesor, DTEstudiante)
@@ -745,12 +745,12 @@ int main(){
             cout << "Ingrese el Nombre del Curso: ";
             string nomCurso;
             cin >> nickname;
-            vector<DTEjercicio> ejerciciosSelecionados;
-            vector<DTEjercicio> ejerciciosPendientes = cc->listarEjerciciosPendientes(nomCurso);
-            vector<DTEjercicio>::iterator it2;
+            vector<DTEjercicio*> ejerciciosSelecionados;
+            vector<DTEjercicio*> ejerciciosPendientes = cc->listarEjerciciosPendientes(nomCurso);
+            vector<DTEjercicio*>::iterator it2;
             i_12 = 1;
             for(it2 = ejerciciosPendientes.begin(); it2 != ejerciciosPendientes.end(); ++it2){
-                cout << i_12 << ". " << (*it2).getDescripcion() << endl;
+                cout << i_12 << ". " << (*it2)->getDescripcion() << endl;
                 i_12++;
             }
             cout << "-------------------------" << endl;
@@ -778,7 +778,7 @@ int main(){
                     cout << "Ingrese un número dentro de las opciones" << endl;  
                 }else{
                     if(opcion_12 != 0){
-                         cc->seleccionarEjercicio(ejerciciosSelecionados[opcion_12]);
+                         cc->seleccionarEjercicio(*ejerciciosSelecionados[opcion_12]);
                     }
                 }
             }while(opcion_12 != 0);
