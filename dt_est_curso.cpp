@@ -21,6 +21,6 @@ DTCurso DTEstCurso::getInformacion() {
 
 ostream& operator<<(ostream& os, DTEstCurso estCurso){ 
     DTCurso curso = estCurso.getInformacion();
-    os << "Nombre del curso: " + curso.getNombre() + "Avance Correspondiente: " + char(estCurso.getPromedioAvance());
+    os << "Nombre del curso: " + curso.getNombre() + "\nAvance Correspondiente: " + to_string(estCurso.getPromedioAvance()) + "%";
     return os;
 }

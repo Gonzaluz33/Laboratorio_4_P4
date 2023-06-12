@@ -154,8 +154,8 @@ void ControladorCursos::altaEjercicio() {
     }
 
     /* Libero memoria */
-    leccion_recordada = nullptr;
-    curso_recordado = nullptr;
+    //leccion_recordada = nullptr;
+    //curso_recordado = nullptr;
     descripcionEjercicio_recordado.clear();
     fraseACompletar_recordada.clear();
     fraseATraducir_recordada.clear();

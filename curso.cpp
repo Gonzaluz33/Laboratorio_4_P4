@@ -60,7 +60,6 @@ Leccion *Curso::crearLeccion(string nombreTema, string objetivo){
 }
 
 DTEstCurso Curso::listarEstCurso(){
-    int est = 0;
     DTEstCurso nuevo = DTEstCurso(this->getPromedioAvance(), this->getdataCurso());
     return nuevo;
 }
@@ -71,7 +70,7 @@ int Curso::getPromedioAvance(){
     for (it = inscripciones.begin(); it != inscripciones.end(); ++it){
         Avance = Avance + it->second->getPorcentajeEjerciciosRealizados();
     }
-    return Avance/inscripciones.size();
+    return (inscripciones.size() != 0) ? Avance/inscripciones.size() : 0;
 }
 
 vector<Leccion*> Curso::getLecciones() {

@@ -1,6 +1,5 @@
 #include "dt_est_estudiante.hpp"
 
-
 DTEstEstudiante::DTEstEstudiante(DTCurso c,int a):
     curso_(c)
 {
@@ -19,7 +18,7 @@ int DTEstEstudiante::getAvance(){
 
 ostream& operator<<(ostream& os, DTEstEstudiante estEstudiante){ 
     DTCurso curso = estEstudiante.getDTCurso();
-    os << "Nombre del curso: " + curso.getNombre() + "Avance Correspondiente: " + char(estEstudiante.getAvance());
+    os << "Nombre del curso: " + curso.getNombre() + "\nAvance Correspondiente: " + to_string(estEstudiante.getAvance()) + "%";
     return os;
 }
 

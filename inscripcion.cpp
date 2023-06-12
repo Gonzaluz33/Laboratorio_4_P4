@@ -26,7 +26,7 @@ DTCurso Inscripcion::getDataCurso(){
 }   
 
 int Inscripcion::getPorcentajeEjerciciosRealizados(){
-    return this->porcentajeEjerciciosRealizados;
+    return (100*cantidadEjerciciosRealizados)/cursoAsignado->getTotalEjercicios();
 }
 
 

@@ -33,7 +33,8 @@ vector<DTEstEstudiante> Estudiante::listarEstEstudiante(){
     vector<DTEstEstudiante> dte;
     map<string, Inscripcion*>::iterator i;
     for(i=this->inscripciones.begin(); i != this->inscripciones.end(); i++) {
-        DTEstEstudiante dtee = DTEstEstudiante(i->second->getDataCurso(),i->second->getCantidadEjerciciosRealizados());
+        DTEstEstudiante dtee = DTEstEstudiante(i->second->getDataCurso(),
+                            i->second->getPorcentajeEjerciciosRealizados());
         dte.push_back(dtee);
     }
     return dte;

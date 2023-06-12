@@ -134,9 +134,9 @@ vector<DTEstEstudiante> ControladorUsuarios::listarEstEstudiante(string nickname
     it = this->usuarios.find(nickname);
     bool esta = this->usuarios.end() != it;
     if(esta){
-    Estudiante* objetoDerivado = dynamic_cast<Estudiante*>(it->second);
-    if(objetoDerivado)
-    estadisticas = objetoDerivado->listarEstEstudiante();
+        Estudiante* objetoDerivado = dynamic_cast<Estudiante*>(it->second);
+        if(objetoDerivado)
+            estadisticas = objetoDerivado->listarEstEstudiante();
     }
     return estadisticas;
 };
