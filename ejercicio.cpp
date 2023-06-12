@@ -22,7 +22,8 @@ TipoEjercicio Ejercicio::getTipo(){
 void Ejercicio::setTipo(TipoEjercicio t){
     this->tipo = t;
 }
-DTEjercicio *Ejercicio::getDataEjercicio(){
-    DTEjercicio *dte = new DTEjercicio(this->descripcion);
-    return dte;
-}
+
+//DTEjercicio *Ejercicio::getDataEjercicio(){
+//    DTEjercicio *dte = new DTEjercicio(this->descripcion);
+//    return dte;
+//}
