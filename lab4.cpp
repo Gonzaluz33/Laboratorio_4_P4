@@ -73,7 +73,8 @@ int main(){
                 cin >> descripcion;
                 int opcion_tipo;
                 do{
-                    cout << "Ingrese el tipo de usuario (1_ Profesor 2_Estudiante): ";
+                    cout << "Ingrese el tipo de usuario (1_ Profesor 2_Estudiante): "<< endl;
+                    << "1. Profesor "<<endl<<"2. Estudiante "<< endl;
                     cin >> opcion_tipo;
                     if(opcion_tipo < 1 || opcion_tipo > 2)
                     cout << "Ingrese un número dentro de las opciones" << endl;
@@ -102,7 +103,7 @@ int main(){
                                 cout << i << ". " << it->getNombre() << endl;
                                 i++;
                             }
-                            cout << "Ingrese el idioma seleccionado";
+                            cout << "Ingrese el idioma seleccionado: ";
                             cin >> opcion3;
                             if(opcion3 != 0){
                                 DTIdioma idioma_seleccionado = idiomas_a_listar[opcion3-1];
@@ -125,7 +126,7 @@ int main(){
                     {
                         tipo = Est;
                         cu->iniciarAltaUsuario(nickname,contrasenia,nombre,descripcion,tipo);
-                        cout << "Ingrese el pais de Residencia";
+                        cout << "Ingrese el pais de Residencia: ";
                         string pais;
                         cin >> pais;
                         cout << "Ingrese la fecha de nacimiento separados por espacios: dia mes año en formato numerico";
@@ -384,6 +385,7 @@ int main(){
                         }
                         cc->darAltaCurso();
                     }
+                 cout << "El curso se dio de alta correctamente" << endl;
                 }
             }
             break;
