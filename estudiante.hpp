@@ -28,7 +28,7 @@ class Estudiante:public Usuario {
         void setFechaNaciomiento(DTFecha);
         DTFecha getFechaNacimiento();
         vector<DTEstEstudiante> listarEstEstudiante();
-        vector<DTEjercicio> listarEjerciciosPendientes(string);
+        vector<DTEjercicio*> listarEjerciciosPendientes(string);
         void actualizarInscripcion(string,Ejercicio *);
         map<string, Inscripcion*> getInscripciones();
         Inscripcion *getInscripcionDeCurso(string nombreCurso);

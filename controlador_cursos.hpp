@@ -35,7 +35,7 @@ public:
     vector<DTCurso> listarCursos();
     void eliminarCurso(string nombreCurso);
     vector<DTCurso> listarCursosNoAprobados(string nickname);
-    vector<DTEjercicio> listarEjerciciosPendientes(string nombreCurso);
+    vector<DTEjercicio*> listarEjerciciosPendientes(string nombreCurso);
     void seleccionarEjercicio(DTEjercicio ejercicio);
     void ingresarSolucionCP(string sol);
     void ingresarSolucionT(string sol);

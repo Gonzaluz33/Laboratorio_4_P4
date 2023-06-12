@@ -39,7 +39,7 @@ public:
     virtual vector<DTCurso> listarCursos()=0;
     virtual void eliminarCurso(string curso)=0;
     virtual vector<DTCurso> listarCursosNoAprobados(string nickname)=0;
-    virtual vector<DTEjercicio> listarEjerciciosPendientes(string nombreCurso)=0;
+    virtual vector<DTEjercicio*> listarEjerciciosPendientes(string nombreCurso)=0;
     virtual void seleccionarEjercicio(DTEjercicio ejercicio)=0;
     virtual void ingresarSolucionCP(string sol)=0;
     virtual void ingresarSolucionT(string sol)=0;

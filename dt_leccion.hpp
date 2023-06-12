@@ -9,16 +9,16 @@ using namespace std;
 
 class DTLeccion {
 public:
-    DTLeccion(string nombreTema, string objetivo, int totalDeEjercicios, vector<DTEjercicio> ejercicios);
+    DTLeccion(string nombreTema, string objetivo, int totalDeEjercicios, vector<DTEjercicio*> ejercicios);
     ~DTLeccion();
     string getNombreTema();
     string getObjetivo();
     int getTotalDeEjercicios();
-    vector<DTEjercicio> getEjercicios();
+    vector<DTEjercicio*> getEjercicios();
 private:
     string nombreTema, objetivo;
     int totalDeEjercicios;
-    vector<DTEjercicio> ejercicios;
+    vector<DTEjercicio*> ejercicios;
 };
 
 #endif

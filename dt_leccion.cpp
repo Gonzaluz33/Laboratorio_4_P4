@@ -1,6 +1,6 @@
 #include "dt_leccion.hpp"
 
-DTLeccion::DTLeccion(string nombreTema, string objetivo, int totalDeEjercicios, vector<DTEjercicio> ejercicios):
+DTLeccion::DTLeccion(string nombreTema, string objetivo, int totalDeEjercicios, vector<DTEjercicio*> ejercicios):
     nombreTema(nombreTema),
     objetivo(objetivo),
     totalDeEjercicios(totalDeEjercicios),
@@ -25,6 +25,6 @@ int DTLeccion::getTotalDeEjercicios() {
     return totalDeEjercicios;
 }
 
-vector<DTEjercicio> DTLeccion::getEjercicios() {
+vector<DTEjercicio*> DTLeccion::getEjercicios() {
     return ejercicios;
 }

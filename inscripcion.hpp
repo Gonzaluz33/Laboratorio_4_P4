@@ -35,7 +35,7 @@ public:
     bool getCursoAprobado();
     DTEstEstudiante getEstEstudiante();
     Leccion* getLeccionActual();
-    vector<DTEjercicio> listarEjerciciosPendientes();
+    vector<DTEjercicio*> listarEjerciciosPendientes();
     void incrementarCantEjRealizados();
     void eliminarDePendientes(Ejercicio *ej);
     Curso *getCurso();

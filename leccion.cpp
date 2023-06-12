@@ -44,7 +44,7 @@ map<string, Ejercicio*> Leccion::getEjercicios() {
 
 DTLeccion Leccion::getDataLeccion() {
     // string nombreTema, string objetivo, int totalDeEjercicios, vector<DTEjercicio> ejercicios
-    vector<DTEjercicio> dts_ejercicios;
+    vector<DTEjercicio*> dts_ejercicios;
     map<string, Ejercicio*>::iterator it;
     for (it = ejercicios.begin(); it != ejercicios.end(); it++) {
         dts_ejercicios.push_back(it->second->getDataEjercicio());

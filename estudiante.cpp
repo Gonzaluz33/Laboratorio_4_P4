@@ -39,8 +39,8 @@ vector<DTEstEstudiante> Estudiante::listarEstEstudiante(){
     return dte;
 }
 
-vector<DTEjercicio> Estudiante::listarEjerciciosPendientes(string nombre_curso){
-    vector<DTEjercicio> dte;
+vector<DTEjercicio*> Estudiante::listarEjerciciosPendientes(string nombre_curso){
+    vector<DTEjercicio*> dte;
 
     Inscripcion *inscripcion = inscripciones.find(nombre_curso)->second;
     return inscripcion->listarEjerciciosPendientes();

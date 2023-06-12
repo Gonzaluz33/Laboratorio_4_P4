@@ -42,8 +42,8 @@ Leccion* Inscripcion::getLeccionActual(){
     return this->leccionAsignada;
 }
 
-vector<DTEjercicio> Inscripcion::listarEjerciciosPendientes(){
-    vector<DTEjercicio> SetDTEjercicios;
+vector<DTEjercicio*> Inscripcion::listarEjerciciosPendientes(){
+    vector<DTEjercicio*> SetDTEjercicios;
     map<string, Ejercicio*>::iterator it;
     for (it = this->ejerciciosPendientes.begin(); it != this->ejerciciosPendientes.end(); ++it){
         SetDTEjercicios.push_back(it->second->getDataEjercicio());

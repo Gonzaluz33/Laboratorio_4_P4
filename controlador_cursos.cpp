@@ -198,7 +198,7 @@ vector<DTCurso> ControladorCursos::listarCursosNoAprobados(string nickname) {
     return cu->listarCursosNoAprobados(nickname);
 }
 
-vector<DTEjercicio> ControladorCursos::listarEjerciciosPendientes(string nombreCurso) {
+vector<DTEjercicio*> ControladorCursos::listarEjerciciosPendientes(string nombreCurso) {
     map<string, Inscripcion*> inscripciones;
     map<string, Curso *>::iterator par = cursosNoHabilitados.find(nombreCurso);
     if(par == cursosNoHabilitados.end()) {
