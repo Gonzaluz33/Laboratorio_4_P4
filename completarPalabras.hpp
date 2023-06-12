@@ -14,6 +14,7 @@ class CompletarPalabras : public Ejercicio{
         void setFrase(string);
         void setPalabras_faltantes(string);
         bool estaAprobadoCP(string);
+        DTEjercicio* getDataEjercicio();
 };
 
 #endif

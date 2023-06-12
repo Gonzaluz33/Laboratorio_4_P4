@@ -19,7 +19,7 @@ class Ejercicio{
         TipoEjercicio getTipo();
         void setTipo(TipoEjercicio);
         bool estaPendiente();
-        DTEjercicio* getDataEjercicio();
+        virtual DTEjercicio* getDataEjercicio()=0;
 };
 
 #endif

@@ -16,6 +16,7 @@ class Traduccion : public Ejercicio{
         void setTraduccion_frase(string);
         string getTraduccion_frase();
         bool estaAprobadoT(string);
+        DTEjercicio *getDataEjercicio();
 };
 
 #endif

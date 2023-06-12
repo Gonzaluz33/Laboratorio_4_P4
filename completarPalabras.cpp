@@ -1,4 +1,5 @@
 #include "completarPalabras.hpp"
+#include "dt_completar_palabras.hpp"
 
 CompletarPalabras::CompletarPalabras(string desc, TipoEjercicio t,string fr,string pf):
     Ejercicio(desc,t)
@@ -27,4 +28,8 @@ void CompletarPalabras::setPalabras_faltantes(string pf){
 
 bool CompletarPalabras::estaAprobadoCP(string palabras_faltantes){
     return palabras_faltantes == this->Palabras_faltantes;
+}
+
+DTEjercicio* CompletarPalabras::getDataEjercicio() {
+    return new DTCompletarPalabras(this->getDescripcion(), frase, Palabras_faltantes);
 }

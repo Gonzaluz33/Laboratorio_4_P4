@@ -1,4 +1,5 @@
 #include "traduccion.hpp"
+#include "dt_traduccion.hpp"
 
 Traduccion::Traduccion(string desc,TipoEjercicio t,string fat,string tf) : Ejercicio(desc,t){
     this->frase_a_traducir=fat;
@@ -25,4 +26,8 @@ string Traduccion::getTraduccion_frase(){
 
 bool Traduccion::estaAprobadoT(string frase_traducida){
     return frase_traducida==this->traduccion_frase;
+}
+
+DTEjercicio *Traduccion::getDataEjercicio() {
+    return new DTTraduccion(this->getDescripcion(), frase_a_traducir, traduccion_frase);
 }
