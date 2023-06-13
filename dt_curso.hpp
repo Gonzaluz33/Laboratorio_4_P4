@@ -13,8 +13,9 @@ using namespace std;
 class DTCurso {
 public:
     DTCurso(string nombre, string descripcion, Dificultad dificultad, DTIdioma idioma,
-            int cantidadLecciones, int cantidadEjercicios, DTProfesor profesor,
+            int cantidadLecciones, int cantidadEjercicios, DTProfesor *profesor,
             bool estaHabilitado, vector<DTLeccion> lecciones, vector<DTInscripcion> inscripciones);
+    DTCurso(const DTCurso &otro);
     ~DTCurso();
     string getNombre();
     string getDescripcion();
@@ -22,7 +23,7 @@ public:
     DTIdioma getIdioma();
     int getCantidadLecciones();
     int getCantidadEjercicios();
-    DTProfesor getProfesor();
+    DTProfesor *getProfesor();
     bool getEstaHabilitado();
     vector<DTLeccion> getLecciones();
     vector<DTInscripcion> getInscripciones();
@@ -31,7 +32,7 @@ private:
     Dificultad dificultad;
     DTIdioma idioma;
     int cantidadLecciones, cantidadEjercicios;
-    DTProfesor profesor;
+    DTProfesor *profesor;
     bool estaHabilitado;
     vector<DTLeccion> lecciones;
     vector<DTInscripcion> inscripciones;

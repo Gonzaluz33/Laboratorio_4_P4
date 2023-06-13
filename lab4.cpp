@@ -744,7 +744,7 @@ int main(){
                         (curso_seleccionado.getDificultad() == Avanzado) ? "Avanzado" : "")
                      << endl
                      << "Idioma: " << curso_seleccionado.getIdioma().getNombre() << endl
-                     << "Nombre del Profesor: " << curso_seleccionado.getProfesor().getNombre()
+                     << "Nombre del Profesor: " << curso_seleccionado.getProfesor()->getNombre()
                      << endl
                      << "Esta Habilitado: " << (curso_seleccionado.getEstaHabilitado() ? "Si":"No")
                      << endl;

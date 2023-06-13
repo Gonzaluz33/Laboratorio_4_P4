@@ -1,7 +1,7 @@
 #include "dt_curso.hpp"
 
 DTCurso::DTCurso(string nombre, string descripcion, Dificultad dificultad, DTIdioma idioma, 
-                 int cantidadLecciones, int cantidadEjercicios, DTProfesor profesor,
+                 int cantidadLecciones, int cantidadEjercicios, DTProfesor *profesor,
                  bool estaHabilitado, vector<DTLeccion> lecciones, 
                  vector<DTInscripcion> inscripciones):
     nombre(nombre),
@@ -17,8 +17,24 @@ DTCurso::DTCurso(string nombre, string descripcion, Dificultad dificultad, DTIdi
 {
 }
 
-DTCurso::~DTCurso() {
+DTCurso::DTCurso(const DTCurso &otro):
+    idioma(otro.idioma),
+    nombre(otro.nombre),
+    descripcion(otro.descripcion),
+    dificultad(otro.dificultad),
+    cantidadLecciones(otro.cantidadLecciones),
+    cantidadEjercicios(otro.cantidadEjercicios),
+    estaHabilitado(otro.estaHabilitado),
+    lecciones(otro.lecciones),
+    inscripciones(otro.inscripciones)
+{
+    if (this != &otro) {
+        profesor = new DTProfesor(*otro.profesor);
+    }
+}
 
+DTCurso::~DTCurso() {
+    delete profesor;
 }
 
 string DTCurso::getNombre() {
@@ -45,7 +61,7 @@ int DTCurso::getCantidadEjercicios() {
     return cantidadEjercicios;
 }
 
-DTProfesor DTCurso::getProfesor() {
+DTProfesor *DTCurso::getProfesor() {
     return profesor;
 }
 

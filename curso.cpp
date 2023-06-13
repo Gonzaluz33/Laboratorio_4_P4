@@ -45,8 +45,8 @@ DTCurso Curso::getdataCurso(){
     }
     return DTCurso(this->getNombre(),this->getDescripcion(), this->getDificultad(),
             this->idioma->getDataIdioma(), lecciones.size(), this->getTotalEjercicios(),
-            this->profesorAsignado->getDataProfesor(), this->estaHabilitado, dts_lecciones,
-            dts_inscripciones);
+            dynamic_cast<DTProfesor*>(this->profesorAsignado->getDataUsuario()),
+            this->estaHabilitado, dts_lecciones, dts_inscripciones);
 }
 
 int Curso::getTotalEjercicios(){
