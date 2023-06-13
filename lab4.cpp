@@ -173,7 +173,7 @@ int main(){
                 bool esta_en_rango;
                 cout << "Seleccione un usuario: ";
                 cin >> ind_selecc;
-                string usuario_seleccionado = nicknames.at(ind_selecc-1);
+                string usuario_seleccionado = nicknames[ind_selecc-1];
                 do{
                     esta_en_rango = (ind_selecc > 0) && (ind_selecc < i);
                     if(!esta_en_rango){
@@ -183,8 +183,7 @@ int main(){
                     }
                 }while(!esta_en_rango);
                 cout << "Informacion del usuario: " << endl;
-                DTUsuario* us;
-                *us = cu->getDataUsuario(usuario_seleccionado);
+                DTUsuario* us = cu->getDataUsuario(usuario_seleccionado);
                 cout << "Nombre: " << us->getNombre() << endl;
                 cout << "Descripcion: " << us->getDescripcion() << endl;
                 DTProfesor* dtp = dynamic_cast<DTProfesor*>(us);
@@ -195,10 +194,12 @@ int main(){
                     cout << "Instituto donde trabaja: " << dtp->getInstituto() << endl;
                     vector<DTIdioma>::iterator iter2;
                     cout << "Idiomas en los que se especializa: " << endl;
-                    for(iter2 = dtp->getIdiomas().begin();iter2 != dtp->getIdiomas().end(); iter2++){
-                       cout << iter2->getNombre() << endl;
+                    vector<DTIdioma> idiomas = dtp->getIdiomas();
+                    for(iter2 = idiomas.begin();iter2 != idiomas.end(); iter2++){
+                       cout << "\t" << iter2->getNombre() << endl;
                     }
                 }
+                delete us;
             }
             break;
         case 3:
@@ -1039,21 +1040,20 @@ int main(){
         }
         break;
         case 14:
-            cout << "Ha seleccionado la opción 14: Suscribirse a Notificaciones" << endl;
             {
+                IControladorUsuarios* cu = fabrica.getIControladorUsuarios();
                 cout << "Ha seleccionado la opción 14: Suscribirse a Notificaciones" << endl;
-                ControladorUsuarios* cu = ControladorUsuarios::getInstance();
                 cout << "Ingrese el nickname del usuario que desea suscribirse" << endl;
                 string nickname_us;
                 cin >> nickname_us;
-                Usuario* us = cu->buscarUsuario(nickname_us);
-                if(us == nullptr){
+                if(!cu->existeUsuario(nickname_us)){
                     cout << "El nickname ingresado no corresponde a ningún usuario del sistema.." << endl;
                     cout << "Por favor intente nuevamente." << endl;
                 }else{
                     vector<DTIdioma> idiomas_a_listar = cu->listarIdiomasNoSuscritos(nickname_us);
                     vector<DTIdioma> idiomas_seleccionados;
-                    cout << "Lista de idiomas a los que no esta suscrito:" << endl;
+                    cout << "Listando idiomas a los que no esta suscrito..." << endl;
+                    cout << "-------------------------" << endl;
                     vector<DTIdioma>::iterator it;
                     int i = 1;
                     for(it = idiomas_a_listar.begin(); it != idiomas_a_listar.end(); ++it){
@@ -1065,100 +1065,81 @@ int main(){
                         cout << "Ingrese el número 0 cuando haya seleccionado todos los idiomas" << endl;
                         cout << "Ingrese el numero correspondiente al idioma seleccionado: ";
                         cin >> opcion;
-                        if(opcion != 0){
-                            idiomas_seleccionados.push_back(idiomas_a_listar[opcion-1]);
-                        } else if(opcion > idiomas_a_listar.size() + 1 || opcion < 0 ){
+                        if(opcion > idiomas_a_listar.size() || opcion < 0 ){
                             cout << "Ingrese un número dentro de las opciones" << endl;  
-                          } 
-                    }while(opcion != 0); 
-                    vector<Idioma*> idiomas_a_suscribir;
-                    map<string, Idioma*> todos_los_idiomas = cu->getIdiomas();
-                    map<string, Idioma*>::iterator it2;
-                    string nombre_idioma;
-                    for(it = idiomas_seleccionados.begin(); it != idiomas_seleccionados.end(); ++it){
-                        nombre_idioma = (*it).getNombre();
-                        it2 = todos_los_idiomas.find(nombre_idioma);
-                        if(it2->second != nullptr){
-                            idiomas_a_suscribir.push_back(it2->second);
+                        } else if(opcion != 0) {
+                            idiomas_seleccionados.push_back(idiomas_a_listar[opcion-1]);
                         }
-                    }
-                    cu->suscribir(idiomas_a_suscribir);
+                    } while(opcion != 0); 
+                    cu->suscribir(idiomas_seleccionados);
                     cout << "Suscripciones realizadas con exito" << endl;
                 }
             }
             break;
         case 15:
             {
-                ControladorUsuarios* cu_15 = ControladorUsuarios::getInstance();
+                IControladorUsuarios* cu_15 = fabrica.getIControladorUsuarios();
                 cout << "Ha seleccionado la opción 15: Consulta de Notificaciones" << endl;
                 cout << "Por favor ingrese el nickname del usuario a consultar: " << endl;
                 string nick_user_15;
                 cin >> nick_user_15;
-                Usuario* user_15 = cu_15->buscarUsuario(nick_user_15);
-                if(user_15 == nullptr){
+                if(!cu_15->existeUsuario(nick_user_15)){
                     cout << "El nickname ingresado no corresponde a ningún usuario del sistema.." << endl;
                     cout << "Por favor intente nuevamente." << endl;
                     
                 }else{
-                     cout << "Listando Notidicaciones..." << endl;
-                    vector<DTNotificacion> notificaciones_a_listar = user_15->getDTNotificaciones();
-                    vector<DTNotificacion>::iterator it_15;
-                    for(it_15 = notificaciones_a_listar.begin(); it_15 != notificaciones_a_listar.end();++it_15){
-                        cout << (*it_15) << endl;
+                    vector<DTNotificacion> notificaciones_a_listar = cu_15->listarNotificaciones(nick_user_15);
+                    if (notificaciones_a_listar.empty()) {
+                        cout << "No tiene notificaciones." << endl;
+                        break;
+                    } else {
+                        cout << "Listando Notificaciones..." << endl;
+                        cout << "-------------------------" << endl;
+                        vector<DTNotificacion>::iterator it_15;
+                        for(it_15 = notificaciones_a_listar.begin();
+                                it_15 != notificaciones_a_listar.end();++it_15){
+                            cout << (*it_15) << endl
+                                 << "-------------------------" << endl;
+                        }
                     }
                 }
             }
             break;
         case 16:
             {
-                ControladorUsuarios* cu_16 = ControladorUsuarios::getInstance();
+                IControladorUsuarios* cu_16 = fabrica.getIControladorUsuarios();
                 cout << "Ha seleccionado la opción 16: Eliminar Suscripciones" << endl;
                 cout << "Por favor ingrese el nickname del usuario correspondiente: " << endl;
                 string nick_user_16;
                 cin >> nick_user_16;
-                Usuario* user_16 = cu_16->buscarUsuario(nick_user_16);
-                if(user_16 == nullptr){
+                if(!cu_16->existeUsuario(nick_user_16)){
                     cout << "El nickname ingresado no corresponde a ningún usuario del sistema.." << endl;
                     cout << "Por favor intente nuevamente." << endl;
                 }else{
                     vector<DTIdioma> idiomas_seleccionados;
-                   vector<DTIdioma> idiomas_suscritos = cu_16->listarIdiomasSuscritos(nick_user_16);
-                   cout << "Listando idiomas suscritos..." << endl;
-                   cout << "-------------------------" << endl;
-                   vector<DTIdioma>::iterator it_16;
-                   int i_16 = 1;
-                   for(it_16 = idiomas_suscritos.begin(); it_16 != idiomas_suscritos.end();++it_16){
-                    cout << i_16 << ". " << (*it_16).getNombre() << endl;
-                    i_16++;
-                   }
+                    vector<DTIdioma> idiomas_suscritos = cu_16->listarIdiomasSuscritos(nick_user_16);
+                    cout << "Listando idiomas suscritos..." << endl;
+                    cout << "-------------------------" << endl;
+                    vector<DTIdioma>::iterator it_16;
+                    int i_16 = 1;
+                    for(it_16 = idiomas_suscritos.begin(); it_16 != idiomas_suscritos.end();++it_16){
+                        cout << i_16 << ". " << (*it_16).getNombre() << endl;
+                        i_16++;
+                    }
                     cout << "-------------------------" << endl;
                     int opcion_16 = 0;
                      do{
-                            cout << "Ingrese el número 0 cuando haya seleccionado todos los idiomas" << endl;
-                            cout << "Ingrese la opcion correspondiente a el idioma seleccionado: ";
-                            cin >> opcion_16;
-                            if(opcion_16 > idiomas_suscritos.size() + 1 || opcion_16 < 0 ){
-                                cout << "Ingrese un número dentro de las opciones" << endl;  
-                            }else{
-                                if(opcion_16 != 0){
-                                    idiomas_seleccionados.push_back(idiomas_suscritos[opcion_16-1]);
-                                }
-                            }
-                            
-                        }while(opcion_16 != 0);
-                        vector<Idioma*> idiomas_a_eliminar;
-                        map<string, Idioma*> todos_los_idiomas = cu_16->getIdiomas();
-                        map<string, Idioma*>::iterator it_aux;
-                        string nombre_del_idioma;
-                         for(it_16 = idiomas_seleccionados.begin(); it_16 != idiomas_seleccionados.end();++it_16){
-                            nombre_del_idioma = (*it_16).getNombre();
-                            it_aux = todos_los_idiomas.find(nombre_del_idioma);
-                            if(it_aux->second != nullptr){
-                                idiomas_a_eliminar.push_back(it_aux->second);
-                            }
+                        cout << "Ingrese el número 0 cuando haya seleccionado todos los idiomas" << endl;
+                        cout << "Ingrese la opcion correspondiente a el idioma seleccionado: ";
+                        cin >> opcion_16;
+                        if(opcion_16 > idiomas_suscritos.size() || opcion_16 < 0 ){
+                            cout << "Ingrese un número dentro de las opciones" << endl;  
+                        }else if(opcion_16 != 0){
+                            idiomas_seleccionados.push_back(idiomas_suscritos[opcion_16-1]);
                         }
-                    cu_16->eliminarSuscripcion(idiomas_a_eliminar);
-               
+                    }while(opcion_16 != 0);
+                    cu_16->eliminarSuscripcion(idiomas_seleccionados);
+                    cout << "Las suscripciones se eliminaron con exito." << endl;
                 }
             }
             break;

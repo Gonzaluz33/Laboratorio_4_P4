@@ -10,6 +10,7 @@ using namespace std;
 class DTLeccion {
 public:
     DTLeccion(string nombreTema, string objetivo, int totalDeEjercicios, vector<DTEjercicio*> ejercicios);
+    DTLeccion(const DTLeccion &otro);
     ~DTLeccion();
     string getNombreTema();
     string getObjetivo();

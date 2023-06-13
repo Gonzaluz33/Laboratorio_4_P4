@@ -53,3 +53,12 @@ DTProfesor Profesor::getDataProfesor() {
     }
     return DTProfesor(this->getNickname(), this->getNombre(), this->getDescripcion(), instituto, idiomas);
 }
+
+DTUsuario *Profesor::getDataUsuario() {
+    vector<DTIdioma> idiomas;
+    vector<Idioma*>::iterator it;
+    for(it = idiomasEsp.begin(); it != idiomasEsp.end(); it++) {
+        idiomas.push_back((*it)->getDataIdioma());
+    }
+    return new DTProfesor(this->getNickname(), this->getNombre(), this->getDescripcion(), instituto, idiomas);
+}

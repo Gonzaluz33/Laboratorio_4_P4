@@ -24,6 +24,7 @@ class Profesor : public Usuario{
         vector<DTIdioma> getDTidiomas();
         vector<DTEstProfesor> listarEstProfesor();
         DTProfesor getDataProfesor();
+        DTUsuario *getDataUsuario();
 };
 
 #endif

@@ -53,8 +53,8 @@ private:
     Dificultad dificultad_recordado;
     string idioma_recordado;
     map<string, Curso *> cursosHabilitados, cursosNoHabilitados;
-    vector<Curso *> cursos; // Parece que esto no se usa
-    vector<Leccion *> lecciones; // Parece que esto no se usa tampoco
+    //vector<Curso *> cursos; // Parece que esto no se usa
+    //vector<Leccion *> lecciones; // Parece que esto no se usa tampoco
     vector<string> nombresCursosPrevios;
     Curso *curso_recordado;
     Leccion *leccion_recordada;

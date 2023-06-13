@@ -35,12 +35,13 @@ public:
     virtual vector <DTNotificacion> listarNotificaciones(string nickname)=0;
     virtual vector <DTIdioma>listarIdiomasSuscritos(string nickname)=0;
     virtual vector <DTIdioma> listarIdiomasNoSuscritos(string nickname)=0;
-    virtual void suscribir(vector <Idioma*> idiomasASuscribir)=0;
-    virtual void eliminarSuscripcion(vector <Idioma*>idiomasAEliminar)=0;
+    virtual void suscribir(vector <DTIdioma> idiomasASuscribir)=0;
+    virtual void eliminarSuscripcion(vector <DTIdioma>idiomasAEliminar)=0;
     virtual map<string, Idioma*> getIdiomas()=0;
     virtual vector<string> listarNickname()=0;
     virtual bool iniciarAltaIdioma(DTIdioma idioma)=0;
-    virtual DTUsuario getDataUsuario(string nickname)=0;
+    virtual DTUsuario *getDataUsuario(string nickname)=0;
+    virtual bool existeUsuario(string nickname)=0;
 };
 
 #endif

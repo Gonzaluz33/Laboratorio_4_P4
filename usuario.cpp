@@ -14,7 +14,11 @@ Usuario::Usuario(string nick, string contr, string nom, string desc, TipoUsuario
 }
 
 Usuario::~Usuario(){
-
+    vector<Notificacion*>::iterator it;
+    for (it = notificaciones.begin(); it != notificaciones.end(); it++) {
+        delete *it;
+    }
+    notificaciones.clear();
 }
 
 string Usuario::getNickname(){
@@ -82,14 +86,11 @@ vector<DTIdioma> Usuario::listarDTidiomasSuscritos(){
 vector<DTNotificacion> Usuario::getDTNotificaciones(){
     vector<DTNotificacion> n;
     vector<Notificacion*>::iterator it;
-    it = this->notificaciones.begin();
-    while(it != this->notificaciones.end()){
-        Notificacion *current = *it;
-        n.insert(n.begin(),current->getDataNotificacion());
-        delete (*it);
-        this->notificaciones.erase(it);
-        it++;
+    for(it = notificaciones.begin(); it != notificaciones.end(); it++) {
+        n.push_back((*it)->getDataNotificacion());
+        delete *it;
     }
+    notificaciones.clear();
     return n;
 }
 
@@ -112,8 +113,4 @@ void Usuario::eliminarNotificaciones(string nombre_curso){
 void Usuario::notificar(string nombreCurso, string nombreIdioma){
     Notificacion *n = new Notificacion(nombreCurso,nombreIdioma);
     this->notificaciones.push_back(n);
-}
-
-DTUsuario Usuario::getDataUsuario() {
-    return DTUsuario(nickname, nombre, descripcion);
 }

@@ -12,7 +12,12 @@ Curso::Curso(string nombre, string descripcion, Dificultad dificultad, Profesor 
     this->estaHabilitado = false;
 }
 
-Curso::~Curso(){}
+Curso::~Curso(){
+    vector <Leccion*>::iterator it_l;
+    for(it_l = lecciones.begin(); it_l != lecciones.end(); it_l++) {
+        delete *it_l;
+    }
+}
 
 string Curso::getNombre(){
     return this->nombre;
@@ -30,7 +35,7 @@ DTCurso Curso::getdataCurso(){
     vector<DTLeccion> dts_lecciones;
     vector<Leccion*>::iterator it_leccion;
     for(it_leccion = lecciones.begin(); it_leccion != lecciones.end(); it_leccion++) {
-        dts_lecciones.push_back((*it_leccion)->getDataLeccion());
+        dts_lecciones.push_back(DTLeccion((*it_leccion)->getDataLeccion()));
     }
 
     vector<DTInscripcion> dts_inscripciones;

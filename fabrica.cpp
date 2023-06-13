@@ -8,7 +8,8 @@ Fabrica::Fabrica() {
 }
 
 Fabrica::~Fabrica() {
-
+    delete controladorCursos;
+    delete controladorUsuarios;
 }
 
 IControladorCursos *Fabrica::getIControladorCursos() {

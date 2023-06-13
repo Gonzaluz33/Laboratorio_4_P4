@@ -10,7 +10,10 @@ Estudiante::Estudiante(string nick, string contr, string nom, string desc,TipoUs
 }
 
 Estudiante::~Estudiante(){
-    
+    map<string, Inscripcion*>::iterator it;
+    for(it = inscripciones.begin(); it != inscripciones.end(); it++) {
+        delete it->second;
+    }
 }
 
 void Estudiante::setPaisResidencia(string pr){
@@ -66,4 +69,8 @@ void Estudiante::inscribirse(Curso* curso, DTFecha fecha){
     Inscripcion* insc = new Inscripcion(curso,this,fecha);
     this->inscripciones.insert(pair<string,Inscripcion*>(curso->getNombre(), insc));
     curso->agregarInscripcion(insc,this->getNickname());
+}
+
+DTUsuario *Estudiante::getDataUsuario() {
+    return new DTEstudiante(getNickname(), getNombre(), getDescripcion(), pais_residencia);
 }

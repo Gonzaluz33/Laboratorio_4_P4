@@ -13,7 +13,27 @@ ControladorCursos::ControladorCursos() {
 }
 
 ControladorCursos::~ControladorCursos() {
+    //nickname_recordado.clear();
+    //nombreCurso_recordado.clear();
+    //descripcion_recordado.clear();
+    //descripcionEjercicio_recordado.clear();
+    //fraseACompletar_recordada.clear();
+    //solucion_recordada.clear();
+    //fraseATraducir_recordada.clear();
+    //traduccion_recordada.clear();
+    //idioma_recordado.clear();
+    //nombresCursosPrevios.clear();
 
+    map<string, Curso *>::iterator it_c;
+    for (it_c = cursosHabilitados.begin(); it_c != cursosHabilitados.end(); it_c++) {
+        delete it_c->second;
+    }
+    map<string, Curso *>::iterator it_c2;
+    cursosHabilitados.clear();
+    for (it_c2 = cursosNoHabilitados.begin(); it_c2 != cursosNoHabilitados.end(); it_c2++) {
+        delete it_c2->second;
+    }
+    cursosNoHabilitados.clear();
 }
 
 vector<string> ControladorCursos::listarProfesores() {
@@ -71,7 +91,7 @@ void ControladorCursos::crearCurso() {
     nombreCurso_recordado.clear();
     descripcion_recordado.clear();
 
-    cursos.push_back(curso_recordado); // parece que el set de cursos no se usa, *si eliminamos
+    //cursos.push_back(curso_recordado); // parece que el set de cursos no se usa, *si eliminamos
                                        // cursos eliminar esta linea.*
 }
 
@@ -113,7 +133,7 @@ void ControladorCursos::crearLeccion(string nombreTema, string objetivo) {
 }
 
 void ControladorCursos::altaLeccion() {
-    lecciones.push_back(leccion_recordada); // si lecciones no se usa podemos eliminar esta linea
+    //lecciones.push_back(leccion_recordada); // si lecciones no se usa podemos eliminar esta linea
 
     /* Libero memoria */
     //curso_recordado = nullptr;

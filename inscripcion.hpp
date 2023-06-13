@@ -27,7 +27,7 @@ private:
     map<string, Ejercicio*> ejerciciosPendientes;
 public:
     Inscripcion(Curso *curso, Estudiante *estudiante, DTFecha fechaInscripcion);
-    virtual~Inscripcion();
+    ~Inscripcion();
     DTFecha getFechaInscripcion();
     DTCurso getDataCurso();
     int getPorcentajeEjerciciosRealizados();

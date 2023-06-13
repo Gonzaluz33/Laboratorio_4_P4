@@ -20,7 +20,7 @@ string DTNotificacion::getNombreIdioma(){
 }
 
 ostream& operator<<(ostream& os, DTNotificacion notificacion){ 
-    os << "Nombre del curso: " + notificacion.getNombreCurso() + "Idioma Correspondiente: " << notificacion.getNombreIdioma();
+    os << "Nombre del curso: " + notificacion.getNombreCurso() + "\nIdioma Correspondiente: " + notificacion.getNombreIdioma();
   return os;
 }
 

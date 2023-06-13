@@ -9,6 +9,14 @@ Leccion::Leccion(int totalE, string nomTema, string objetivo){
     this->objetivo = objetivo;
 }
 
+Leccion::~Leccion() {
+    map<string, Ejercicio*>::iterator it;
+    for(it = ejercicios.begin(); it != ejercicios.end(); it++) {
+        delete it->second;
+    }
+    ejercicios.clear();
+}
+
 int Leccion::getTotalEjercicios(){
     return this->totalEjercicios;
 }

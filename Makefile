@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/camilo/Documents/P4/lab4/Laboratorio_4_P4-main
+CMAKE_SOURCE_DIR = /home/camilo/Documents/P4/lab4/final
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/camilo/Documents/P4/lab4/Laboratorio_4_P4-main
+CMAKE_BINARY_DIR = /home/camilo/Documents/P4/lab4/final
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/camilo/Documents/P4/lab4/Laboratorio_4_P4-main/CMakeFiles /home/camilo/Documents/P4/lab4/Laboratorio_4_P4-main//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/camilo/Documents/P4/lab4/final/CMakeFiles /home/camilo/Documents/P4/lab4/final//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/camilo/Documents/P4/lab4/Laboratorio_4_P4-main/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/camilo/Documents/P4/lab4/final/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -440,6 +440,30 @@ dt_idioma.s: dt_idioma.cpp.s
 dt_idioma.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab4.dir/build.make CMakeFiles/lab4.dir/dt_idioma.cpp.s
 .PHONY : dt_idioma.cpp.s
+
+dt_inscripcion.o: dt_inscripcion.cpp.o
+.PHONY : dt_inscripcion.o
+
+# target to build an object file
+dt_inscripcion.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab4.dir/build.make CMakeFiles/lab4.dir/dt_inscripcion.cpp.o
+.PHONY : dt_inscripcion.cpp.o
+
+dt_inscripcion.i: dt_inscripcion.cpp.i
+.PHONY : dt_inscripcion.i
+
+# target to preprocess a source file
+dt_inscripcion.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab4.dir/build.make CMakeFiles/lab4.dir/dt_inscripcion.cpp.i
+.PHONY : dt_inscripcion.cpp.i
+
+dt_inscripcion.s: dt_inscripcion.cpp.s
+.PHONY : dt_inscripcion.s
+
+# target to generate assembly for a file
+dt_inscripcion.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lab4.dir/build.make CMakeFiles/lab4.dir/dt_inscripcion.cpp.s
+.PHONY : dt_inscripcion.cpp.s
 
 dt_leccion.o: dt_leccion.cpp.o
 .PHONY : dt_leccion.o
@@ -873,6 +897,9 @@ help:
 	@echo "... dt_idioma.o"
 	@echo "... dt_idioma.i"
 	@echo "... dt_idioma.s"
+	@echo "... dt_inscripcion.o"
+	@echo "... dt_inscripcion.i"
+	@echo "... dt_inscripcion.s"
 	@echo "... dt_leccion.o"
 	@echo "... dt_leccion.i"
 	@echo "... dt_leccion.s"

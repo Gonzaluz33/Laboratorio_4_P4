@@ -46,7 +46,7 @@ class Usuario : public IObserver{
         vector<DTIdioma> listarDTidiomasSuscritos();
         vector<DTNotificacion> getDTNotificaciones();
         void eliminarNotificaciones(string);
-        DTUsuario getDataUsuario();
+        virtual DTUsuario *getDataUsuario()=0;
 };
 
 #endif

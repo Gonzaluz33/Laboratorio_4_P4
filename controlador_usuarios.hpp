@@ -52,12 +52,13 @@ class ControladorUsuarios : public IControladorUsuarios {
         vector <DTNotificacion> listarNotificaciones(string nickname);
         vector <DTIdioma>listarIdiomasSuscritos(string nickname);
         vector <DTIdioma> listarIdiomasNoSuscritos(string nickname);
-        void suscribir(vector <Idioma*> idiomasASuscribir);
-        void eliminarSuscripcion(vector <Idioma*>idiomasAEliminar);
+        void suscribir(vector <DTIdioma> idiomasASuscribir);
+        void eliminarSuscripcion(vector <DTIdioma>idiomasAEliminar);
         vector<string> listarNickname();
         bool iniciarAltaIdioma(DTIdioma idioma);
-        DTUsuario getDataUsuario(string nickname);
+        DTUsuario *getDataUsuario(string nickname);
         map<string, Idioma*> getIdiomas();
+        bool existeUsuario(string nickname);
 };
 
 #endif
