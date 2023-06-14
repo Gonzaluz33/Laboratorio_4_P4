@@ -76,10 +76,18 @@ void ControladorCursos::crearCurso() {
     ControladorUsuarios *cu = ControladorUsuarios::getInstance();
     Profesor *profesor = dynamic_cast<Profesor*>(cu->buscarUsuario(nickname_recordado));
     Idioma *idioma = cu->getIdiomas().find(idioma_recordado)->second;
+    for(string nom_curso : nombresCursosPrevios) {
+        cout << "CURSO: " << nom_curso << endl;
+    }
     vector<Curso*> cursosPrevios;
     vector<string>::iterator it;
     for (it = nombresCursosPrevios.begin(); it != nombresCursosPrevios.end(); it++) {
-        cursosPrevios.push_back(cursosHabilitados.find(*it)->second);
+        map<string,Curso*>::iterator iter = cursosHabilitados.find(*it);
+        if (iter == cursosHabilitados.end()) {
+            cout << nombreCurso_recordado << endl
+                 << "NO LO ENCONTRO" << endl;
+        }
+        cursosPrevios.push_back(iter->second);
     }
     curso_recordado = new Curso(nombreCurso_recordado, descripcion_recordado,
                                 dificultad_recordado, profesor,
@@ -323,7 +331,17 @@ DTCurso ControladorCursos::getDataCurso(string nombreCurso) {
 static bool estaApto(Estudiante *estudiante, vector<Curso *> cursosPrevios) {
     bool estaAprobado = true;
     vector<Curso*>::iterator it = cursosPrevios.begin();
+    cout << "ANTES" << endl;
+    vector<Curso*>::iterator iter;
+    for (iter = cursosPrevios.begin(); iter != cursosPrevios.end(); iter++) {
+        if (*iter == nullptr)
+            cout << "es null" << endl;
+        else
+            cout << (*iter)->getNombre() << endl;
+    }
+    cout << "DESPUES" << endl;
     while (it != cursosPrevios.end() && estaAprobado) {
+        cout << "ENTROO" << endl;
         Inscripcion *inscripcion = estudiante->getInscripcionDeCurso((*it)->getNombre());
         estaAprobado = inscripcion->getCursoAprobado();
         it++;
@@ -338,6 +356,7 @@ vector<DTCurso> ControladorCursos::listarCursosDisponibles(string nickname) {
     vector<DTCurso> salida;
     map<string, Curso*>::iterator it;
     for (it = cursosHabilitados.begin(); it != cursosHabilitados.end(); it++) {
+        cout << it->second->getNombre() << endl;
         if (estaApto(estudiante, it->second->getCursosPrevios())) {
             salida.push_back(it->second->getdataCurso());
         }

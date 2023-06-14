@@ -3,7 +3,7 @@
 DTCurso::DTCurso(string nombre, string descripcion, Dificultad dificultad, DTIdioma idioma, 
                  int cantidadLecciones, int cantidadEjercicios, DTProfesor *profesor,
                  bool estaHabilitado, vector<DTLeccion> lecciones, 
-                 vector<DTInscripcion> inscripciones):
+                 vector<DTInscripcion> inscripciones, vector<DTCurso> cursosPrevios):
     nombre(nombre),
     descripcion(descripcion),
     dificultad(dificultad),
@@ -13,7 +13,8 @@ DTCurso::DTCurso(string nombre, string descripcion, Dificultad dificultad, DTIdi
     profesor(profesor),
     estaHabilitado(estaHabilitado),
     lecciones(lecciones),
-    inscripciones(inscripciones)
+    inscripciones(inscripciones),
+    cursosPrevios(cursosPrevios)
 {
 }
 
@@ -75,4 +76,8 @@ vector<DTLeccion> DTCurso::getLecciones() {
 
 vector<DTInscripcion> DTCurso::getInscripciones() {
     return inscripciones;
+}
+
+vector<DTCurso> DTCurso::getCursosPrevios() {
+    return cursosPrevios;
 }
