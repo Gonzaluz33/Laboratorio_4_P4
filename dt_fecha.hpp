@@ -1,5 +1,8 @@
 #ifndef DT_FECHA_HPP
 #define DT_FECHA_HPP
+#include <iostream>
+#include <string>
+using namespace std;
 
 class DTFecha {
     private:
@@ -15,6 +18,7 @@ class DTFecha {
         int getDia();
         int getMes();
         int getAnio();
+        friend ostream& operator<<(ostream& os, DTFecha fecha);
 };
 
 #endif

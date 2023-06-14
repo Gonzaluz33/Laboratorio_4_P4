@@ -20,6 +20,8 @@
 #include "dt_est_profesor.hpp"
 #include "dt_completar_palabras.hpp"
 #include "dt_traduccion.hpp"
+#include <fstream>
+#include <sstream>
  
 
 using namespace std;
@@ -30,7 +32,9 @@ int main(){
     int opcion;
 
     do {
-        cout << "MENU" << endl;
+        cout << "------------------------------------------------" << endl;
+        cout << "-------------------   MENU   -------------------" << endl;
+        cout << "------------------------------------------------" << endl;
         cout << "1. Alta de Usuario" << endl;
         cout << "2. Consulta de Usuario" << endl;
         cout << "3. Alta de Idioma" << endl;
@@ -49,7 +53,7 @@ int main(){
         cout << "16. Eliminar Suscripciones" << endl;
         cout << "17. Cargar Datos de Prueba" << endl;
         cout << "18. Salir" << endl;
-        cout << "Seleccione una opción: ";
+        cout << "Seleccione una opcion: ";
         cin >> opcion;
 
         // Realizar la acción correspondiente según la opción seleccionada
@@ -150,9 +154,9 @@ int main(){
                 }
                 if(tipo == Est || (selecciono_idioma && tipo == Prof)){
                     if(cu->altaUsuario()){
-                        cout << "El usuario se dio de alta correctamente";
+                        cout << "El usuario se dio de alta correctamente"<<endl;
                     }else{
-                        cout << "El nickname ingresado ya existe en el sistema";
+                        cout << "El nickname ingresado ya existe en el sistema"<<endl;
                     }
                 }
             }
@@ -170,18 +174,17 @@ int main(){
                     i++;
                 }
                 int ind_selecc;
-                bool esta_en_rango;
-                cout << "Seleccione un usuario: ";
-                cin >> ind_selecc;
-                string usuario_seleccionado = nicknames[ind_selecc-1];
+                string usuario_seleccionado;
                 do{
-                    esta_en_rango = (ind_selecc > 0) && (ind_selecc < i);
-                    if(!esta_en_rango){
-                        cout << "Ingrese un numero dentro del rango: ";
-                        cin >> ind_selecc;
-                        usuario_seleccionado = nicknames.at(i-1);
+                    cout << "Ingrese la opcion correspondiente al usuario que desea consultar: ";
+                    cin >> ind_selecc;
+                    if(ind_selecc > nicknames.size() || ind_selecc <= 0 ){
+                        cout << "Ingrese un número dentro de las opciones." << endl;  
+                    } else {
+                        usuario_seleccionado = nicknames[ind_selecc-1];
                     }
-                }while(!esta_en_rango);
+                }while(ind_selecc <= 0 || ind_selecc > nicknames.size());
+
                 cout << "Informacion del usuario: " << endl;
                 DTUsuario* us = cu->getDataUsuario(usuario_seleccionado);
                 cout << "Nombre: " << us->getNombre() << endl;
@@ -190,6 +193,7 @@ int main(){
                 if(dtp == nullptr){
                     DTEstudiante* dte = dynamic_cast<DTEstudiante*>(us);
                     cout << "Pais de residencia: " << dte->getPais() << endl;
+                    cout<< "Fecha de nacimiento: "<< dte->getDTFecha() <<endl;
                 }else{
                     cout << "Instituto donde trabaja: " << dtp->getInstituto() << endl;
                     vector<DTIdioma>::iterator iter2;
@@ -234,6 +238,7 @@ int main(){
                         int i = 1;
                         for(it = dtidiomas.begin();it != dtidiomas.end(); it++){
                             cout << i << ". " << it->getNombre() << endl;
+                            i++;
                         }
                     }else {
                         cout << "No hay ningun idioma en el sistema" << endl;
@@ -331,41 +336,43 @@ int main(){
                             if(cursos.empty()){
                                 cout << "No existen cursos disponibles en el sistema" << endl;
                             }else{
-                                bool salir;
+                                bool salir = true;
                                 do{
                                     vector<DTCurso>::iterator iter;
-                                    for(iter = cursos.begin(); iter != cursos.end(); it++){
-                                        cout << iter->getNombre() << endl;
+                                    int i = 1;
+                                    for(iter = cursos.begin(); iter != cursos.end(); iter++){
+                                        cout << i << ". " << iter->getNombre() << endl;
+                                        i++;
                                     }
-                                    cout << "Seleccione el curso que quiere como previa con su nombre: ";
-                                    string previa;
-                                    cin >> previa;
-                                    iter = cursos.begin();
-                                    while(iter->getNombre() != previa || iter != cursos.end()){
-                                        it++;
-                                    }
-                                    if(iter != cursos.end()){
-                                        cc->seleccionarCursosPrevios(previa);
-                                        cout << "¿Desea agregar otro curso?: ";
-                                        string respuesta2;
-                                        cin >> respuesta2;
-                                        bool respondioBien;
-                                        do{
-                                            if(respuesta2 == "si"){
-                                                salir = false;
-                                                respondioBien = true;
-                                            }else if (respuesta2 == "no"){
-                                                salir = true;
-                                                respondioBien = true;
-                                            }else{
-                                                cout << "ingrese si o no";
-                                                respondioBien = false;
-                                            }
-                                        }while(!respondioBien);
-                                    }else{
-                                        cout << "El nombre de curso que escribió no existe, intentelo devuelta" << endl;
-                                        salir = false;
-                                    }
+                                    cout << "Indique la opcion correspondiente al curso: ";
+                                    int previa;
+                                 
+                                    do{
+                                        cin >> previa;
+                                        if(!(previa <= 0 || previa > cursos.size())){
+                                            cc->seleccionarCursosPrevios(cursos[previa-1].getNombre());
+                                            cout << "¿Desea agregar otro curso?: ";
+                                            string respuesta2;
+                                            bool respondioBien;
+                                            do{
+                                                cin >> respuesta2;
+                                                if(respuesta2 == "si"){
+                                                    salir = false;
+                                                    respondioBien = true;
+                                                }else if (respuesta2 == "no"){
+                                                    salir = true;
+                                                    respondioBien = true;
+                                                }else{
+                                                    cout << "ingrese si o no";
+                                                    respondioBien = false;
+                                                }
+                                            }while(!respondioBien);
+                                        }else{
+                                            cout << "Ingrese un numero dentro del rango."<<endl;
+                                        }
+                                        
+                                    }while(previa <= 0 || previa > cursos.size());
+                                    
                                 }while(!salir);
                             }
                         }
@@ -1148,26 +1155,102 @@ int main(){
                 cout << "Ha seleccionado la opción 17: Cargar Datos de Prueba" << endl;
                 IControladorCursos *cc = fabrica.getIControladorCursos();
                 IControladorUsuarios *cu = fabrica.getIControladorUsuarios();
+                ifstream inputFile("Idiomas.csv");
+                if (!inputFile) {
+                    cout << "Error al abrir el archivo de Idiomas." << endl;
+                return 1;
+                }
+                //Ingreso Idiomas
+                string line;
+                vector<vector<string>> inputData;
+                while (getline(inputFile, line)) {
+                    stringstream ss(line);
+                    string value;
+                    vector<string> valuesPerLine;
 
-                // Creo idioma
-                cu->iniciarAltaIdioma(DTIdioma("ingles"));
+                    while (getline(ss,value,';')) {
+                        valuesPerLine.push_back(value);
+                    }
 
-                // Creo profesor
-                cu->iniciarAltaUsuario("prof", "123456", "NombreProfesor",
-                                       "DescripcionProfesor", Prof);
-                cu->datosAdicionalesProfesor("Instituto");
-                cu->seleccionarIdioma(DTIdioma("ingles"));
-                cu->altaUsuario();
+                    inputData.push_back(valuesPerLine);
+                }
+                inputFile.close();
+                
+                
+                for (const auto& values : inputData) {
+                    for (const auto& value : values) {
+                         cu->iniciarAltaIdioma(DTIdioma(value));
+                    }
+                }
+                //ingreso estudiantes
+                ifstream inputFile2("Estudiantes.csv");
+                if (!inputFile2) {
+                    cout << "Error al abrir el archivo de Estudiantes." << endl;
+                return 1;
+                }
+                string line2;
+                vector<vector<string>> inputData2;
+                while (getline(inputFile2, line2)) {
+                    stringstream ss(line2);
+                    string value2;
+                    vector<string> valuesPerLine2;
 
-                // Creo estudiante
-                cu->iniciarAltaUsuario("est", "123456", "NombreEstudiante",
-                                       "DescripcionEstudiante", Est);
-                cu->datosAdicionalesEstudiante("uruguay", DTFecha(12, 12, 12));
-                cu->altaUsuario();
+                    while (getline(ss,value2,';')) {
+                        valuesPerLine2.push_back(value2);
+                    }
+
+                    inputData2.push_back(valuesPerLine2);
+                }
+                inputFile2.close();
+                for (const auto& values2 : inputData2) {
+                    cu->iniciarAltaUsuario(values2[0],values2[1],values2[2],values2[3], Est);
+                    string fecha = values2[4];
+                    stringstream ss(fecha);
+                    int dia, mes, anio;
+                    char delimiter = '/';
+                    ss >> dia >> delimiter >> mes >> delimiter >> anio;
+                    cu->datosAdicionalesEstudiante(values2[5], DTFecha(dia, mes, anio));
+                    cu->altaUsuario();
+                }
+
+                 //ingreso profesores
+                ifstream inputFile3("Profesores.csv");
+                if (!inputFile3) {
+                    cout << "Error al abrir el archivo de Profesores." << endl;
+                return 1;
+                }
+                string line3;
+                vector<vector<string>> inputData3;
+                while (getline(inputFile3, line3)) {
+                    stringstream ss(line3);
+                    string value3;
+                    vector<string> valuesPerLine3;
+
+                    while (getline(ss,value3,';')) {
+                        valuesPerLine3.push_back(value3);
+                    }
+
+                    inputData3.push_back(valuesPerLine3);
+                }
+                inputFile3.close();
+                for (const auto& values3 : inputData3) {
+                    cu->iniciarAltaUsuario(values3[0],values3[1],values3[2],values3[3],Prof);
+                    cu->datosAdicionalesProfesor(values3[4]);
+                    string idiomas = values3[5];
+                    stringstream ss(idiomas);
+                    string value4;
+                    while (getline(ss,value4,'/')) {
+                        cu->seleccionarIdioma(DTIdioma(value4));
+                    }
+                    cu->altaUsuario();
+                }
+                
+
+                
 
                 // Creo curso
                 cc->iniciarAltaCurso("prof", "NombreCurso", "DescripcionCurso", Principiante);
-                cc->seleccionarIdiomaCurso(DTIdioma("ingles"));
+                cc->seleccionarIdiomaCurso(DTIdioma("Ingles"));
                 cc->crearCurso();
 
                 // Agregar Leccion
@@ -1180,7 +1263,10 @@ int main(){
                 cc->altaLeccion();
 
                 cc->darAltaCurso();
-
+                
+            cout <<"------------------------------------------------"<<endl;
+            cout <<"--------Datos Cargados de forma exitosa---------"<<endl;
+            cout <<"------------------------------------------------"<<endl;
             }
             break;
         case 18:
@@ -1190,7 +1276,7 @@ int main(){
             cout << "Opción inválida. Intente nuevamente." << endl;
         }
         
-        cout << endl;
+        
     } while (opcion != 18);
 
     return 0;

@@ -72,5 +72,5 @@ void Estudiante::inscribirse(Curso* curso, DTFecha fecha){
 }
 
 DTUsuario *Estudiante::getDataUsuario() {
-    return new DTEstudiante(getNickname(), getNombre(), getDescripcion(), pais_residencia);
+    return new DTEstudiante(getNickname(), getNombre(), getDescripcion(), pais_residencia,this->fecha_nacimiento);
 }

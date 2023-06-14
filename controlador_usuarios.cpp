@@ -98,8 +98,9 @@ bool ControladorUsuarios::altaUsuario()
     {
         Usuario* nuevo_usuario;
         if (this->tipo_Usuario_recordado == Prof)
-        {
+        {  
             nuevo_usuario = new Profesor(this->nickname_recordado, this->contrasena_recordado, this->nombre_recordado, this->descripcion_recordado, this->tipo_Usuario_recordado, this->nombre_Instituto_recordado, this->lista_idiomas_recordado);
+            
         }
         else
         {
