@@ -24,7 +24,7 @@ vector<vector<string>> datos_prueba_lecciones = {
 
 vector<vector<string>> datos_prueba_ejercicios = {
     {"Ingles para principiantes","Saludos y Presentaciones","T","Presentaciones","Mucho gusto en conocerte","Nice to meet you"},
-    {"Ingles para principiantes","Saludos y Presentaciones","","R","Presentaciones formales","Please --- me to introduce ---","allow, myself"},
+    {"Ingles para principiantes","Saludos y Presentaciones","R","Presentaciones formales","Please --- me to introduce ---","allow, myself"},
     {"Ingles para principiantes","Artículos y Plurales","T","Plurales regulares","I have two brothers and three sisters","Tengo dos hermanos y tres hermanas"},
     {"Ingles para principiantes","Artículos y Plurales","R","Sustantivos contables en plural","Can I have --- water, please?","some"},
     {"Curso de ingles basico","Actividades Cotidianas","R","Actividades diarias","Wake ---","up"},

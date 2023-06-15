@@ -1,6 +1,5 @@
 #include "inscripcion.hpp"
 
-// DTFecha fechaInscripcion, int porEjerReal, int cantEjerReal
 Inscripcion::Inscripcion(Curso *curso, Estudiante *estudiante, DTFecha fechaInscripcion):
     fechaInscripcion(fechaInscripcion)
 {
@@ -45,8 +44,10 @@ Leccion* Inscripcion::getLeccionActual(){
 vector<DTEjercicio*> Inscripcion::listarEjerciciosPendientes(){
     vector<DTEjercicio*> SetDTEjercicios;
     map<string, Ejercicio*>::iterator it;
+
     for (it = this->ejerciciosPendientes.begin(); it != this->ejerciciosPendientes.end(); ++it){
-        SetDTEjercicios.push_back(it->second->getDataEjercicio());
+        DTEjercicio *dt_ej = it->second->getDataEjercicio();
+        SetDTEjercicios.push_back(dt_ej);
     }
    return SetDTEjercicios;
 }
@@ -72,11 +73,12 @@ void Inscripcion::eliminarDePendientes(Ejercicio* ej){
         while (it != lecciones.end() && (*it) != leccionAsignada) {
             it++;
         }
-        leccionAsignada = *(it++);
 
-        if(leccionAsignada == lecciones.back()) {
+        it++;
+        if(it == lecciones.end()) {
             cursoAprobado = true;
         } else {
+            leccionAsignada = *it;
             ejerciciosPendientes = leccionAsignada->getEjercicios();
         }
     }
@@ -85,12 +87,6 @@ void Inscripcion::eliminarDePendientes(Ejercicio* ej){
 Curso *Inscripcion::getCurso() {
     return cursoAsignado;
 }
-
-/* Parece que no lo usamos
-bool Inscripcion::leccionTerminada(int cantEjActualizado, int totalEj){
-    return cantEjActualizado==totalEj;
-}
-*/
 
 DTInscripcion Inscripcion::getDataInscripcion() {
     return DTInscripcion(estudianteAsignado->getNombre(), fechaInscripcion);

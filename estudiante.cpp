@@ -44,8 +44,6 @@ vector<DTEstEstudiante> Estudiante::listarEstEstudiante(){
 }
 
 vector<DTEjercicio*> Estudiante::listarEjerciciosPendientes(string nombre_curso){
-    vector<DTEjercicio*> dte;
-
     Inscripcion *inscripcion = inscripciones.find(nombre_curso)->second;
     return inscripcion->listarEjerciciosPendientes();
 }
@@ -58,7 +56,12 @@ void Estudiante::actualizarInscripcion(string nombCurso,Ejercicio *ej){
 }
 
 Inscripcion *Estudiante::getInscripcionDeCurso(string nombreCurso) {
-    return inscripciones.find(nombreCurso)->second;
+    map<string,Inscripcion*>::iterator it = inscripciones.find(nombreCurso);
+    if (it == inscripciones.end()) {
+        return nullptr;
+    } else {
+        return it->second;
+    }
 }
 
 map<string, Inscripcion*> Estudiante::getInscripciones() {

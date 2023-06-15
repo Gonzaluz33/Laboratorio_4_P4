@@ -37,15 +37,15 @@ int main(){
         cout << "------------------------------------------------" << endl;
         cout << "-------------------   MENU   -------------------" << endl;
         cout << "------------------------------------------------" << endl;
-        cout << "1. Alta de Usuario" << endl;
-        cout << "2. Consulta de Usuario" << endl;
-        cout << "3. Alta de Idioma" << endl;
-        cout << "4. Consultar Idiomas" << endl;
-        cout << "5. Alta de Curso" << endl;
-        cout << "6. Agregar Leccion" << endl;
-        cout << "7. Agregar Ejercicio" << endl;
-        cout << "8. Habilitar Curso" << endl;
-        cout << "9. Eliminar Curso" << endl;
+        cout << " 1. Alta de Usuario" << endl;
+        cout << " 2. Consulta de Usuario" << endl;
+        cout << " 3. Alta de Idioma" << endl;
+        cout << " 4. Consultar Idiomas" << endl;
+        cout << " 5. Alta de Curso" << endl;
+        cout << " 6. Agregar Leccion" << endl;
+        cout << " 7. Agregar Ejercicio" << endl;
+        cout << " 8. Habilitar Curso" << endl;
+        cout << " 9. Eliminar Curso" << endl;
         cout << "10. Consultar Curso" << endl;
         cout << "11. Inscribirse a Curso" << endl;
         cout << "12. Realizar Ejercicio" << endl;
@@ -75,10 +75,11 @@ int main(){
                 }while(contrasenia.size() < 6);
                 cout << "Ingrese un nombre: ";
                 string nombre;
-                cin >> nombre;
+                cin.ignore();
+                getline(cin, nombre);
                 cout << "Ingrese una descripcion: ";
                 string descripcion;
-                cin >> descripcion;
+                getline(cin, descripcion);
                 int opcion_tipo;
                 do{
                     cout << "Ingrese el tipo de usuario: "<< endl
@@ -97,7 +98,8 @@ int main(){
                         cu->iniciarAltaUsuario(nickname,contrasenia,nombre,descripcion,tipo);
                         cout << "Ingrese el nombre del instituto: ";
                         string instituto;
-                        cin >> instituto;
+                        cin.ignore();
+                        getline(cin, instituto);
                         cu->datosAdicionalesProfesor(instituto);
                         cout << "Seleccionar Idiomas (debe seleccionar almenos un idioma)"<<endl;
                         vector<DTIdioma> idiomas_a_listar = cu->listarIdiomas();
@@ -129,13 +131,14 @@ int main(){
                                         es_el_primero = false;
                                     }
                                 }
-                            }while(opcion3 != 0 || es_el_primero);
+                            } while(opcion3 != 0 || es_el_primero);
+                        } else {
+                            cout << "---------------------------------------------------"
+                                 << endl << "No hay ningun idioma disponible en el sistema..."
+                                 << endl << "Asegurese de que haya algun idioma disponible antes de ingresar un profesor."
+                                 << endl <<"---------------------------------------------------";
                         }
-                    else{
-                        cout<<"---------------------------------------------------" <<endl<< "No hay ningun idioma disponible en el sistema..."<<endl<<"Asegurese de que haya algun idioma disponible antes de ingresar un profesor." << endl<<"---------------------------------------------------";
-
-                    }
-                    break;
+                        break;
                     }
                 case 2:
                     {
@@ -143,7 +146,8 @@ int main(){
                         cu->iniciarAltaUsuario(nickname,contrasenia,nombre,descripcion,tipo);
                         cout << "Ingrese el pais de Residencia: ";
                         string pais;
-                        cin >> pais;
+                        cin.ignore();
+                        getline(cin, pais);
                         cout << "Ingrese la fecha de nacimiento separados por espacios: dia mes año en formato numerico: ";
                         int dia;
                         int mes;
@@ -216,7 +220,8 @@ int main(){
                 do{
                     cout << "Ingrese el nombre del idioma a dar de alta: ";
                     string i;
-                    cin >> i;
+                    cin.ignore();
+                    getline(cin, i);
                     DTIdioma dti = DTIdioma(i);
                     ControladorUsuarios* cu = ControladorUsuarios::getInstance();
                     error = cu->iniciarAltaIdioma(dti);
@@ -278,10 +283,11 @@ int main(){
                     string profe_selecc = profes.at(ind_selecc-1);
                     cout << "Ingrese el nombre del curso: ";
                     string nom;
-                    cin >> nom;
+                    cin.ignore();
+                    getline(cin, nom);
                     cout << "Ingrese la descripcion del curso: ";
                     string desc;
-                    cin >> desc;
+                    getline(cin, desc);
                     bool difbien;
                     Dificultad d;
                     do{
@@ -388,10 +394,11 @@ int main(){
                                 //cc->seleccionarCurso(nom);
                                 cout << "Indique el nombre del tema a tratar en la leccion: ";
                                 string tema;
-                                cin >> tema;
+                                cin.ignore();
+                                getline(cin, tema);
                                 cout << "Indique el objetivo de la leccion: ";
                                 string objetivo;
-                                cin >> objetivo;
+                                getline(cin, objetivo);
                            
                                 cc->crearLeccion(tema,objetivo);
                          
@@ -487,10 +494,11 @@ int main(){
                 cc->seleccionarCurso(cursosNoHabilitados[indice_selecc-1].getNombre());
                 cout << "Indique el nombre del tema a tratar en la leccion: ";
                 string tema;
-                cin >> tema;
+                cin.ignore();
+                getline(cin, tema);
                 cout << "Indique el objetivo de la leccion: ";
                 string objetivo;
-                cin >> objetivo;
+                getline(cin, objetivo);
                 cc->crearLeccion(tema,objetivo);
                 cout << "¿Desea agregar un ejercicio?(indique si o no): ";
                 string resp;
@@ -556,11 +564,12 @@ int main(){
                 vector<DTCurso> cursos = cc->listarCursosNoHabilitados();
                 cout << "Cursos No Habilitados:" << endl;
                 vector<DTCurso>::iterator it_curso;
-                int i = 1; //1?
+                int i = 1;
                 for(it_curso = cursos.begin(); it_curso != cursos.end(); it_curso++) {
                     /* 1. [Ingles] - Curso Introductorio Ingles - En este curso se enseña... */
                     cout << i << ". [" << it_curso->getIdioma().getNombre() << "] - "
-                         << it_curso->getNombre() << endl << "\t" << it_curso->getDescripcion() << endl;
+                         << it_curso->getNombre() << endl
+                         << "\t" << it_curso->getDescripcion() << endl;
                     i++;
                 }
                 //seleccionar un curso
@@ -625,7 +634,7 @@ int main(){
                             cout << "Ingrese el conjunto ordenado de palabras que conforman la solución, separandolas con una coma" << endl;
                             string solucion;
                             getline(cin, solucion);
-                            cc->agregarDatosCP(frase, solucion); //ya queda en el ejercicio seleccionado??
+                            cc->agregarDatosCP(frase, solucion);
                         }
                         break;
                     case 2:
@@ -808,12 +817,6 @@ int main(){
                          << "\tFecha Inscripcion: " << f.getDia() << "/" << f.getMes() << "/"
                          << f.getAnio() << endl
                          << "\t--------------------------------------------" << endl;
-                }
-                
-                cout << "Cursos Previos: " << endl;
-                int num_previa = 1;
-                for(DTCurso dt_curso : curso_seleccionado.getCursosPrevios()) {
-                    cout << num_previa++ << ". " << dt_curso.getNombre() << endl;
                 }
             }
             break;
@@ -1072,7 +1075,7 @@ int main(){
                     vector<DTIdioma>::iterator it;
                     int i = 1;
                     for(it = idiomas_a_listar.begin(); it != idiomas_a_listar.end(); ++it){
-                        cout << i << ". " << (*it).getNombre() << endl; //(*it).getNombre()
+                        cout << i << ". " << (*it).getNombre() << endl;
                         i++;
                     }
                     int opcion;
@@ -1163,52 +1166,13 @@ int main(){
                 cout << "Ha seleccionado la opción 17: Cargar Datos de Prueba" << endl;
                 IControladorCursos *cc = fabrica.getIControladorCursos();
                 IControladorUsuarios *cu = fabrica.getIControladorUsuarios();
-                //ifstream inputFile("Idiomas.csv");
-                //if (!inputFile) {
-                //    cout << "Error al abrir el archivo de Idiomas." << endl;
-                //    return 1;
-                //}
-                //Ingreso Idiomas
-                //string line;
-                //vector<vector<string>> inputData;
-                //while (getline(inputFile, line)) {
-                //    stringstream ss(line);
-                //    string value;
-                //    vector<string> valuesPerLine;
 
-                //    while (getline(ss,value,';')) {
-                //        valuesPerLine.push_back(value);
-                //    }
-
-                //    inputData.push_back(valuesPerLine);
-                //}
-                //inputFile.close();
-                
-                
+                // Agrego idiomas
                 for (const string& nombreIdioma : datos_prueba_idiomas) {
                     cu->iniciarAltaIdioma(DTIdioma(nombreIdioma));
                 }
-
-                //ingreso estudiantes
-                //ifstream inputFile2("Estudiantes.csv");
-                //if (!inputFile2) {
-                //    cout << "Error al abrir el archivo de Estudiantes." << endl;
-                //return 1;
-                //}
-                //string line2;
-                //vector<vector<string>> inputData2;
-                //while (getline(inputFile2, line2)) {
-                //    stringstream ss(line2);
-                //    string value2;
-                //    vector<string> valuesPerLine2;
-
-                //    while (getline(ss,value2,';')) {
-                //        valuesPerLine2.push_back(value2);
-                //    }
-
-                //    inputData2.push_back(valuesPerLine2);
-                //}
-                //inputFile2.close();
+                
+                // Agrego estudiantes
                 for (const vector<string>& datos : datos_prueba_estudiantes) {
                     cu->iniciarAltaUsuario(datos[0],datos[1],datos[2],datos[3], Est);
                     string fecha = datos[4];
@@ -1220,26 +1184,7 @@ int main(){
                     cu->altaUsuario();
                 }
 
-                //ingreso profesores
-                //ifstream inputFile3("Profesores.csv");
-                //if (!inputFile3) {
-                //    cout << "Error al abrir el archivo de Profesores." << endl;
-                //    return 1;
-                //}
-                //string line3;
-                //vector<vector<string>> inputData3;
-                //while (getline(inputFile3, line3)) {
-                //    stringstream ss(line3);
-                //    string value3;
-                //    vector<string> valuesPerLine3;
-
-                //    while (getline(ss,value3,';')) {
-                //        valuesPerLine3.push_back(value3);
-                //    }
-
-                //    inputData3.push_back(valuesPerLine3);
-                //}
-                //inputFile3.close();
+                // Agrego profesores
                 for (const vector<string>& values3 : datos_prueba_profesores) {
                     cu->iniciarAltaUsuario(values3[0],values3[1],values3[2],values3[3],Prof);
                     cu->datosAdicionalesProfesor(values3[4]);
@@ -1251,31 +1196,26 @@ int main(){
                     }
                     cu->altaUsuario();
                 }
-
+                
+                // Agrega cursos
                 for (const vector<string>& values3 : datos_prueba_cursos) {
                     cc->iniciarAltaCurso(values3[3],values3[0],values3[1],
                             (values3[2] == "Principiante") ? Principiante :
                             (values3[2] == "Medio") ? Medio :
                             Avanzado);
                     cc->seleccionarIdiomaCurso(DTIdioma(values3[4]));
-                    if (values3.size() == 6) {
-                        string previos = values3[5];
-                        stringstream ss(previos);
-                        string value4;
-                        while (getline(ss,value4,'/')) {
-                            cc->seleccionarCursosPrevios(value4);
-                        }
-                    }
                     cc->crearCurso();
                     cc->darAltaCurso();
                 }
 
+                // Agrega Lecciones
                 for (const vector<string>& values3 : datos_prueba_lecciones) {
                     cc->seleccionarCurso(values3[0]);
                     cc->crearLeccion(values3[1], values3[2]);
                     cc->altaLeccion();
                 }
 
+                // Agrega Ejercicios
                 for (const vector<string>& values3 : datos_prueba_ejercicios) {
                     cc->seleccionarCurso(values3[0]);
                     cc->seleccionarLeccion(values3[1]);
@@ -1289,90 +1229,72 @@ int main(){
                     cc->altaEjercicio();
                 }
 
-                for (const vector<string>& values3 : datos_prueba_cursos) {
-                    if (values3[5] == "Si") {
-                        cc->seleccionarCurso(values3[0]);
+                // Habilita cursos
+                for (const vector<string>& datos : datos_prueba_cursos) {
+                    if (datos[5] == "Si") {
+                        cc->seleccionarCurso(datos[0]);
                         cc->habilitarCurso();
+                    }
+                }
+                
+                // Agregar cursos Previos
+                for (const vector<string>& datos : datos_prueba_cursos) {
+                    if (datos.size() == 7) {
+                        string previos = datos[6];
+                        stringstream ss(previos);
+                        string value4;
+                        while (getline(ss,value4,'/')) {
+                            cc->agregarCursoPrevio(datos[0], value4);
+                        }
                     }
                 }
 
                 for (const vector<string>& values3 : datos_prueba_inscripciones) {
                     vector<DTCurso> cursos = cc->listarCursosDisponibles(values3[0]);
                     vector<DTCurso>::iterator it = cursos.begin();
-                    if (it->getNombre() == values3[1]) {
+                    if (it != cursos.end() && it->getNombre() == values3[1]) {
                         cc->inscribirseACurso(*it);
                     } else {
                         while (it != cursos.end() && it->getNombre() != values3[1]) {
                             it++;
-                            if (it->getNombre() == values3[1]) {
+                            if (it != cursos.end() && it->getNombre() == values3[1]) {
                                 cc->inscribirseACurso(*it);
                             }
                         }
                     }
-                }
 
-                for (const vector<string>& values3 : datos_prueba_aprobaciones) {
-                    cc->listarCursosNoAprobados(values3[0]);
-                    vector<DTEjercicio*> ejercicios = cc->listarEjerciciosPendientes(values3[1]);
-                    vector<DTEjercicio*>::iterator it = ejercicios.begin();
-                    if ((*it)->getDescripcion() == values3[1]) {
-                        cc->seleccionarEjercicio(**it);
-                    } else {
-                        while (it != ejercicios.end() && (*it)->getDescripcion() != values3[1]) {
-                            it++;
-                            if ((*it)->getDescripcion() == values3[1]) {
-                                cc->seleccionarEjercicio(**it);
+                    for (const vector<string>& datos_aprobacion : datos_prueba_aprobaciones) {
+                        if (datos_aprobacion[0] == values3[0]
+                                && datos_aprobacion[1] == values3[1]) {
+                            cc->listarCursosNoAprobados(datos_aprobacion[0]);
+                            vector<DTEjercicio*> ejercicios = cc->listarEjerciciosPendientes(datos_aprobacion[1]);
+                            vector<DTEjercicio*>::iterator it = ejercicios.begin();
+                            for(vector<DTEjercicio*>::iterator iter = ejercicios.begin();
+                                            iter != ejercicios.end(); iter++) {
+                                if ((*iter)->getDescripcion() == datos_aprobacion[2]) {
+                                    cc->seleccionarEjercicio(**iter);
+                                    it = iter;
+                                }
+                            }
+                            DTCompletarPalabras *cp = dynamic_cast<DTCompletarPalabras*>(*it);
+                            if(cp) {
+                                cc->ingresarSolucionCP(cp->getPalabrasFaltantes());
+                            } else {
+                                DTTraduccion *t = dynamic_cast<DTTraduccion*>(*it);
+                                cc->ingresarSolucionT(t->getTraduccionFrase());
+                            }
+                            cc->ejercicioAprobado();
+                            for(DTEjercicio *ej : ejercicios) {
+                                delete ej;
                             }
                         }
-                    }
-                    DTCompletarPalabras *cp = dynamic_cast<DTCompletarPalabras*>(*it);
-                    if(cp) {
-                        cc->ingresarSolucionCP(cp->getPalabrasFaltantes());
-                    } else {
-                        DTTraduccion *t = dynamic_cast<DTTraduccion*>(*it);
-                        cc->ingresarSolucionT(t->getTraduccionFrase());
-                    }
-                    cc->ejercicioAprobado();
+                    }    
                 }
-                
 
-                //// Creo idioma
-                //cu->iniciarAltaIdioma(DTIdioma("Ingles"));
-                //cu->iniciarAltaIdioma(DTIdioma("Aleman"));
-                //cu->iniciarAltaIdioma(DTIdioma("Portugues"));
-
-                //// Creo profesor
-                //cu->iniciarAltaUsuario("prof", "123456", "NombreProfesor",
-                //                       "DescripcionProfesor", Prof);
-                //cu->datosAdicionalesProfesor("Instituto");
-                //cu->seleccionarIdioma(DTIdioma("Ingles"));
-                //cu->altaUsuario();
-
-                //// Creo estudiante
-                //cu->iniciarAltaUsuario("est", "123456", "NombreEstudiante",
-                //                       "DescripcionEstudiante", Est);
-                //cu->datosAdicionalesEstudiante("uruguay", DTFecha(12, 12, 12));
-                //cu->altaUsuario();                
-
-                //// Creo curso
-                //cc->iniciarAltaCurso("prof", "NombreCurso", "DescripcionCurso", Principiante);
-                //cc->seleccionarIdiomaCurso(DTIdioma("Ingles"));
-                //cc->crearCurso();
-
-                //// Agregar Leccion
-                //cc->crearLeccion("TemaLeccion", "ObjetivoLeccion");
-                //// Agregar Ejercicio
-                //cc->crearEjercicio(CompPalabras, "DescripcionEjercicioCompPalabras");
-                //cc->agregarDatosCP("Frase --- a --- completar.", "pal1,pal2");
-                //cc->altaEjercicio();
-
-                //cc->altaLeccion();
-
-                //cc->darAltaCurso();
-                //
                 cout <<"------------------------------------------------"<<endl;
                 cout <<"--------Datos Cargados de forma exitosa---------"<<endl;
-                cout <<"------------------------------------------------"<<endl;
+                cout <<"------------------------------------------------"<<endl
+                     << endl;
             }
             break;
         case 18:

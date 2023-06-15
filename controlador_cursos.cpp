@@ -13,16 +13,6 @@ ControladorCursos::ControladorCursos() {
 }
 
 ControladorCursos::~ControladorCursos() {
-    //nickname_recordado.clear();
-    //nombreCurso_recordado.clear();
-    //descripcion_recordado.clear();
-    //descripcionEjercicio_recordado.clear();
-    //fraseACompletar_recordada.clear();
-    //solucion_recordada.clear();
-    //fraseATraducir_recordada.clear();
-    //traduccion_recordada.clear();
-    //idioma_recordado.clear();
-    //nombresCursosPrevios.clear();
 
     map<string, Curso *>::iterator it_c;
     for (it_c = cursosHabilitados.begin(); it_c != cursosHabilitados.end(); it_c++) {
@@ -72,21 +62,13 @@ void ControladorCursos::seleccionarCursosPrevios(string nombre) {
 }
 
 void ControladorCursos::crearCurso() {
-    //string nombre, string descripcion, Dificultad dificultad, Profesor *profesor, Idioma *idioma, vector<Curso*> cursosPrevios
     ControladorUsuarios *cu = ControladorUsuarios::getInstance();
     Profesor *profesor = dynamic_cast<Profesor*>(cu->buscarUsuario(nickname_recordado));
     Idioma *idioma = cu->getIdiomas().find(idioma_recordado)->second;
-    for(string nom_curso : nombresCursosPrevios) {
-        cout << "CURSO: " << nom_curso << endl;
-    }
     vector<Curso*> cursosPrevios;
     vector<string>::iterator it;
     for (it = nombresCursosPrevios.begin(); it != nombresCursosPrevios.end(); it++) {
         map<string,Curso*>::iterator iter = cursosHabilitados.find(*it);
-        if (iter == cursosHabilitados.end()) {
-            cout << nombreCurso_recordado << endl
-                 << "NO LO ENCONTRO" << endl;
-        }
         cursosPrevios.push_back(iter->second);
     }
     curso_recordado = new Curso(nombreCurso_recordado, descripcion_recordado,
@@ -98,9 +80,6 @@ void ControladorCursos::crearCurso() {
     nickname_recordado.clear();
     nombreCurso_recordado.clear();
     descripcion_recordado.clear();
-
-    //cursos.push_back(curso_recordado); // parece que el set de cursos no se usa, *si eliminamos
-                                       // cursos eliminar esta linea.*
 }
 
 void ControladorCursos::darAltaCurso() {
@@ -113,7 +92,6 @@ void ControladorCursos::darAltaCurso() {
     string nombreCurso_notificacion = curso_recordado->getNombre();
     idioma_notificacion->notificarCambio(nombreCurso_notificacion);
 
-    /* Libero memoria */
     curso_recordado = nullptr;
 }
 
@@ -141,10 +119,7 @@ void ControladorCursos::crearLeccion(string nombreTema, string objetivo) {
 }
 
 void ControladorCursos::altaLeccion() {
-    //lecciones.push_back(leccion_recordada); // si lecciones no se usa podemos eliminar esta linea
 
-    /* Libero memoria */
-    //curso_recordado = nullptr;
     leccion_recordada = nullptr;
 }
 
@@ -182,8 +157,6 @@ void ControladorCursos::altaEjercicio() {
     }
 
     /* Libero memoria */
-    //leccion_recordada = nullptr;
-    //curso_recordado = nullptr;
     descripcionEjercicio_recordado.clear();
     fraseACompletar_recordada.clear();
     fraseATraducir_recordada.clear();
@@ -255,7 +228,7 @@ bool ControladorCursos::ejercicioAprobado() {
     bool aprobado;
 
     CompletarPalabras *ejCP = dynamic_cast<CompletarPalabras*>(ejercicio_recordado);
-    if (ejCP) { // como se que subclase es ????
+    if (ejCP) {
         aprobado = ejCP->estaAprobadoCP(solucion_recordada);
     } else {
         Traduccion *ejTR = dynamic_cast<Traduccion*>(ejercicio_recordado);
@@ -331,32 +304,24 @@ DTCurso ControladorCursos::getDataCurso(string nombreCurso) {
 static bool estaApto(Estudiante *estudiante, vector<Curso *> cursosPrevios) {
     bool estaAprobado = true;
     vector<Curso*>::iterator it = cursosPrevios.begin();
-    cout << "ANTES" << endl;
-    vector<Curso*>::iterator iter;
-    for (iter = cursosPrevios.begin(); iter != cursosPrevios.end(); iter++) {
-        if (*iter == nullptr)
-            cout << "es null" << endl;
-        else
-            cout << (*iter)->getNombre() << endl;
-    }
-    cout << "DESPUES" << endl;
     while (it != cursosPrevios.end() && estaAprobado) {
-        cout << "ENTROO" << endl;
         Inscripcion *inscripcion = estudiante->getInscripcionDeCurso((*it)->getNombre());
-        estaAprobado = inscripcion->getCursoAprobado();
+        if (inscripcion == nullptr) {
+            estaAprobado = false;
+        } else {
+            estaAprobado = inscripcion->getCursoAprobado();
+        }
         it++;
     }
     return estaAprobado;
 }
 
-// Cursos Habilitados 
 vector<DTCurso> ControladorCursos::listarCursosDisponibles(string nickname) {
     ControladorUsuarios *cu = ControladorUsuarios::getInstance();
     Estudiante *estudiante = dynamic_cast<Estudiante*>(cu->buscarUsuario(nickname));
     vector<DTCurso> salida;
     map<string, Curso*>::iterator it;
     for (it = cursosHabilitados.begin(); it != cursosHabilitados.end(); it++) {
-        cout << it->second->getNombre() << endl;
         if (estaApto(estudiante, it->second->getCursosPrevios())) {
             salida.push_back(it->second->getdataCurso());
         }
@@ -380,4 +345,15 @@ void ControladorCursos::inscribirseACurso(DTCurso curso){
     Curso* cursoActual = this->cursosHabilitados.find(nombre)->second;
     this->estudiante_recordado->inscribirse(cursoActual,fecha);
     
-};
+}
+
+void ControladorCursos::agregarCursoPrevio(string nombreCurso, string nombreCursoPrevio) {
+    map<string,Curso*>::iterator it = cursosHabilitados.find(nombreCurso);
+    if (it == cursosHabilitados.end()) {
+        it = cursosNoHabilitados.find(nombreCurso);
+    }
+    Curso *curso = it->second;
+    Curso *cursoPrevio = cursosHabilitados.find(nombreCursoPrevio)->second;
+
+    curso->agregarCursoPrevio(cursoPrevio);
+}

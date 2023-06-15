@@ -49,6 +49,7 @@ public:
     virtual Ejercicio *getEjercicioRecordado()=0;
     virtual vector<DTCurso> listarCursosDisponibles(string nickname)=0;
     virtual void inscribirseACurso(DTCurso curso)=0;
+    virtual void agregarCursoPrevio(string nombreCurso, string nombreCursoPrevio)=0;
 };
 
 #endif

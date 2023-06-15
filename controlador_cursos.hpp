@@ -46,6 +46,7 @@ public:
     vector<DTCurso> listarCursosDisponibles(string nickname);
     Ejercicio *getEjercicioRecordado();
     void inscribirseACurso(DTCurso curso);
+    void agregarCursoPrevio(string nombreCurso, string nombreCursoPrevio);
 private:
     string nickname_recordado, nombreCurso_recordado, descripcion_recordado,
            descripcionEjercicio_recordado, fraseACompletar_recordada, solucion_recordada,

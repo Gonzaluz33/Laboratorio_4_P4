@@ -50,6 +50,7 @@ public:
     vector<Curso*> getCursosPrevios();
     void setEstaHabilitado(bool valor);
     void agregarInscripcion(Inscripcion*,string);
+    void agregarCursoPrevio(Curso *cursoPrevio);
 };
 
 #endif

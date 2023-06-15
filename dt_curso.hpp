@@ -14,8 +14,7 @@ class DTCurso {
 public:
     DTCurso(string nombre, string descripcion, Dificultad dificultad, DTIdioma idioma,
             int cantidadLecciones, int cantidadEjercicios, DTProfesor *profesor,
-            bool estaHabilitado, vector<DTLeccion> lecciones, vector<DTInscripcion> inscripciones,
-            vector<DTCurso> cursosPrevios);
+            bool estaHabilitado, vector<DTLeccion> lecciones, vector<DTInscripcion> inscripciones);
     DTCurso(const DTCurso &otro);
     ~DTCurso();
     string getNombre();
@@ -28,7 +27,6 @@ public:
     bool getEstaHabilitado();
     vector<DTLeccion> getLecciones();
     vector<DTInscripcion> getInscripciones();
-    vector<DTCurso> getCursosPrevios();
 private:
     string nombre, descripcion;
     Dificultad dificultad;
@@ -38,7 +36,6 @@ private:
     bool estaHabilitado;
     vector<DTLeccion> lecciones;
     vector<DTInscripcion> inscripciones;
-    vector<DTCurso> cursosPrevios;
 };
 
 #endif

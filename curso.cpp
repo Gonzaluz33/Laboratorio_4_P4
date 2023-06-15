@@ -44,14 +44,10 @@ DTCurso Curso::getdataCurso(){
         dts_inscripciones.push_back(it_inscripcion->second->getDataInscripcion());
     }
 
-    vector<DTCurso> dts_cursos_previos;
-    for(Curso *curso : cursosPrevios) {
-        dts_cursos_previos.push_back(curso->getdataCurso());
-    }
     return DTCurso(this->getNombre(),this->getDescripcion(), this->getDificultad(),
             this->idioma->getDataIdioma(), lecciones.size(), this->getTotalEjercicios(),
             dynamic_cast<DTProfesor*>(this->profesorAsignado->getDataUsuario()),
-            this->estaHabilitado, dts_lecciones, dts_inscripciones, dts_cursos_previos);
+            this->estaHabilitado, dts_lecciones, dts_inscripciones);
 }
 
 int Curso::getTotalEjercicios(){
@@ -118,4 +114,8 @@ void Curso::setEstaHabilitado(bool valor) {
 
 void Curso::agregarInscripcion(Inscripcion* insc,string nickname_est){
     this->inscripciones.insert(pair<string,Inscripcion*>(nickname_est, insc));
+}
+
+void Curso::agregarCursoPrevio(Curso *cursoPrevio) {
+    this->cursosPrevios.push_back(cursoPrevio);
 }
