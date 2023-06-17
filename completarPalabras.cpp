@@ -5,7 +5,7 @@ CompletarPalabras::CompletarPalabras(string desc, TipoEjercicio t,string fr,stri
     Ejercicio(desc,t)
 {
     this->frase = fr;
-    this->Palabras_faltantes = pf;
+    this->palabras_faltantes = pf;
 }
 
 CompletarPalabras::~CompletarPalabras(){}
@@ -15,7 +15,7 @@ string CompletarPalabras::getFrase(){
 }
 
 string CompletarPalabras::getPalabras_faltantes(){
-    return this->Palabras_faltantes;
+    return this->palabras_faltantes;
 }
 
 void CompletarPalabras::setFrase(string fr){
@@ -23,13 +23,13 @@ void CompletarPalabras::setFrase(string fr){
 }
 
 void CompletarPalabras::setPalabras_faltantes(string pf){
-    this->Palabras_faltantes = pf;
+    this->palabras_faltantes = pf;
 }
 
 bool CompletarPalabras::estaAprobadoCP(string palabras_faltantes){
-    return palabras_faltantes == this->Palabras_faltantes;
+    return strtolower(palabras_faltantes) == strtolower(this->palabras_faltantes);
 }
 
 DTEjercicio* CompletarPalabras::getDataEjercicio() {
-    return new DTCompletarPalabras(this->getDescripcion(), frase, Palabras_faltantes);
+    return new DTCompletarPalabras(this->getDescripcion(), frase, palabras_faltantes);
 }

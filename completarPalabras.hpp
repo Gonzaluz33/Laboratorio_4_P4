@@ -5,7 +5,7 @@
 class CompletarPalabras : public Ejercicio{
     private:
         string frase;
-        string Palabras_faltantes;
+        string palabras_faltantes;
     public:
         CompletarPalabras(string, TipoEjercicio,string,string);
         ~CompletarPalabras();

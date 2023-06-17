@@ -25,7 +25,7 @@ string Traduccion::getTraduccion_frase(){
 }
 
 bool Traduccion::estaAprobadoT(string frase_traducida){
-    return frase_traducida==this->traduccion_frase;
+    return strtolower(frase_traducida) == strtolower(this->traduccion_frase);
 }
 
 DTEjercicio *Traduccion::getDataEjercicio() {

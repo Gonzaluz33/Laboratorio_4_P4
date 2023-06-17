@@ -20,6 +20,7 @@ class Ejercicio{
         void setTipo(TipoEjercicio);
         bool estaPendiente();
         virtual DTEjercicio* getDataEjercicio()=0;
+        string strtolower(string entrada);
 };
 
 #endif
