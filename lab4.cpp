@@ -179,47 +179,51 @@ int main(){
         case 2:
             {
                 cout << "Ha seleccionado la opción 2: Consulta de Usuario" << endl;
-                cout << "Listando los usuarios" << endl;
                 ControladorUsuarios* cu = ControladorUsuarios::getInstance();
                 vector<string> nicknames = cu->listarNickname();
-                vector<string>::iterator it;
-                int i = 1;
-                for(it = nicknames.begin();it != nicknames.end();it++){
-                    cout << i << ". " << *it << endl;
-                    i++;
-                }
-                int ind_selecc;
-                string usuario_seleccionado;
-                do{
-                    cout << "Ingrese la opcion correspondiente al usuario que desea consultar: ";
-                    cin >> ind_selecc;
-                    if(ind_selecc > nicknames.size() || ind_selecc <= 0 ){
-                        cout << "Ingrese un número dentro de las opciones." << endl;  
-                    } else {
-                        usuario_seleccionado = nicknames[ind_selecc-1];
+                if(nicknames.empty()){
+                    cout<< "No hay usuarios en el sistema"<<endl;
+                } else{ 
+                    cout << "Listando los usuarios" << endl;
+                    vector<string>::iterator it;
+                    int i = 1;
+                    for(it = nicknames.begin();it != nicknames.end();it++){
+                        cout << i << ". " << *it << endl;
+                        i++;
                     }
-                }while(ind_selecc <= 0 || ind_selecc > nicknames.size());
+                    int ind_selecc;
+                    string usuario_seleccionado;
+                    do{
+                        cout << "Ingrese la opcion correspondiente al usuario que desea consultar: ";
+                        cin >> ind_selecc;
+                       if(ind_selecc > nicknames.size() || ind_selecc <= 0 ){
+                           cout << "Ingrese un número dentro de las opciones." << endl;  
+                       } else {
+                           usuario_seleccionado = nicknames[ind_selecc-1];
+                       }
+                    }while(ind_selecc <= 0 || ind_selecc > nicknames.size());
 
-                cout << "Informacion del usuario: " << endl;
-                DTUsuario* us = cu->getDataUsuario(usuario_seleccionado);
-                cout << "Nombre: " << us->getNombre() << endl;
-                cout << "Descripcion: " << us->getDescripcion() << endl;
-                DTProfesor* dtp = dynamic_cast<DTProfesor*>(us);
-                if(dtp == nullptr){
-                    DTEstudiante* dte = dynamic_cast<DTEstudiante*>(us);
-                    cout << "Pais de residencia: " << dte->getPais() << endl;
-                    cout<< "Fecha de nacimiento: "<< dte->getDTFecha() <<endl;
-                }else{
-                    cout << "Instituto donde trabaja: " << dtp->getInstituto() << endl;
-                    vector<DTIdioma>::iterator iter2;
-                    cout << "Idiomas en los que se especializa: " << endl;
-                    vector<DTIdioma> idiomas = dtp->getIdiomas();
-                    for(iter2 = idiomas.begin();iter2 != idiomas.end(); iter2++){
-                       cout << "\t" << iter2->getNombre() << endl;
-                       //cout << iter2->getNombre();
+                    cout << "Informacion del usuario: " << endl;
+                    DTUsuario* us = cu->getDataUsuario(usuario_seleccionado);
+                    cout << "Nombre: " << us->getNombre() << endl;
+                    cout << "Descripcion: " << us->getDescripcion() << endl;
+                    DTProfesor* dtp = dynamic_cast<DTProfesor*>(us);
+                    if(dtp == nullptr){
+                        DTEstudiante* dte = dynamic_cast<DTEstudiante*>(us);
+                        cout << "Pais de residencia: " << dte->getPais() << endl;
+                        cout<< "Fecha de nacimiento: "<< dte->getDTFecha() <<endl;
+                    }else{
+                        cout << "Instituto donde trabaja: " << dtp->getInstituto() << endl;
+                        vector<DTIdioma>::iterator iter2;
+                        cout << "Idiomas en los que se especializa: " << endl;
+                        vector<DTIdioma> idiomas = dtp->getIdiomas();
+                        for(iter2 = idiomas.begin();iter2 != idiomas.end(); iter2++){
+                           cout << "\t" << iter2->getNombre() << endl;
+                           //cout << iter2->getNombre();
+                        }
                     }
-                }
-                delete us;
+                    delete us;
+                } 
             }
             break;
         case 3:
@@ -259,6 +263,7 @@ int main(){
                         }
                     }else {
                         cout << "No hay ningun idioma en el sistema" << endl;
+                        break;
                     }
                 }while(dtidiomas.empty());
             }
@@ -739,93 +744,97 @@ int main(){
                 IControladorCursos *cc = fabrica.getIControladorCursos();
                 int indice_curso;
                 cout << "Ha seleccionado la opción 10: Consultar Curso" << endl;
-                cout << "Cursos: " << endl;
 
                 // Listo cursos
                 vector<DTCurso> cursos = cc->listarCursos();
-                vector<DTCurso>::iterator it_curso;
-                int index = 1;
-                for(it_curso = cursos.begin(); it_curso != cursos.end(); it_curso++) {
-                    cout << index++ << ". " << it_curso->getNombre() << endl;
-                }
-                bool esta_dentro_del_rango;
-
-                // Seleccion de curso
-                do {
-                    cout << "Seleccione un curso: ";
-                    cin >> indice_curso;
-                    esta_dentro_del_rango = indice_curso >= 1 && indice_curso < index;
-                    if(!esta_dentro_del_rango) {
-                        cout << "Seleccione un numero dentro del rango." << endl;
+                if (cursos.empty()){
+                    cout<< "No hay cursos en el sistema"<<endl;
+                } else{
+                    cout << "Cursos: " << endl;
+                    vector<DTCurso>::iterator it_curso;
+                    int index = 1;
+                    for(it_curso = cursos.begin(); it_curso != cursos.end(); it_curso++) {
+                        cout << index++ << ". " << it_curso->getNombre() << endl;
                     }
-                } while(!esta_dentro_del_rango);
-                DTCurso curso_seleccionado = cursos[indice_curso-1];
+                    bool esta_dentro_del_rango;
 
-                // Imprimo datos curso
-                cout << "Informacion del Curso:" << endl
-                     << "----------------------------------------------------" << endl
-                     << "Nombre: " << curso_seleccionado.getNombre() << endl
-                     << "Descripción: " << curso_seleccionado.getDescripcion() << endl
-                     << "Dificultad: "
-                     << ((curso_seleccionado.getDificultad() == Principiante) ? "Principiante" :
-                        (curso_seleccionado.getDificultad() == Medio) ? "Medio" :
-                        (curso_seleccionado.getDificultad() == Avanzado) ? "Avanzado" : "")
-                     << endl
-                     << "Idioma: " << curso_seleccionado.getIdioma().getNombre() << endl
-                     << "Nombre del Profesor: " << curso_seleccionado.getProfesor()->getNombre()
-                     << endl
-                     << "Esta Habilitado: " << (curso_seleccionado.getEstaHabilitado() ? "Si":"No")
-                     << endl;
-
-                cout << "Lecciones: " << endl
-                     << "----------------------------------------------------" << endl;
-
-                // Listo lecciones
-                vector<DTLeccion> lecciones = curso_seleccionado.getLecciones();
-                vector<DTLeccion>::iterator it_leccion;
-                int num_leccion = 1;
-                for(it_leccion = lecciones.begin(); it_leccion != lecciones.end(); it_leccion++) {
-                    cout << "\tLeccion " << num_leccion++ << ":" << endl
-                         << "\tTema: " << it_leccion->getNombreTema() << endl
-                         << "\tObjetivo: " << it_leccion->getObjetivo() << endl;
-                    vector<DTEjercicio*> ejercicios = it_leccion->getEjercicios();
-                    vector<DTEjercicio*>::iterator it_ejercicio;
-                    int num_ejercicio = 1;
-                    for(it_ejercicio = ejercicios.begin();
-                                    it_ejercicio != ejercicios.end(); it_ejercicio++) {
-                        DTCompletarPalabras *cp = dynamic_cast<DTCompletarPalabras*>(*it_ejercicio);
-                        if(cp) {
-                            cout << "\t\tEjercicio " << num_ejercicio++ 
-                                 << " (Completar Palabras):" << endl
-                                 << "\t\tDescripcion: " << (*it_ejercicio)->getDescripcion() << endl;
-                            cout << "\t\tFrase: " << cp->getFrase() << endl
-                                 << "\t\tSolución (Palabras Faltantes): " << cp->getPalabrasFaltantes() << endl;
-                        } else {
-                            DTTraduccion *t = dynamic_cast<DTTraduccion*>(*it_ejercicio);
-                            cout << "\t\tEjercicio " << num_ejercicio++
-                                 << " (Traducción):" << endl
-                                 << "\t\tDescripcion: " << (*it_ejercicio)->getDescripcion() << endl;
-                            cout << "\t\tFrase: " << t->getFraseTraducir() << endl
-                                 << "\t\tSolución (Traducción): " << t->getTraduccionFrase() << endl;
+                    // Seleccion de curso
+                    do {
+                        cout << "Seleccione un curso: ";
+                        cin >> indice_curso;
+                        esta_dentro_del_rango = indice_curso >= 1 && indice_curso < index;
+                        if(!esta_dentro_del_rango) {
+                            cout << "Seleccione un numero dentro del rango." << endl;
                         }
-                        cout << "\t\t------------------------------------" << endl;
+                    } while(!esta_dentro_del_rango);
+                    DTCurso curso_seleccionado = cursos[indice_curso-1];
+
+                    // Imprimo datos curso
+                    cout << "Informacion del Curso:" << endl
+                         << "----------------------------------------------------" << endl
+                         << "Nombre: " << curso_seleccionado.getNombre() << endl
+                         << "Descripción: " << curso_seleccionado.getDescripcion() << endl
+                         << "Dificultad: "
+                         << ((curso_seleccionado.getDificultad() == Principiante) ? "Principiante" :
+                           (curso_seleccionado.getDificultad() == Medio) ? "Medio" :
+                           (curso_seleccionado.getDificultad() == Avanzado) ? "Avanzado" : "")
+                         << endl
+                         << "Idioma: " << curso_seleccionado.getIdioma().getNombre() << endl
+                         << "Nombre del Profesor: " << curso_seleccionado.getProfesor()->getNombre()
+                         << endl
+                         << "Esta Habilitado: " << (curso_seleccionado.getEstaHabilitado() ? "Si":"No")
+                         << endl;
+
+                    cout << "Lecciones: " << endl
+                         << "----------------------------------------------------" << endl;
+
+                    // Listo lecciones
+                    vector<DTLeccion> lecciones = curso_seleccionado.getLecciones();
+                    vector<DTLeccion>::iterator it_leccion;
+                    int num_leccion = 1;
+                    for(it_leccion = lecciones.begin(); it_leccion != lecciones.end(); it_leccion++) {
+                        cout << "\tLeccion " << num_leccion++ << ":" << endl
+                             << "\tTema: " << it_leccion->getNombreTema() << endl
+                             << "\tObjetivo: " << it_leccion->getObjetivo() << endl;
+                        vector<DTEjercicio*> ejercicios = it_leccion->getEjercicios();
+                        vector<DTEjercicio*>::iterator it_ejercicio;
+                        int num_ejercicio = 1;
+                        for(it_ejercicio = ejercicios.begin();
+                                        it_ejercicio != ejercicios.end(); it_ejercicio++) {
+                            DTCompletarPalabras *cp = dynamic_cast<DTCompletarPalabras*>(*it_ejercicio);
+                            if(cp) {
+                                cout << "\t\tEjercicio " << num_ejercicio++ 
+                                     << " (Completar Palabras):" << endl
+                                     << "\t\tDescripcion: " << (*it_ejercicio)->getDescripcion() << endl;
+                                cout << "\t\tFrase: " << cp->getFrase() << endl
+                                     << "\t\tSolución (Palabras Faltantes): " << cp->getPalabrasFaltantes() << endl;
+                            } else {
+                                DTTraduccion *t = dynamic_cast<DTTraduccion*>(*it_ejercicio);
+                                cout << "\t\tEjercicio " << num_ejercicio++
+                                     << " (Traducción):" << endl
+                                     << "\t\tDescripcion: " << (*it_ejercicio)->getDescripcion() << endl;
+                                cout << "\t\tFrase: " << t->getFraseTraducir() << endl
+                                     << "\t\tSolución (Traducción): " << t->getTraduccionFrase() << endl;
+                            }
+                            cout << "\t\t------------------------------------" << endl;
+                        }
+                        cout << "\t--------------------------------------------" << endl;
                     }
-                    cout << "\t--------------------------------------------" << endl;
-                }
 
-                cout << "Inscripciones: " << endl
-                     << "----------------------------------------------------" << endl;
+                    cout << "Inscripciones: " << endl
+                         << "----------------------------------------------------" << endl;
 
-                // Listo inscripciones
-                vector<DTInscripcion> inscripciones = curso_seleccionado.getInscripciones();
-                vector<DTInscripcion>::iterator it_inscripcion;
-                for(it_inscripcion = inscripciones.begin(); 
-                                    it_inscripcion != inscripciones.end(); it_inscripcion++) {
-                    DTFecha f = it_inscripcion->getFechaInscripcion();
-                    cout << "\tNombre Estudiante: " << it_inscripcion->getNombreEstudiante() << endl
-                         << "\tFecha Inscripcion: " << f.getDia() << "/" << f.getMes() << "/"
-                         << f.getAnio() << endl
-                         << "\t--------------------------------------------" << endl;
+                    // Listo inscripciones
+                    vector<DTInscripcion> inscripciones = curso_seleccionado.getInscripciones();
+                    vector<DTInscripcion>::iterator it_inscripcion;
+                    for(it_inscripcion = inscripciones.begin(); 
+                                        it_inscripcion != inscripciones.end(); it_inscripcion++) {
+                        DTFecha f = it_inscripcion->getFechaInscripcion();
+                        cout << "\tNombre Estudiante: " << it_inscripcion->getNombreEstudiante() << endl
+                             << "\tFecha Inscripcion: " << f.getDia() << "/" << f.getMes() << "/"
+                             << f.getAnio() << endl
+                             << "\t--------------------------------------------" << endl;
+                    }
                 }
             }
             break;
