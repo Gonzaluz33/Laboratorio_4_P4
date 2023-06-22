@@ -3,8 +3,8 @@
 #include "completarPalabras.hpp"
 #include "traduccion.hpp"
 
-Leccion::Leccion(int totalE, string nomTema, string objetivo){
-    this->totalEjercicios = totalE;
+Leccion::Leccion(string nomTema, string objetivo){
+    this->totalEjercicios = 0;
     this->nombreTema = nomTema;
     this->objetivo = objetivo;
 }

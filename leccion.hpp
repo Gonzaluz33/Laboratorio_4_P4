@@ -17,7 +17,7 @@ private:
     string objetivo;
     map<string, Ejercicio*> ejercicios;
 public:
-    Leccion(int totalE, string nomTema, string objetivo);
+    Leccion(string nomTema, string objetivo);
     ~Leccion();
     int getTotalEjercicios();
     int getCantEjerciciosHechos();

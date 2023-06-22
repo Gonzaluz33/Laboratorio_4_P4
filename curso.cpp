@@ -60,7 +60,7 @@ int Curso::getTotalEjercicios(){
 }
 
 Leccion *Curso::crearLeccion(string nombreTema, string objetivo){
-    Leccion* leccionNueva = new Leccion(this->getTotalEjercicios(), nombreTema, objetivo);
+    Leccion* leccionNueva = new Leccion(nombreTema, objetivo);
     this->lecciones.push_back(leccionNueva);
     return leccionNueva;
 }
