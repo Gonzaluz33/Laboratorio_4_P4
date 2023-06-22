@@ -269,9 +269,10 @@ bool ControladorCursos::habilitarCurso() {
     lecciones = curso_recordado->getLecciones();
     if (lecciones.begin() != lecciones.end()) { // si hay lecciones
         it = lecciones.begin();
-        while (it != lecciones.end() || salida) { // itero por las lecciones
+        while (it != lecciones.end() && !salida) { // itero por las lecciones
                                                   // y si tiene ejercicio sigo
                                                   // si no tiene retorno true
+            map<string, Ejercicio*> ejercicios = (*it)->getEjercicios();
             if ((*it)->getEjercicios().begin() == (*it)->getEjercicios().end()) {
                 salida = true;
             }
@@ -281,6 +282,7 @@ bool ControladorCursos::habilitarCurso() {
         salida = true;
     }
     if (!salida) {
+        cout << "ANDA MAL" << endl;
         cursosNoHabilitados.erase(curso_recordado->getNombre());
         cursosHabilitados.insert(pair<string, Curso*>(curso_recordado->getNombre(),
                                                       curso_recordado));
