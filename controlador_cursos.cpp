@@ -282,7 +282,6 @@ bool ControladorCursos::habilitarCurso() {
         salida = true;
     }
     if (!salida) {
-        cout << "ANDA MAL" << endl;
         cursosNoHabilitados.erase(curso_recordado->getNombre());
         cursosHabilitados.insert(pair<string, Curso*>(curso_recordado->getNombre(),
                                                       curso_recordado));
